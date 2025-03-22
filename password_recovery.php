@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['error'] = "Error al enviar el correo: {$mail->ErrorInfo}";
         }
         
-        header("Location: loggin.php");
+        header("Location: account_recovery.php");
         exit();
     }
 }

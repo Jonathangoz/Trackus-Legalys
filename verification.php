@@ -16,14 +16,14 @@
       <h2 class="text-xl text-gray-700 font-medium">Trackus Legalys</h2>
     </div>
     
-    <form class="space-y-6" aria-label="Formulario de recuperación de contraseña" action="recover.php" method="POST">
+    <form class="space-y-6" aria-label="Formulario de recuperación de contraseña" action="password_recovery.php" method="POST">
   <div>
     <label class="block text-gray-700 text-sm font-semibold mb-2" for="recovery-email">Correo</label>
     <input 
       class="form-control w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-sena-green focus:ring-2 focus:ring-sena-green" 
       id="recovery-email"
       name="correo"
-      type="email" 
+      type="email"
       placeholder="Ingrese su Correo"
       required
       aria-required="true">
