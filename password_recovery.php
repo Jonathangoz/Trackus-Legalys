@@ -4,7 +4,7 @@ require 'vendor/autoload.php'; // Carga PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-include 'db_connection.php';
+include 'module_login/conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
