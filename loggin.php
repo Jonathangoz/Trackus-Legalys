@@ -64,7 +64,7 @@
           </label>
         </div>
               
-        <a class="inline-block align-baseline font-medium text-sm text-sena-green hover:underline" href="password_recovery.php" aria-label="¿Olvidó su contraseña?">
+        <a class="inline-block align-baseline font-medium text-sm text-sena-green hover:underline" href="verification.php" aria-label="¿Olvidó su contraseña?">
           ¿Olvidó su contraseña?
         </a>
       </div>
