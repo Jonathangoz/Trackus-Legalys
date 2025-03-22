@@ -14,6 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: account_recovery.php");
             exit;
         }
+
+        $dominio = explode('@', $correo)[1] ?? '';
+        if (!checkdnsrr($dominio, 'MX')) {
+            $_SESSION['error'] = "El dominio del correo no existe";
+            header("Location: account_recovery.php");
+            exit;
+        }
+
         $connect->exec("SET NAMES 'utf8'");
         $stmt = $connect->prepare("SELECT * FROM funcionarios WHERE correo = :correo");
         $stmt->bindParam(':correo', $correo);
@@ -32,6 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $updateStmt->bindParam(':contrasenia', $nueva_contraseña);
             $updateStmt->bindParam(':correo', $correo);
             $updateStmt->execute();
+
+
 
             if ($updateStmt->rowCount() > 0) {
                 $_SESSION['success'] = "Contraseña actualizada correctamente.";
