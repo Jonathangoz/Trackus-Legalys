@@ -18,7 +18,7 @@
     
     <form class="space-y-6" aria-label="Formulario de recuperación de contraseña" action="password_recovery.php" method="POST">
   <div>
-    <label class="block text-gray-700 text-sm font-semibold mb-2" for="recovery-email">Correo</label>
+    <label class="block text-gray-700 text-sm font-semibold mb-2" for="recovery-email">Restablecer Contraseña</label>
     <input 
       class="form-control w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-sena-green focus:ring-2 focus:ring-sena-green" 
       id="recovery-email"
@@ -31,17 +31,10 @@
   
   <div class="flex items-center justify-between gap-4">
     <button 
-      class="btn-gradient text-white font-semibold py-2 px-4 rounded-lg w-1/2 focus:outline-none focus:ring-2 focus:ring-sena-green" 
+      class="btn-gradient text-white font-semibold py-2 px-4 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-sena-green" 
       type="submit"
-      aria-label="Aceptar">
-      Aceptar
-    </button>
-    <button 
-      class="btn-gradient text-white font-semibold py-2 px-4 rounded-lg w-1/2 focus:outline-none focus:ring-2 focus:ring-sena-green" 
-      type="button"
-      onclick="window.location.href='loggin.php'"
-      aria-label="Cancelar">
-      Cancelar
+      aria-label="Recuperar Contraseña">
+      Recuperar Contraseña
     </button>
   </div>
 </form>

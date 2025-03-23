@@ -3,6 +3,7 @@ session_start();
 require 'vendor/autoload.php'; // Carga PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
 include 'module_login/conexion.php';
 
@@ -28,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $connect->exec("SET NAMES 'utf8'");
-        $stmt = $connect->prepare("SELECT * FROM funcionarios WHERE correo = :correo");
+        $stmt = $connect->prepare("SELECT * FROM funcionarios WHERE correo = :correo AND STATUS = 1");
         $stmt->bindParam(':correo', $correo);
         $stmt->execute();
         $funcionarios = $stmt->fetch(PDO::FETCH_ASSOC);
