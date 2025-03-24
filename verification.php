@@ -18,13 +18,13 @@
     
     <form class="space-y-6" aria-label="Formulario de recuperación de contraseña" action="password_recovery.php" method="POST">
   <div>
-    <label class="block text-gray-700 text-sm font-semibold mb-2" for="recovery-email">Restablecer Contraseña</label>
+    <label class="block text-gray-700 text-center font-semibold mb-2" for="recovery-email">Correo para Recuperación de Contraseña</label>
     <input 
       class="form-control w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-sena-green focus:ring-2 focus:ring-sena-green" 
       id="recovery-email"
       name="correo"
       type="email"
-      placeholder="Ingrese su Correo"
+      placeholder="Ingrese un Correo, se enviara link de Recuperación"
       required
       aria-required="true">
   </div>
@@ -38,6 +38,17 @@
     </button>
   </div>
 </form>
+    <?php
+        session_start();
+        if (isset($_SESSION['message'])) {
+            echo "<p class='text-center mb-10' style='color: green;'>" . $_SESSION['message'] . "</p>";
+            unset($_SESSION['message']);
+        }
+        if (isset($_SESSION['error2'])) {
+            echo "<p class='text-center mb-10' style='color: red;'>" . $_SESSION['error2'] . "</p>";
+            unset($_SESSION['error2']);
+        }
+      ?>
     
     <div class="mt-10 text-center">
       <div class="border-t border-gray-200 pt-4">

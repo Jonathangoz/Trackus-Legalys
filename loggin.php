@@ -40,7 +40,7 @@
             id="password"
             name="contrasenia" 
             type="password" 
-            placeholder="Ingrese su contrasenia"
+            placeholder="Ingrese su contraseña"
             required
             aria-required="true">
           <span 

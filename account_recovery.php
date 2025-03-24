@@ -19,6 +19,18 @@
     <form class="space-y-6" aria-label="Formulario de recuperación de contraseña" action="recover.php" method="POST">
   
   <div class="relative">
+    <label class="block text-gray-700 text-sm font-semibold mb-2" for="recovery-email">Ingrese el Correo Usado en Trackus Legalys</label>
+    <input 
+      class="form-control w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-sena-green focus:ring-2 focus:ring-sena-green" 
+      id="recovery-email"
+      name="correo"
+      type="email"
+      placeholder="Ingrese su Correo"
+      required
+      aria-required="true">
+  </div>
+  
+  <div class="relative">
     <label class="block text-gray-700 text-sm font-semibold mb-2" for="new-password">Nueva Contraseña</label>
     <div class="relative">
       <input 
@@ -48,7 +60,7 @@
         id="confirm-password"
         name="confirmar" 
         type="password" 
-        placeholder="Confirme su Nueva Contrasenia"
+        placeholder="Confirme su Nueva Contraseña"
         pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[ñ-Ñ])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
         title="La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales(@,?,=,*,etc)."
         required
@@ -80,7 +92,6 @@
     </button>
   </div>
 </form>
-    
     <div class="mt-10 text-center">
       <div class="border-t border-gray-200 pt-4">
             <p class="text-sm text-gray-600">
