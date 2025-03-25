@@ -1,4 +1,5 @@
-// use Firebase\JWT\JWT;
+<?php
+/*use Firebase\JWT\JWT;
 
 $payload = [
     'user_id' => 123,
@@ -8,7 +9,9 @@ $payload = [
 
 $secretkey = 'TuClaveSecretaSuperSegura';
 $token = JWT::encode($payload, $secretkey, 'HS256'); // para tokens con JWT 
-
+*/
+?>
+//
 <?php
 session_start();
 require '../module_login/conexion.php';
@@ -75,4 +78,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 }
-error_log(print_r($_POST, true));
+//error_log(print_r($_POST, true));

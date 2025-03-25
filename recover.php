@@ -10,10 +10,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $confirmarContraseña = trim($_POST['confirmar']);
 
         if (!$correo) {
-            $_SESSION['error'] = "Correo electrónico inválido.";
+            $_SESSION['error3'] = "Correo electrónico inválido.";
             header("Location: account_recovery.php");
             exit;
         }
+
+        $dominio = explode('@', $correo)[1] ?? '';
+        if (!checkdnsrr($dominio, 'MX')) {
+            $_SESSION['error3'] = "El dominio del correo no existe";
+            header("Location: account_recovery.php");
+            exit;
+        }
+
         $connect->exec("SET NAMES 'utf8'");
         $stmt = $connect->prepare("SELECT * FROM funcionarios WHERE correo = :correo");
         $stmt->bindParam(':correo', $correo);
@@ -21,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $funcionarios = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$funcionarios) {
-            $_SESSION['error'] = "No se encontró ningún usuario con ese correo.";
+            $_SESSION['error3'] = "No se encontró ningún usuario con ese correo.";
             header("Location: account_recovery.php");
             exit;
         }
@@ -33,25 +41,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $updateStmt->bindParam(':correo', $correo);
             $updateStmt->execute();
 
+
+
             if ($updateStmt->rowCount() > 0) {
                 $_SESSION['success'] = "Contraseña actualizada correctamente.";
                 header("Location: loggin.php");
                 exit;
             } else {
-                $_SESSION['error'] = "No se encontró ningún usuario con ese correo.";
-                header("Location: loggin.php");
+                $_SESSION['error3'] = "No se encontró ningún usuario con ese correo.";
+                header("Location: account_recovery.php");
                 exit;
             }
         } catch (PDOException $e) {
-            $_SESSION['error'] = "Error en la consulta: " . $e->getMessage();
-            header("Location: loggin.php");
+            $_SESSION['error3'] = "Error en la consulta: " . $e->getMessage();
+            header("Location: account_recovery.php");
             exit;
         }
      
     } else {
-        $_SESSION['error'] = "Todos los campos son obligatorios.";
+        $_SESSION['error3'] = "Todos los campos son obligatorios.";
         header("Location: account_recovery.php");
        exit;
     } 
 }
-error_log(print_r($_POST, true));
+//error_log(print_r($_POST, true));

@@ -40,7 +40,7 @@
             id="password"
             name="contrasenia" 
             type="password" 
-            placeholder="Ingrese su contrasenia"
+            placeholder="Ingrese su contraseña"
             required
             aria-required="true">
           <span 
@@ -64,7 +64,7 @@
           </label>
         </div>
               
-        <a class="inline-block align-baseline font-medium text-sm text-sena-green hover:underline" href="account_recovery.php" aria-label="¿Olvidó su contraseña?">
+        <a class="inline-block align-baseline font-medium text-sm text-sena-green hover:underline" href="verification.php" aria-label="¿Olvidó su contraseña?">
           ¿Olvidó su contraseña?
         </a>
       </div>
