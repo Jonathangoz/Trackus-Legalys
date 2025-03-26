@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 */
             // Configurar email
             $mail->setFrom('noreply@gmail.com', 'pruebas');
-            $mail->addAddress('jygd.94@gmail.com', 'pruebas');
+            $mail->addAddress($correo, 'pruebas');
             $mail->addReplyTo('support@gmail.com', 'pruebas');
             $mail->isHTML(true);
             $mail->CharSet = 'UTF-8';
