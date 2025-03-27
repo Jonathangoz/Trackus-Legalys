@@ -1,15 +1,27 @@
 <?php
 session_start();
+<<<<<<< HEAD
 include '../conexion.php';
 
 require '../../vendor/autoload.php';
+=======
+include 'module_login/conexion.php';
+
+require 'vendor/autoload.php';
+>>>>>>> cdd101cac02b4a540b3d97f76cd538132b6a5d13
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
+<<<<<<< HEAD
 require '../../vendor/phpmailer/phpmailer/src/Exception.php';
 require '../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require '../../vendor/phpmailer/phpmailer/src/SMTP.php';
+=======
+require 'vendor/phpmailer/phpmailer/src/Exception.php';
+require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+>>>>>>> cdd101cac02b4a540b3d97f76cd538132b6a5d13
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = $_POST['correo'];
@@ -85,7 +97,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->Encoding = 'base64';
             $mail->Subject = 'Restablecer contraseña';
             
+<<<<<<< HEAD
             $reset_link="http://localhost/tl/module_login/validation/account_recovery?token=$token";
+=======
+            $reset_link="http://localhost/tl/tl/account_recovery.php?token=$token";
+>>>>>>> cdd101cac02b4a540b3d97f76cd538132b6a5d13
             
             $mail->Body = "
                 <html>
@@ -107,7 +123,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['error2'] = "Error al enviar el correo: {$mail->ErrorInfo}";
         }
         
+<<<<<<< HEAD
         header("Location: ../../loggin.php");
+=======
+        header("Location: loggin.php");
+>>>>>>> cdd101cac02b4a540b3d97f76cd538132b6a5d13
         exit();
     }
 }

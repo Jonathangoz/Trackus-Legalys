@@ -1,5 +1,9 @@
 <?php
+<<<<<<< HEAD
 require '../../vendor/autoload.php';
+=======
+require 'vendor/autoload.php';
+>>>>>>> cdd101cac02b4a540b3d97f76cd538132b6a5d13
 use PHPMailer\PHPMailer\PHPMailer;
 
 $mail = new PHPMailer(true);
