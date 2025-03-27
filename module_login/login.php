@@ -14,7 +14,7 @@ $token = JWT::encode($payload, $secretkey, 'HS256'); // para tokens con JWT
 //
 <?php
 session_start();
-require '../module_login/conexion.php';
+require 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($correo) || empty($contraseña)) {
         $_SESSION['error'] = "Por favor, completa todos los campos.";
-        header("Location: loggin.php");
+        header("Location: ../loggin.php");
         exit;
     }
 
@@ -56,8 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['nombres'] = $user['nombres'];
                 $_SESSION['apellidos'] = $user['apellidos'];
                 $_SESSION['tipo_rol'] = $user['tipo_rol'];
-                echo "Autenticación exitosa. Redirigiendo al dashboard...";
-                header("Location: ../dashboard.php");
+                echo "Autenticación exitosa. Redirigiendo al index...";
+                header("Location: ../index.php");
                 exit;
             } else {
                 $_SESSION['error'] = "Contraseña incorrecta.";

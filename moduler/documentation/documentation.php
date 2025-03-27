@@ -2,29 +2,29 @@
   session_start();
 
   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: loggin.php");
+      header("Location: ../../loggin.php");
       exit;
   }
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Formularios</title>
     <meta
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+      content="width=device-width, initial-scale=1.0"
       name="viewport"
     />
     <link
       rel="icon"
-      href="../assets/img/sena.ico"
+      href="../../assets/img/sena.ico"
       type="image/x-icon"
     />
 
     <!-- Fonts and icons -->
-    <script src="../assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="../../assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
       WebFont.load({
         google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -35,7 +35,7 @@
             "Font Awesome 5 Brands",
             "simple-line-icons",
           ],
-          urls: ["../assets/css/fonts.min.css"],
+          urls: ["../../assets/css/fonts.min.css"],
         },
         active: function () {
           sessionStorage.fonts = true;
@@ -44,12 +44,12 @@
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../assets/css/plugins.min.css" />
-    <link rel="stylesheet" href="../assets/css/kaiadmin.min.css" />
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="../../assets/css/kaiadmin.min.css" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="../assets/css/demo.css" />
+    <link rel="stylesheet" href="../../assets/css/demo.css" />
   </head>
   <body>
     <div class="wrapper">
@@ -58,9 +58,9 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header">
-            <a href="../dashboard.php" class="logo">
+            <a href="../../index.php" class="logo">
               <img
-                src="../assets/img/logo.png"
+                src="../../assets/img/logo.png"
                 alt="navbar brand"
                 class="navbar-brand"
                 height="50"
@@ -89,7 +89,7 @@
                 </span>
                 <h4 class="text-section">Menu</h4>
               <li class="nav-item">
-                <a href="../forms/forms.php">
+                <a href="forms.php">
                   <i class="fas fa-pen-square"></i>
                   <p>Formulario</p>
                   <span class="sub-item"></span>
@@ -103,7 +103,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../documentation/document.php">
+                <a href="documentation.php">
                   <i class="fas fa-file"></i>
                   <p>Documentación</p>
                   <span class="badge badge-secondary"></span>
@@ -260,7 +260,7 @@
                           <a href="#">
                             <div class="notif-img">
                               <img
-                                src="../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
+                                src="../../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
                                 alt="Img Profile"
                               />
                             </div>
@@ -273,7 +273,7 @@
                           <a href="#">
                             <div class="notif-img">
                               <img
-                                src="../assets/img/Logosimbolo-SENA-PRINCIPAL.png"
+                                src="../../assets/img/Logosimbolo-SENA-PRINCIPAL.png"
                                 alt="Img Profile"
                               />
                             </div>
@@ -286,7 +286,7 @@
                           <a href="#">
                             <div class="notif-img">
                               <img
-                                src="../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
+                                src="../../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
                                 alt="Img Profile"
                               />
                             </div>
@@ -301,7 +301,7 @@
                           <a href="#">
                             <div class="notif-img">
                               <img
-                                src="../assets/img/Logotipo-SENA-PRINCIPAL.png"
+                                src="../../assets/img/Logotipo-SENA-PRINCIPAL.png"
                                 alt="Img Profile"
                               />
                             </div>
@@ -368,7 +368,7 @@
                           <a href="#">
                             <div class="notif-img">
                               <img
-                                src="../assets/img/profile2.jpg"
+                                src="../../assets/img/profile2.jpg"
                                 alt="Img Profile"
                               />
                             </div>
@@ -486,7 +486,7 @@
                   >
                     <div class="avatar-sm">
                       <img
-                        src="../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
+                        src="../../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
                         alt="..."
                         class="avatar-img rounded-circle"
                       />
@@ -504,7 +504,7 @@
                         <div class="user-box">
                           <div class="avatar-lg">
                             <img
-                              src="../assets/img/profile.jpg"
+                              src="../../assets/img/profile.jpg"
                               alt="image profile"
                               class="avatar-img rounded"
                             />
@@ -513,7 +513,7 @@
                             <h4><?php echo htmlspecialchars($_SESSION['nombres']); ?></h4>
                             <p class="text-muted"><?php echo htmlspecialchars($_SESSION['correo']); ?></p>
                             <a
-                              href="profile.html"
+                              href="#"
                               class="btn btn-xs btn-secondary btn-sm"
                               >Ver Perfil</a
                             >
@@ -532,7 +532,7 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Configuracion de la Cuenta</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="../module_login/logout.php">Cerrar Sesion</a>
+                        <a class="dropdown-item" href="../../module_login/logout.php">Cerrar Sesion</a>
                       </li>
                     </div>
                   </ul>
@@ -549,7 +549,7 @@
               <h3 class="fw-bold mb-3">Formularios</h3>
               <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
-                  <a href="../dashboard.php">
+                  <a href="../../index.php">
                     <i class="icon-home"></i>
                   </a>
                 </li>
@@ -890,7 +890,7 @@
                                 />
                                 <figure class="imagecheck-figure">
                                   <img
-                                    src="../assets/img/examples/product1.jpg"
+                                    src="../../assets/img/examples/product1.jpg"
                                     alt="title"
                                     class="imagecheck-image"
                                   />
@@ -908,7 +908,7 @@
                                 />
                                 <figure class="imagecheck-figure">
                                   <img
-                                    src="../assets/img/examples/product4.jpg"
+                                    src="../../assets/img/examples/product4.jpg"
                                     alt="title"
                                     class="imagecheck-image"
                                   />
@@ -925,7 +925,7 @@
                                 />
                                 <figure class="imagecheck-figure">
                                   <img
-                                    src="../assets/img/examples/product3.jpg"
+                                    src="../../assets/img/examples/product3.jpg"
                                     alt="title"
                                     class="imagecheck-image"
                                   />
@@ -1601,42 +1601,42 @@
       <!-- End Custom template -->
     </div>
     <!--   Core JS Files   -->
-    <script src="../assets/js/core/jquery-3.7.1.min.js"></script>
-    <script src="../assets/js/core/popper.min.js"></script>
-    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../../assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="../../assets/js/core/popper.min.js"></script>
+    <script src="../../assets/js/core/bootstrap.min.js"></script>
 
     <!-- jQuery Scrollbar -->
-    <script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="../../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
     <!-- Chart JS -->
-    <script src="../assets/js/plugin/chart.js/chart.min.js"></script>
+    <script src="../../assets/js/plugin/chart.js/chart.min.js"></script>
 
     <!-- jQuery Sparkline -->
-    <script src="../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <script src="../../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 
     <!-- Chart Circle -->
-    <script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
+    <script src="../../assets/js/plugin/chart-circle/circles.min.js"></script>
 
     <!-- Datatables -->
-    <script src="../assets/js/plugin/datatables/datatables.min.js"></script>
+    <script src="../../assets/js/plugin/datatables/datatables.min.js"></script>
 
     <!-- Bootstrap Notify -->
-    <script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="../../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
 
     <!-- jQuery Vector Maps -->
-    <script src="../assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-    <script src="../assets/js/plugin/jsvectormap/world.js"></script>
+    <script src="../../assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="../../assets/js/plugin/jsvectormap/world.js"></script>
 
     <!-- Google Maps Plugin -->
-    <script src="../assets/js/plugin/gmaps/gmaps.js"></script>
+    <script src="../../assets/js/plugin/gmaps/gmaps.js"></script>
 
     <!-- Sweet Alert -->
-    <script src="../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script src="../../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
     <!-- Kaiadmin JS -->
-    <script src="../assets/js/kaiadmin.min.js"></script>
+    <script src="../../assets/js/kaiadmin.min.js"></script>
 
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="../assets/js/setting-demo2.js"></script>
+    <script src="../../assets/js/setting-demo2.js"></script>
   </body>
 </html>

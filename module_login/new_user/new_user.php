@@ -1,5 +1,5 @@
 <?php
-require 'conexion.php';
+require '../conexion.php';
 $correo = $_POST['correo']; // Correo proporcionado por el usuario
 $contraseña_plana = $_POST['contraseña']; // Contraseña proporcionada por el usuario
 $hashed_password = password_hash($contraseña_plana, PASSWORD_DEFAULT);
@@ -33,18 +33,18 @@ try {
             $_SESSION['loggedin'] = true;
             $_SESSION['id_funcionario'] = $user['id_funcionario'];
             $_SESSION['correo'] = $user['correo'];
-            header("Location: dashboard.php");
+            header("Location: ../../index.php");
             exit;
         } else {
             // Contraseña incorrecta
             $_SESSION['error'] = "Contraseña incorrecta.";
-            header("Location: loggin.html");
+            header("Location: ../../loggin.php");
             exit;
         }
     } else {
         // Usuario no encontrado
         $_SESSION['error'] = "Usuario no encontrado.";
-        header("Location: loggin.html");
+        header("Location: ../../loggin.php");
         exit;
     }
 } catch (PDOException $e) {
