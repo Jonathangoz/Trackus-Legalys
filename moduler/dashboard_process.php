@@ -1,23 +1,21 @@
 <?php
   session_start();
-
   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: loggin.php");
+      header("Location: ../loggin.php");
       exit;
   }
 ?>
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Trackus Legalys</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
-    <link rel="icon" href="assets/img/kaiadmin/favicon.ico" type="image/x-icon"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link rel="icon" href="../assets/img/kaiadmin/favicon.ico" type="image/x-icon"/>
 
     <!-- Fonts and icons -->
-    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="../assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
       WebFont.load({
         google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -28,7 +26,7 @@
             "Font Awesome 5 Brands",
             "simple-line-icons",
           ],
-          urls: ["assets/css/fonts.min.css"],
+          urls: ["../assets/css/fonts.min.css"],
         },
         active: function () {
           sessionStorage.fonts = true;
@@ -37,12 +35,12 @@
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/plugins.min.css" />
-    <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="../assets/css/kaiadmin.min.css" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="assets/css/demo.css" />
+    <link rel="stylesheet" href="../assets/css/demo.css" />
   </head>
   <body>
     <div class="wrapper">
@@ -51,8 +49,8 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
             <div class="logo-header">
-              <a href="dashboard.php" class="logo">
-                <img src="assets/img/logo.png" alt="navbar brand" class="navbar-brand" height="50"/>
+              <a href="dashboard_process.php" class="logo">
+                <img src="../assets/img/logo.png" alt="navbar brand" class="navbar-brand" height="50"/>
               </a>
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">
@@ -80,28 +78,28 @@
               <li class="nav-item">
                 <a href="forms/forms.php">
                   <i class="fas fa-pen-square"></i>
-                  <p>Forms</p>
+                  <p>Formulario</p>
                   <span class="sub-item"></span>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="tables/datatables.php">
                   <i class="fas fa-table"></i>
-                  <p>Tables</p>
+                  <p>Tablas</p>
                   <span class="sub-item"></span>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="documentation/document.php">
                   <i class="fas fa-file"></i>
-                  <p>Documentation</p>
+                  <p>Documentación</p>
                   <span class="badge badge-secondary"></span>
                 </a>
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#submenu">
                   <i class="fas fa-bars"></i>
-                  <p>Menu Levels</p>
+                  <p>Menu</p>
                   <span class="caret"></span>
                 </a>
                 <div class="collapse" id="submenu">
@@ -252,7 +250,7 @@
                           <a href="#">
                             <div class="notif-img">
                               <img
-                                src="assets/img/jm_denis.jpg"
+                                src="../assets/img/jm_denis.jpg"
                                 alt="Img Profile"
                               />
                             </div>
@@ -265,7 +263,7 @@
                           <a href="#">
                             <div class="notif-img">
                               <img
-                                src="assets/img/chadengle.jpg"
+                                src="../assets/img/chadengle.jpg"
                                 alt="Img Profile"
                               />
                             </div>
@@ -278,7 +276,7 @@
                           <a href="#">
                             <div class="notif-img">
                               <img
-                                src="assets/img/mlane.jpg"
+                                src="../assets/img/mlane.jpg"
                                 alt="Img Profile"
                               />
                             </div>
@@ -293,7 +291,7 @@
                           <a href="#">
                             <div class="notif-img">
                               <img
-                                src="assets/img/talha.jpg"
+                                src="../assets/img/talha.jpg"
                                 alt="Img Profile"
                               />
                             </div>
@@ -361,7 +359,7 @@
                           <a href="#">
                             <div class="notif-img">
                               <img
-                                src="assets/img/profile2.jpg"
+                                src="../assets/img/profile2.jpg"
                                 alt="Img Profile"
                               />
                             </div>
@@ -479,7 +477,7 @@
                   >
                     <div class="avatar-sm">
                       <img
-                        src="assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
+                        src="../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
                         alt="..."
                         class="avatar-img rounded-circle"
                       />
@@ -497,7 +495,7 @@
                         <div class="user-box">
                           <div class="avatar-lg">
                             <img
-                              src="assets/img/profile.jpg"
+                              src="../assets/img/profile.jpg"
                               alt="image profile"
                               class="avatar-img rounded"
                             />
@@ -525,7 +523,7 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Configuracion de la Cuenta</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="logout.php">Cerrar Sesion</a>
+                        <a class="dropdown-item" href="../module_login/logout.php">Cerrar Sesion</a>
                       </li>
                     </div>
                   </ul>
@@ -671,7 +669,7 @@
                       <div class="item-list">
                         <div class="avatar">
                           <img
-                            src="assets/img/jm_denis.jpg"
+                            src="../assets/img/jm_denis.jpg"
                             alt="..."
                             class="avatar-img rounded-circle"
                           />
@@ -708,7 +706,7 @@
                       <div class="item-list">
                         <div class="avatar">
                           <img
-                            src="assets/img/talha.jpg"
+                            src="../assets/img/talha.jpg"
                             alt="..."
                             class="avatar-img rounded-circle"
                           />
@@ -727,7 +725,7 @@
                       <div class="item-list">
                         <div class="avatar">
                           <img
-                            src="assets/img/chadengle.jpg"
+                            src="../assets/img/chadengle.jpg"
                             alt="..."
                             class="avatar-img rounded-circle"
                           />
@@ -1167,41 +1165,41 @@
       <!-- End Custom template -->
     </div>
     <!--   Core JS Files   -->
-    <script src="assets/js/core/jquery-3.7.1.min.js"></script>
-    <script src="assets/js/core/popper.min.js"></script>
-    <script src="assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
 
     <!-- jQuery Scrollbar -->
-    <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
     <!-- Chart JS -->
-    <script src="assets/js/plugin/chart.js/chart.min.js"></script>
+    <script src="../assets/js/plugin/chart.js/chart.min.js"></script>
 
     <!-- jQuery Sparkline -->
-    <script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <script src="../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 
     <!-- Chart Circle -->
-    <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+    <script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
 
     <!-- Datatables -->
-    <script src="assets/js/plugin/datatables/datatables.min.js"></script>
+    <script src="../assets/js/plugin/datatables/datatables.min.js"></script>
 
     <!-- Bootstrap Notify -->
-    <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
 
     <!-- jQuery Vector Maps -->
-    <script src="assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-    <script src="assets/js/plugin/jsvectormap/world.js"></script>
+    <script src="../assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="../assets/js/plugin/jsvectormap/world.js"></script>
 
     <!-- Sweet Alert -->
-    <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script src="../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
     <!-- Kaiadmin JS -->
-    <script src="assets/js/kaiadmin.min.js"></script>
+    <script src="../assets/js/kaiadmin.min.js"></script>
 
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="assets/js/setting-demo.js"></script>
-    <script src="assets/js/demo.js"></script>
+    <script src="../assets/js/setting-demo.js"></script>
+    <script src="..7assets/js/demo.js"></script>
     <script>
       $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
         type: "line",

@@ -103,7 +103,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../documentation/documentation.php">
+                <a href="documentation.php">
                   <i class="fas fa-file"></i>
                   <p>Documentación</p>
                   <span class="badge badge-secondary"></span>

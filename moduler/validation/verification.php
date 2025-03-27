@@ -5,21 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SENA - Recuperar Contraseña</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-<<<<<<< HEAD
-  <link href="../../assets/css/styles2.css" rel="stylesheet">
-=======
   <link href="assets/css/styles2.css" rel="stylesheet">
->>>>>>> cdd101cac02b4a540b3d97f76cd538132b6a5d13
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col justify-center items-center p-4">
   <div class="card bg-white p-8 w-full max-w-md mx-auto shadow-lg rounded-lg">
     <div class="logo-section text-center mb-10">
         <div class="img">
-<<<<<<< HEAD
-         <img src="../../assets/img/Logosimbolo-SENA-PRINCIPAL.png" alt="Logo SENA" aria-label="Logo SENA">
-=======
          <img src="assets/img/Logosimbolo-SENA-PRINCIPAL.png" alt="Logo SENA" aria-label="Logo SENA">
->>>>>>> cdd101cac02b4a540b3d97f76cd538132b6a5d13
         </div>
       <h2 class="text-xl text-gray-700 font-medium">Trackus Legalys</h2>
     </div>
@@ -67,12 +59,7 @@
     </div>
   </div>
 
-<<<<<<< HEAD
-  <script src="../../assets/js/visualpass.js"></script>
-  <script src="../../assets/js/confirm-password.js"></script>
-=======
   <script src="assets/js/visualpass.js"></script>
   <script src="assets/js/confirm-password.js"></script>
->>>>>>> cdd101cac02b4a540b3d97f76cd538132b6a5d13
 </body>
 </html>

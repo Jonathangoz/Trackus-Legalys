@@ -9,7 +9,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Trackus Legalys</title>
@@ -51,7 +51,7 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
             <div class="logo-header">
-              <a href="dashboard.php" class="logo">
+              <a href="index.php" class="logo">
                 <img src="assets/img/logo.png" alt="navbar brand" class="navbar-brand" height="50"/>
               </a>
             <div class="nav-toggle">
@@ -78,21 +78,21 @@
                 <h4 class="text-section">Menu</h4>
               </li>
               <li class="nav-item">
-                <a href="forms/forms.php">
+                <a href="moduler/forms/forms.php">
                   <i class="fas fa-pen-square"></i>
                   <p>Formulario</p>
                   <span class="sub-item"></span>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="tables/datatables.php">
+                <a href="moduler/tables/datatables.php">
                   <i class="fas fa-table"></i>
                   <p>Tablas</p>
                   <span class="sub-item"></span>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="documentation/document.php">
+                <a href="moduler/documentation/documentation.php">
                   <i class="fas fa-file"></i>
                   <p>Documentación</p>
                   <span class="badge badge-secondary"></span>
