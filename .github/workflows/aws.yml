@@ -24,30 +24,12 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-name: Deploy to Amazon ECS
-
+name: Deploy to EC2
 on:
   push:
-    branches: [ "master" ]
+    branches: [develop]
 
-env:
-  AWS_REGION: MY_AWS_REGION                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: MY_ECR_REPOSITORY           # set this to your Amazon ECR repository name
-  ECS_SERVICE: MY_ECS_SERVICE                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: MY_ECS_CLUSTER                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
-                                               # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: MY_CONTAINER_NAME           # set this to the name of the container in the
-                                               # containerDefinitions section of your task definition
-
-permissions:
-  contents: read
-
-name: Deploy to EC2 via SSH
-on:
-  push:
-    branches: [main]
-
+# Permisos globales (solo 1 bloque permissions)
 permissions:
   contents: read
 
@@ -62,12 +44,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1  # Acción correcta para SSH
+        uses: appleboy/ssh-action@v1
         with:
-          host: 18.191.211.47        # IP pública de tu EC2
-          username: ec2-user           # Usuario de EC2 (ej: ubuntu, ec2-user)
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  # Clave privada SSH
+          host: 18.191.211.47
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
-            cd /home/ec2-user/proyecto/tl  # Ruta absoluta en tu EC2
-            git pull origin master
-            sudo systemctl restart nginx  # Reinicia servicios si es necesario
+            cd /home/ec2-user/proyecto/tl
+            git config --global user.name "GitHub Actions"
+            git config --global user.email "actions@github.com"
+            git pull origin develop
+            sudo systemctl restart nginx
