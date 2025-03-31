@@ -1,10 +1,6 @@
 <?php
 session_start();
-<<<<<<< HEAD
-require '../conexion.php';
-=======
 require 'module_login/conexion.php';
->>>>>>> cdd101cac02b4a540b3d97f76cd538132b6a5d13
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
@@ -49,11 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if ($updateStmt->rowCount() > 0) {
                 $_SESSION['success'] = "Contraseña actualizada correctamente.";
-<<<<<<< HEAD
-                header("Location: ../../loggin.php");
-=======
                 header("Location: loggin.php");
->>>>>>> cdd101cac02b4a540b3d97f76cd538132b6a5d13
                 exit;
             } else {
                 $_SESSION['error3'] = "No se encontró ningún usuario con ese correo.";

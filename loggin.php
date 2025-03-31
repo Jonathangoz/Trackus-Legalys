@@ -6,6 +6,7 @@
   <title>SENA - Trackus Legalys</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
   <link href="assets/css/styles3.css" rel="stylesheet">
+  <link rel="icon" href="assets/img/kaiadmin/favicon.ico" type="image/x-icon"/>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col justify-center items-center p-4">
   <div class="card bg-white p-8 w-full max-w-md mx-auto shadow-lg rounded-lg">

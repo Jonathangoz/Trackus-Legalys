@@ -1,5 +1,5 @@
 <?php
-$host = "localhost";
+$host = "172.31.19.140";
 $port = "5432";
 $dbname = "cobro_coactivo";
 $username = "postgres";
