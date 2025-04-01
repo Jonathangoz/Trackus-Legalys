@@ -13,7 +13,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Trackus Legalys</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <link rel="icon" href="assets/img/kaiadmin/favicon.ico" type="image/x-icon"/>
 
     <!-- Fonts and icons -->
