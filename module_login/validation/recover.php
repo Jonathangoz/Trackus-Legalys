@@ -1,4 +1,30 @@
 <?php
+/**
+ * recover.php
+ * 
+ * Este archivo maneja la lógica para la recuperación de contraseñas de usuarios.
+ * Permite a los usuarios restablecer su contraseña proporcionando un correo electrónico válido.
+ * 
+ * Flujo del script:
+ * 1. Verifica si la solicitud es de tipo POST.
+ * 2. Valida que los campos requeridos (correo, nueva contraseña y confirmación) estén presentes.
+ * 3. Valida el formato del correo electrónico y verifica que el dominio exista.
+ * 4. Busca el correo en la base de datos para asegurarse de que el usuario existe.
+ * 5. Si el usuario existe, actualiza la contraseña en la base de datos utilizando un hash seguro.
+ * 6. Redirige al usuario con mensajes de éxito o error según corresponda.
+ * 
+ * Variables de sesión utilizadas:
+ * - $_SESSION['error3']: Almacena mensajes de error relacionados con la recuperación de contraseña.
+ * - $_SESSION['success']: Almacena el mensaje de éxito cuando la contraseña se actualiza correctamente.
+ * 
+ * Dependencias:
+ * - Requiere el archivo 'module_login/conexion.php' para la conexión a la base de datos.
+ * 
+ * Notas:
+ * - Se utiliza PDO para consultas seguras a la base de datos.
+ * - Las contraseñas se almacenan utilizando password_hash para mayor seguridad.
+ */
+
 session_start();
 require 'module_login/conexion.php';
 
@@ -64,4 +90,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
        exit;
     } 
 }
-//error_log(print_r($_POST, true));

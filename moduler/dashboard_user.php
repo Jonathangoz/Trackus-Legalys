@@ -98,57 +98,6 @@
                   <span class="badge badge-secondary"></span>
                 </a>
               </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#submenu">
-                  <i class="fas fa-bars"></i>
-                  <p>Menu</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="submenu">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a data-bs-toggle="collapse" href="#subnav1">
-                        <span class="sub-item">Level 1</span>
-                        <span class="caret"></span>
-                      </a>
-                      <div class="collapse" id="subnav1">
-                        <ul class="nav nav-collapse subnav">
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li>
-                      <a data-bs-toggle="collapse" href="#subnav2">
-                        <span class="sub-item">Level 1</span>
-                        <span class="caret"></span>
-                      </a>
-                      <div class="collapse" id="subnav2">
-                        <ul class="nav nav-collapse subnav">
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <span class="sub-item">Level 1</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
             </ul>
           </div>
         </div>
@@ -960,14 +909,39 @@
               </ul>
             </nav>
             <div class="copyright">
-              2025, creado por <i class="#"></i>
+            2025, Modificado por <i class="#"></i>
               <a href="#">Equipo Responsable</a>
             </div>
             <div>
-              Creado para 
+              Rediseñado para 
               <a target="_blank" href="https://www.sena.edu.co/es-co/Paginas/default.aspx"> SENA - CSET</a>.
             </div>
           </div>
+          <div class="container-fluid d-flex justify-content-between">
+					<nav class="pull-left">
+						<ul class="nav">
+							<li class="nav-item">
+								<a class="nav-link" href="http://www.themekita.com">
+									ThemeKita
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#"> Help </a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#"> Licenses </a>
+							</li>
+						</ul>
+					</nav>
+					<div class="copyright">
+						2024, made with <i class="fa fa-heart heart text-danger"></i> by
+						<a href="http://www.themekita.com">ThemeKita</a>
+					</div>
+					<div>
+						Distributed by
+						<a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
+					</div>
+				</div>
         </footer>
       </div>
 
