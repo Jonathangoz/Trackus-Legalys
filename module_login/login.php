@@ -58,6 +58,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                  * @var string $encryptedToken Token encriptado usando AES-256-CBC.
                  */
                 $token = bin2hex(random_bytes(64));
+                $time = time();
+                $exp = $time + 60 * 1 * 1; // Expira en 1 minuto
+                $payload = [
+                    'iat' => $time,
+                    'exp' => $exp,
+                    'sub' => $user['id_funcionario'],
+                    'correo' => $user['correo'],
+                    'nombres' => $user['nombres'],
+                    'apellidos' => $user['apellidos'],
+                    'tipo_rol' => $user['tipo_rol']
+                ];
                 $secretkey = $contraseña;
                 $signature = hash_hmac('sha256', $token, $secretkey);
                 $signedToken = $token . '.' . $signature;
