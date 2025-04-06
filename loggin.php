@@ -16,8 +16,7 @@
         </div>
       <h2 class="text-xl text-gray-700 font-medium">Trackus Legalys</h2>
     </div>
-    
-    
+     
     <form class="space-y-6" aria-label="Formulario de inicio de sesión" action="module_login/login.php" method="POST">
       <div>
         <label class="block text-gray-700 text-sm font-semibold mb-2" for="username">Email</label>
