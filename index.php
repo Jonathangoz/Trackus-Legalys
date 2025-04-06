@@ -108,12 +108,13 @@
                   <ul class="nav nav-collapse">
                     <li>
                       <a data-bs-toggle="collapse" href="#subnav1">
-                        <span class="sub-item">Creacion de Usuarios</span>
+                        <span class="sub-item">Creación de Usuarios</span>
                       </a>
                     </li>
                     <li>
                       <a data-bs-toggle="collapse" href="#subnav2">
                         <span class="sub-item">Auditoría</span>
+                        <span class="caret"></span>
                       </a>
                     </li>
                     <li>
@@ -153,6 +154,17 @@
           <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
             <div class="container-fluid">
               <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    role="button"
+                    aria-expanded="false"
+                    aria-haspopup="true">
+                    <i class="fa fa-search"></i>
+                  </a>
+                </li>
                 <li class="nav-item topbar-icon dropdown hidden-caret">
                   <a
                     class="nav-link dropdown-toggle"
@@ -165,7 +177,9 @@
                     <i class="fa fa-bell"></i>
                     <span class="notification">4</span>
                   </a>
-                  <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+                  <ul
+                    class="dropdown-menu notif-box animated fadeIn"
+                    aria-labelledby="notifDropdown">
                     <li>
                       <div class="dropdown-title">
                         Tienes 4 Notificaciones
@@ -273,6 +287,14 @@
                                 <i class="fas fa-file-invoice-dollar"></i>
                               </div>
                               <span class="text">Archivados</span>
+                            </div>
+                          </a>
+                          <a class="col-6 col-md-4 p-0" href="#">
+                            <div class="quick-actions-item">
+                              <div class="avatar-item bg-secondary rounded-circle">
+                                <i class="fas fa-credit-card"></i>
+                              </div>
+                              <span class="text"></span>
                             </div>
                           </a>
                         </div>
@@ -633,11 +655,11 @@
               </ul>
             </nav>
             <div class="copyright">
-              2025, Rediseñado por <i class="#"></i>
+            2025, Modificado por <i class="#"></i>
               <a href="#">Equipo Responsable</a>
             </div>
             <div>
-              Creado para 
+              Rediseñado para 
               <a target="_blank" href="https://www.sena.edu.co/es-co/Paginas/default.aspx"> SENA - CSET</a>.
             </div>
             <!--
@@ -889,7 +911,7 @@
 
     <!-- Bootstrap Notify 
     <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-    -->
+      -->
     <!-- jQuery Vector Maps -->
     <script src="assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
     <script src="assets/js/plugin/jsvectormap/world.js"></script>

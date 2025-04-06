@@ -90,7 +90,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="documentation/document.php">
+                <a href="documentation/documentation.php">
                   <i class="fas fa-file"></i>
                   <p>Documentación</p>
                   <span class="badge badge-secondary"></span>
@@ -606,11 +606,11 @@
               </ul>
             </nav>
             <div class="copyright">
-              2025, creado por <i class="#"></i>
+            2025, Modificado por <i class="#"></i>
               <a href="#">Equipo Responsable</a>
             </div>
             <div>
-              Creado para 
+              Rediseñado para 
               <a target="_blank" href="https://www.sena.edu.co/es-co/Paginas/default.aspx"> SENA - CSET</a>.
             </div>
           </div>
