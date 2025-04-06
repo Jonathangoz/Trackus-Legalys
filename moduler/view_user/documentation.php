@@ -13,7 +13,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>TL Documentación</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <link rel="icon" href="../../assets/img/sena.ico" type="image/x-icon"/>
 
     <!-- Fonts and icons -->
@@ -51,7 +51,7 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header">
-            <a href="../../index.php" class="logo">
+            <a href="dashboard_user.php" class="logo">
               <img src="../../assets/img/logo.png" alt="navbar brand" class="navbar-brand" height="50"/>
             </a>
             <div class="nav-toggle">
@@ -77,16 +77,9 @@
                 </span>
                 <h4 class="text-section">Menu</h4>
               <li class="nav-item">
-                <a href="../forms/forms.php">
-                  <i class="fas fa-pen-square"></i>
-                  <p>Formulario</p>
-                  <span class="sub-item"></span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="../tables/datatables.php">
-                  <i class="fas fa-table"></i>
-                  <p>Tablas</p>
+                <a href="dashboard_user.php">
+                  <i class="fas fa-home"></i>
+                  <p>Inicio</p>
                   <span class="sub-item"></span>
                 </a>
               </li>
@@ -123,150 +116,9 @@
             <!-- End Logo Header -->
           </div>
           <!-- Navbar Header -->
-          <nav
-            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+          <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
             <div class="container-fluid">
               <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                <li class="nav-item topbar-icon dropdown hidden-caret">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="notifDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                    <i class="fa fa-bell"></i>
-                    <span class="notification">3</span>
-                  </a>
-                  <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
-                    <li>
-                      <div class="dropdown-title">
-                        Tienes 3 Notificaciones
-                      </div>
-                    </li>
-                    <li>
-                      <div class="notif-scroll scrollbar-outer">
-                        <div class="notif-center">
-                          <a href="#">
-                            <div class="notif-icon notif-primary">
-                              <i class="fa fa-user-plus"></i>
-                            </div>
-                            <div class="notif-content">
-                              <span class="block"> New user registered </span>
-                              <span class="time">5 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-icon notif-success">
-                              <i class="fa fa-comment"></i>
-                            </div>
-                            <div class="notif-content">
-                              <span class="block">
-                                Rahmad commented on Admin
-                              </span>
-                              <span class="time">12 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-img">
-                              <img
-                                src="../../assets/img/profile2.jpg"
-                                alt="Img Profile"
-                              />
-                            </div>
-                            <div class="notif-content">
-                              <span class="block">
-                                Reza send messages to you
-                              </span>
-                              <span class="time">12 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-icon notif-danger">
-                              <i class="fa fa-heart"></i>
-                            </div>
-                            <div class="notif-content">
-                              <span class="block"> Farrah liked Admin </span>
-                              <span class="time">17 minutes ago</span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <a class="see-all" href="javascript:void(0);"
-                        >Ver Todas las Notificaciones<i class="fa fa-angle-right"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item topbar-icon dropdown hidden-caret">
-                  <a class="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="false">
-                    <i class="fas fa-layer-group"></i>
-                  </a>
-                  <div class="dropdown-menu quick-actions animated fadeIn">
-                    <div class="quick-actions-header">
-                      <span class="title mb-1">Atajos</span>
-                      <span class="subtitle op-7">Complementos</span>
-                    </div>
-                    <div class="quick-actions-scroll scrollbar-outer">
-                      <div class="quick-actions-items">
-                        <div class="row m-0">
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div class="avatar-item bg-danger rounded-circle">
-                                <i class="far fa-calendar-alt"></i>
-                              </div>
-                              <span class="text">Calendario</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div class="avatar-item bg-warning rounded-circle">
-                                <i class="fas fa-map"></i>
-                              </div>
-                              <span class="text">Redactar</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div class="avatar-item bg-info rounded-circle">
-                                <i class="fas fa-file-excel"></i>
-                              </div>
-                              <span class="text">Reportes</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div class="avatar-item bg-success rounded-circle">
-                                <i class="fas fa-envelope"></i>
-                              </div>
-                              <span class="text">Emails</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div class="avatar-item bg-primary rounded-circle">
-                                <i class="fas fa-file-invoice-dollar"></i>
-                              </div>
-                              <span class="text">Archivados</span>
-                            </div>
-                          </a>
-                          <a class="col-6 col-md-4 p-0" href="#">
-                            <div class="quick-actions-item">
-                              <div class="avatar-item bg-secondary rounded-circle">
-                                <i class="fas fa-credit-card"></i>
-                              </div>
-                              <span class="text"></span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-
                 <li class="nav-item topbar-user dropdown hidden-caret">
                   <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                     <div class="avatar-sm">
@@ -320,7 +172,7 @@
               <h3 class="fw-bold mb-3">Documentación</h3>
               <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
-                  <a href="../../index.php">
+                  <a href="dashboard_user.php">
                     <i class="icon-home"></i>
                   </a>
                 </li>
@@ -336,13 +188,13 @@
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header">
-                    <div class="card-title">Archivos - Plantillas</div>
+                    <div class="card-title">Solicitud</div>
                   </div>
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-6 col-lg-4">
                         <div class="form-group">
-                          <label for="exampleFormControlFile1">Importar Documento</label>
+                          <label for="exampleFormControlFile1">Ingresar Archivo</label>
                           <input type="file" class="form-control-file" id="exampleFormControlFile1"/>
                         </div>
                         <div class="form-group">
@@ -350,8 +202,6 @@
                           <textarea class="form-control" id="comment" rows="5">
                           </textarea>
                         </div>
-                      </div>
-                      <div class="col-md-6 col-lg-4">
                       </div>
                     </div>
                   </div>
@@ -391,7 +241,7 @@
               <a target="_blank" href="https://www.sena.edu.co/es-co/Paginas/default.aspx"> SENA - CSET</a>.
             </div> 
           </div>
-              <!--
+            <!--
           </div>
           <div class="container-fluid d-flex justify-content-between">
 					<nav class="pull-left">
@@ -641,13 +491,13 @@
     <!-- Bootstrap Notify
     <script src="../../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
     -->
-    <!-- jQuery Vector Maps
+    <!-- jQuery Vector Maps -->
     <script src="../../assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
     <script src="../../assets/js/plugin/jsvectormap/world.js"></script>
-    -->
-    <!-- Google Maps Plugin -->
-    <script src="../../assets/js/plugin/gmaps/gmaps.js"></script>
 
+    <!-- Google Maps Plugin
+    <script src="../../assets/js/plugin/gmaps/gmaps.js"></script>
+    -->
     <!-- Sweet Alert -->
     <script src="../../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 

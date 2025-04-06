@@ -1,23 +1,21 @@
 <?php
   session_start();
-
   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: loggin.php");
+      header("Location: ../../loggin.php");
       exit;
   }
 ?>
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Trackus Legalys</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
-    <link rel="icon" href="assets/img/kaiadmin/favicon.ico" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="../../assets/img/sena.ico" type="image/x-icon"/>
 
     <!-- Fonts and icons -->
-    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="../../assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
       WebFont.load({
         google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -28,7 +26,7 @@
             "Font Awesome 5 Brands",
             "simple-line-icons",
           ],
-          urls: ["assets/css/fonts.min.css"],
+          urls: ["../../assets/css/fonts.min.css"],
         },
         active: function () {
           sessionStorage.fonts = true;
@@ -37,12 +35,12 @@
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/plugins.min.css" />
-    <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="../../assets/css/kaiadmin.min.css" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="assets/css/demo.css" />
+    <link rel="stylesheet" href="../../assets/css/demo.css" />
   </head>
   <body>
     <div class="wrapper">
@@ -51,8 +49,8 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
             <div class="logo-header">
-              <a href="dashboard.php" class="logo">
-                <img src="assets/img/logo.png" alt="navbar brand" class="navbar-brand" height="50"/>
+              <a href="dashboard_lawyer" class="logo">
+                <img src="../../assets/img/logo.png" alt="navbar brand" class="navbar-brand" height="50"/>
               </a>
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">
@@ -78,76 +76,25 @@
                 <h4 class="text-section">Menu</h4>
               </li>
               <li class="nav-item">
-                <a href="forms/forms.php">
+                <a href="form.php">
                   <i class="fas fa-pen-square"></i>
-                  <p>Forms</p>
+                  <p>Formularios</p>
                   <span class="sub-item"></span>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="tables/datatables.php">
+                <a href="tables.php">
                   <i class="fas fa-table"></i>
-                  <p>Tables</p>
+                  <p>Tablas</p>
                   <span class="sub-item"></span>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="documentation/document.php">
+                <a href="docs.php">
                   <i class="fas fa-file"></i>
-                  <p>Documentation</p>
+                  <p>Documentación</p>
                   <span class="badge badge-secondary"></span>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#submenu">
-                  <i class="fas fa-bars"></i>
-                  <p>Menu Levels</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="submenu">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a data-bs-toggle="collapse" href="#subnav1">
-                        <span class="sub-item">Level 1</span>
-                        <span class="caret"></span>
-                      </a>
-                      <div class="collapse" id="subnav1">
-                        <ul class="nav nav-collapse subnav">
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li>
-                      <a data-bs-toggle="collapse" href="#subnav2">
-                        <span class="sub-item">Level 1</span>
-                        <span class="caret"></span>
-                      </a>
-                      <div class="collapse" id="subnav2">
-                        <ul class="nav nav-collapse subnav">
-                          <li>
-                            <a href="#">
-                              <span class="sub-item">Level 2</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <span class="sub-item">Level 1</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
               </li>
             </ul>
           </div>
@@ -175,144 +122,9 @@
             <!-- End Logo Header -->
           </div>
           <!-- Navbar Header -->
-          <nav
-            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
-          >
+          <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
             <div class="container-fluid">
-              <nav
-                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
-              >
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <button type="submit" class="btn btn-search pe-1">
-                      <i class="fa fa-search search-icon"></i>
-                    </button>
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Search ..."
-                    class="form-control"
-                  />
-                </div>
-              </nav>
-
               <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-                <li
-                  class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
-                >
-                  <a
-                    class="nav-link dropdown-toggle"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    role="button"
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                  >
-                    <i class="fa fa-search"></i>
-                  </a>
-                  <ul class="dropdown-menu dropdown-search animated fadeIn">
-                    <form class="navbar-left navbar-form nav-search">
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          placeholder="Search ..."
-                          class="form-control"
-                        />
-                      </div>
-                    </form>
-                  </ul>
-                </li>
-                <li class="nav-item topbar-icon dropdown hidden-caret">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    id="messageDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="fa fa-envelope"></i>
-                  </a>
-                  <ul
-                    class="dropdown-menu messages-notif-box animated fadeIn"
-                    aria-labelledby="messageDropdown"
-                  >
-                    <li>
-                      <div
-                        class="dropdown-title d-flex justify-content-between align-items-center"
-                      >
-                        Mensajes
-                        <a href="#" class="small">Marcar Como Leídos</a>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="message-notif-scroll scrollbar-outer">
-                        <div class="notif-center">
-                          <a href="#">
-                            <div class="notif-img">
-                              <img
-                                src="assets/img/jm_denis.jpg"
-                                alt="Img Profile"
-                              />
-                            </div>
-                            <div class="notif-content">
-                              <span class="subject">Jimmy Denis</span>
-                              <span class="block"> How are you ? </span>
-                              <span class="time">5 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-img">
-                              <img
-                                src="assets/img/chadengle.jpg"
-                                alt="Img Profile"
-                              />
-                            </div>
-                            <div class="notif-content">
-                              <span class="subject">Chad</span>
-                              <span class="block"> Ok, Thanks ! </span>
-                              <span class="time">12 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-img">
-                              <img
-                                src="assets/img/mlane.jpg"
-                                alt="Img Profile"
-                              />
-                            </div>
-                            <div class="notif-content">
-                              <span class="subject">Jhon Doe</span>
-                              <span class="block">
-                                Ready for the meeting today...
-                              </span>
-                              <span class="time">12 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-img">
-                              <img
-                                src="assets/img/talha.jpg"
-                                alt="Img Profile"
-                              />
-                            </div>
-                            <div class="notif-content">
-                              <span class="subject">Talha</span>
-                              <span class="block"> Hi, Apa Kabar ? </span>
-                              <span class="time">17 minutes ago</span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <a class="see-all" href="javascript:void(0);"
-                        >Ver Todos los Mensajes<i class="fa fa-angle-right"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
                 <li class="nav-item topbar-icon dropdown hidden-caret">
                   <a
                     class="nav-link dropdown-toggle"
@@ -321,15 +133,11 @@
                     role="button"
                     data-bs-toggle="dropdown"
                     aria-haspopup="true"
-                    aria-expanded="false"
-                  >
+                    aria-expanded="false">
                     <i class="fa fa-bell"></i>
                     <span class="notification">4</span>
                   </a>
-                  <ul
-                    class="dropdown-menu notif-box animated fadeIn"
-                    aria-labelledby="notifDropdown"
-                  >
+                  <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                     <li>
                       <div class="dropdown-title">
                         Tienes 4 Notificaciones
@@ -360,10 +168,7 @@
                           </a>
                           <a href="#">
                             <div class="notif-img">
-                              <img
-                                src="assets/img/profile2.jpg"
-                                alt="Img Profile"
-                              />
+                              <img src="../../assets/img/profile2.jpg" alt="Img Profile"/>
                             </div>
                             <div class="notif-content">
                               <span class="block">
@@ -385,19 +190,13 @@
                       </div>
                     </li>
                     <li>
-                      <a class="see-all" href="javascript:void(0);"
-                        >Ver Todas las Notificaciones<i class="fa fa-angle-right"></i>
+                      <a class="see-all" href="javascript:void(0);">Ver Todas las Notificaciones<i class="fa fa-angle-right"></i>
                       </a>
                     </li>
                   </ul>
                 </li>
                 <li class="nav-item topbar-icon dropdown hidden-caret">
-                  <a
-                    class="nav-link"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    aria-expanded="false"
-                  >
+                  <a class="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                     <i class="fas fa-layer-group"></i>
                   </a>
                   <div class="dropdown-menu quick-actions animated fadeIn">
@@ -418,9 +217,7 @@
                           </a>
                           <a class="col-6 col-md-4 p-0" href="#">
                             <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-warning rounded-circle"
-                              >
+                              <div class="avatar-item bg-warning rounded-circle">
                                 <i class="fas fa-map"></i>
                               </div>
                               <span class="text">Redactar</span>
@@ -436,9 +233,7 @@
                           </a>
                           <a class="col-6 col-md-4 p-0" href="#">
                             <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-success rounded-circle"
-                              >
+                              <div class="avatar-item bg-success rounded-circle">
                                 <i class="fas fa-envelope"></i>
                               </div>
                               <span class="text">Emails</span>
@@ -446,9 +241,7 @@
                           </a>
                           <a class="col-6 col-md-4 p-0" href="#">
                             <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-primary rounded-circle"
-                              >
+                              <div class="avatar-item bg-primary rounded-circle">
                                 <i class="fas fa-file-invoice-dollar"></i>
                               </div>
                               <span class="text">Archivados</span>
@@ -456,9 +249,7 @@
                           </a>
                           <a class="col-6 col-md-4 p-0" href="#">
                             <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-secondary rounded-circle"
-                              >
+                              <div class="avatar-item bg-secondary rounded-circle">
                                 <i class="fas fa-credit-card"></i>
                               </div>
                               <span class="text"></span>
@@ -469,20 +260,10 @@
                     </div>
                   </div>
                 </li>
-
                 <li class="nav-item topbar-user dropdown hidden-caret">
-                  <a
-                    class="dropdown-toggle profile-pic"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    aria-expanded="false"
-                  >
+                  <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                     <div class="avatar-sm">
-                      <img
-                        src="assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
-                        alt="..."
-                        class="avatar-img rounded-circle"
-                      />
+                      <img src="../../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png" alt="..." class="avatar-img rounded-circle"/>
                     </div>
                     <span class="profile-username">
                       <span class="op-7">Hola,</span>
@@ -496,20 +277,12 @@
                       <li>
                         <div class="user-box">
                           <div class="avatar-lg">
-                            <img
-                              src="assets/img/profile.jpg"
-                              alt="image profile"
-                              class="avatar-img rounded"
-                            />
+                            <img src="../../assets/img/profile.jpg" alt="image profile" class="avatar-img rounde"/>
                           </div>
                           <div class="u-text">
                             <h4><?php echo htmlspecialchars($_SESSION['nombres']); ?></h4>
                             <p class="text-muted"><?php echo htmlspecialchars($_SESSION['correo']); ?></p>
-                            <a
-                              href="#"
-                              class="btn btn-xs btn-secondary btn-sm"
-                              >Ver Perfil</a
-                            >
+                            <a href="#" class="btn btn-xs btn-secondary btn-sm">Ver Perfil</a>
                           </div>
                         </div>
                       </li>
@@ -519,13 +292,10 @@
                         <span class="fw-bold">
                           <?php echo htmlspecialchars($_SESSION['tipo_rol']); ?>
                         </span>
-                        </a>
-                        <a class="dropdown-item" href="#">My Balance</a>
-                        <a class="dropdown-item" href="#">Inbox</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Configuracion de la Cuenta</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="logout.php">Cerrar Sesion</a>
+                        <a class="dropdown-item" href="../../module_login/logout.php">Cerrar Sesion</a>
                       </li>
                     </div>
                   </ul>
@@ -538,16 +308,10 @@
 
         <div class="container">
           <div class="page-inner">
-            <div
-              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
-            >
+            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
               <div>
                 <h3 class="fw-bold mb-3">Trackus Legalys</h3>
                 <h6 class="op-7 mb-2">Dependencia Cobro Coactivo</h6>
-              </div>
-              <div class="ms-md-auto py-2 py-md-0">
-                <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
-                <a href="#" class="btn btn-primary btn-round">Add Customer</a>
               </div>
             </div>
             <div class="row">
@@ -556,16 +320,14 @@
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-primary bubble-shadow-small"
-                        >
+                        <div class="icon-big text-center icon-primary bubble-shadow-small">
                           <i class="fas fa-users"></i>
                         </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Visitors</p>
-                          <h4 class="card-title">1,294</h4>
+                          <p class="card-category">Bancos</p>
+                          <h4 class="card-title">34</h4>
                         </div>
                       </div>
                     </div>
@@ -577,16 +339,14 @@
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-info bubble-shadow-small"
-                        >
+                        <div class="icon-big text-center icon-info bubble-shadow-small">
                           <i class="fas fa-user-check"></i>
                         </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Subscribers</p>
-                          <h4 class="card-title">1303</h4>
+                          <p class="card-category">Transito</p>
+                          <h4 class="card-title">4</h4>
                         </div>
                       </div>
                     </div>
@@ -598,16 +358,14 @@
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-success bubble-shadow-small"
-                        >
+                        <div class="icon-big text-center icon-success bubble-shadow-small">
                           <i class="fas fa-luggage-cart"></i>
                         </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Sales</p>
-                          <h4 class="card-title">$ 1,345</h4>
+                          <p class="card-category">Camara Comercio</p>
+                          <h4 class="card-title">1</h4>
                         </div>
                       </div>
                     </div>
@@ -619,16 +377,14 @@
                   <div class="card-body">
                     <div class="row align-items-center">
                       <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-secondary bubble-shadow-small"
-                        >
+                        <div class="icon-big text-center icon-secondary bubble-shadow-small">
                           <i class="far fa-check-circle"></i>
                         </div>
                       </div>
                       <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
-                          <p class="card-category">Order</p>
-                          <h4 class="card-title">576</h4>
+                          <p class="card-category">Tramites Activos</p>
+                          <h4 class="card-title">//</h4>
                         </div>
                       </div>
                     </div>
@@ -641,44 +397,18 @@
                 <div class="card card-round">
                   <div class="card-body">
                     <div class="card-head-row card-tools-still-right">
-                      <div class="card-title">New Customers</div>
+                      <div class="card-title">Tramites</div>
                       <div class="card-tools">
-                        <div class="dropdown">
-                          <button
-                            class="btn btn-icon btn-clean me-0"
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <i class="fas fa-ellipsis-h"></i>
-                          </button>
-                          <div
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton"
-                          >
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#"
-                              >Something else here</a
-                            >
-                          </div>
-                        </div>
                       </div>
                     </div>
                     <div class="card-list py-4">
                       <div class="item-list">
                         <div class="avatar">
-                          <img
-                            src="assets/img/jm_denis.jpg"
-                            alt="..."
-                            class="avatar-img rounded-circle"
-                          />
+                          <img src="../../assets/img/jm_denis.jpg" alt="..." class="avatar-img rounded-circle"/>
                         </div>
                         <div class="info-user ms-3">
-                          <div class="username">Jimmy Denis</div>
-                          <div class="status">Graphic Designer</div>
+                          <div class="username">Usuario</div>
+                          <div class="status">Tipo Tramite</div>
                         </div>
                         <button class="btn btn-icon btn-link op-8 me-1">
                           <i class="far fa-envelope"></i>
@@ -689,14 +419,11 @@
                       </div>
                       <div class="item-list">
                         <div class="avatar">
-                          <span
-                            class="avatar-title rounded-circle border border-white"
-                            >CF</span
-                          >
+                          <span class="avatar-title rounded-circle border border-white" >CF</span>
                         </div>
                         <div class="info-user ms-3">
-                          <div class="username">Chandra Felix</div>
-                          <div class="status">Sales Promotion</div>
+                          <div class="username">usuario</div>
+                          <div class="status">Tipo Tramite</div>
                         </div>
                         <button class="btn btn-icon btn-link op-8 me-1">
                           <i class="far fa-envelope"></i>
@@ -707,15 +434,11 @@
                       </div>
                       <div class="item-list">
                         <div class="avatar">
-                          <img
-                            src="assets/img/talha.jpg"
-                            alt="..."
-                            class="avatar-img rounded-circle"
-                          />
+                          <img src="../../assets/img/talha.jpg" alt="..." class="avatar-img rounded-circle"/>
                         </div>
                         <div class="info-user ms-3">
-                          <div class="username">Talha</div>
-                          <div class="status">Front End Designer</div>
+                          <div class="username">Usuario</div>
+                          <div class="status">Tipo Tramite</div>
                         </div>
                         <button class="btn btn-icon btn-link op-8 me-1">
                           <i class="far fa-envelope"></i>
@@ -726,15 +449,11 @@
                       </div>
                       <div class="item-list">
                         <div class="avatar">
-                          <img
-                            src="assets/img/chadengle.jpg"
-                            alt="..."
-                            class="avatar-img rounded-circle"
-                          />
+                          <img src="../../assets/img/chadengle.jpg" alt="..." class="avatar-img rounded-circle"/>
                         </div>
                         <div class="info-user ms-3">
-                          <div class="username">Chad</div>
-                          <div class="status">CEO Zeleaf</div>
+                          <div class="username">Usuario</div>
+                          <div class="status">Tipo Tramite</div>
                         </div>
                         <button class="btn btn-icon btn-link op-8 me-1">
                           <i class="far fa-envelope"></i>
@@ -745,14 +464,11 @@
                       </div>
                       <div class="item-list">
                         <div class="avatar">
-                          <span
-                            class="avatar-title rounded-circle border border-white bg-primary"
-                            >H</span
-                          >
+                          <span class="avatar-title rounded-circle border border-white bg-primary">H</span>
                         </div>
                         <div class="info-user ms-3">
-                          <div class="username">Hizrian</div>
-                          <div class="status">Web Designer</div>
+                          <div class="username">Usuario</div>
+                          <div class="status">Tipo Tramite</div>
                         </div>
                         <button class="btn btn-icon btn-link op-8 me-1">
                           <i class="far fa-envelope"></i>
@@ -763,14 +479,11 @@
                       </div>
                       <div class="item-list">
                         <div class="avatar">
-                          <span
-                            class="avatar-title rounded-circle border border-white bg-secondary"
-                            >F</span
-                          >
+                          <span class="avatar-title rounded-circle border border-white bg-secondary">F</span>
                         </div>
                         <div class="info-user ms-3">
-                          <div class="username">Farrah</div>
-                          <div class="status">Marketing</div>
+                          <div class="username">Usuario</div>
+                          <div class="status">Tipo Tramite</div>
                         </div>
                         <button class="btn btn-icon btn-link op-8 me-1">
                           <i class="far fa-envelope"></i>
@@ -787,7 +500,7 @@
                 <div class="card card-round">
                   <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                      <div class="card-title">Transaction History</div>
+                      <div class="card-title">Historial de Usuarios y Procesos</div>
                       <div class="card-tools">
                         <div class="dropdown">
                           <button
@@ -796,19 +509,13 @@
                             id="dropdownMenuButton"
                             data-bs-toggle="dropdown"
                             aria-haspopup="true"
-                            aria-expanded="false"
-                          >
+                            aria-expanded="false">
                             <i class="fas fa-ellipsis-h"></i>
                           </button>
-                          <div
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton"
-                          >
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#"
-                              >Something else here</a
-                            >
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Tipo Usuarios</a>
+                            <a class="dropdown-item" href="#">Tipo Tramite</a>
+                            <a class="dropdown-item" href="#">Estado de Tramite</a>
                           </div>
                         </div>
                       </div>
@@ -820,116 +527,81 @@
                       <table class="table align-items-center mb-0">
                         <thead class="thead-light">
                           <tr>
-                            <th scope="col">Payment Number</th>
-                            <th scope="col" class="text-end">Date & Time</th>
-                            <th scope="col" class="text-end">Amount</th>
-                            <th scope="col" class="text-end">Status</th>
+                            <th scope="col">Usuario</th>
+                            <th scope="col" class="text-end">Fecha Inicio</th>
+                            <th scope="col" class="text-end">Fecha Final</th>
+                            <th scope="col" class="text-end">Estado</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
                             <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
+                              Usuario
                             </th>
                             <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
                             <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
+                              <span class="badge badge-success">Proceso</span>
                             </td>
                           </tr>
                           <tr>
                             <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
+                              Usuario
                             </th>
                             <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
                             <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
+                              <span class="badge badge-success">Activo</span>
                             </td>
                           </tr>
                           <tr>
                             <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
+                              Usuario
                             </th>
                             <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
                             <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
+                              <span class="badge badge-success">Archivado</span>
                             </td>
                           </tr>
                           <tr>
                             <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
+                              Usuario
                             </th>
                             <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
                             <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
+                              <span class="badge badge-success">Embargo</span>
                             </td>
                           </tr>
                           <tr>
                             <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
+                              Usuario
                             </th>
                             <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
                             <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
+                              <span class="badge badge-success">Activo</span>
                             </td>
                           </tr>
                           <tr>
                             <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
+                              Usuario
                             </th>
                             <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
                             <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
+                              <span class="badge badge-success">Embargo</span>
                             </td>
                           </tr>
                           <tr>
                             <th scope="row">
-                              <button
-                                class="btn btn-icon btn-round btn-success btn-sm me-2"
-                              >
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
+                              Usuario
                             </th>
                             <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
                             <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
+                              <span class="badge badge-success">Proceso</span>
                             </td>
                           </tr>
                         </tbody>
@@ -968,11 +640,40 @@
               <a target="_blank" href="https://www.sena.edu.co/es-co/Paginas/default.aspx"> SENA - CSET</a>.
             </div>
           </div>
+           <!--
+          </div>
+          <div class="container-fluid d-flex justify-content-between">
+					<nav class="pull-left">
+						<ul class="nav">
+							<li class="nav-item">
+								<a class="nav-link" href="http://www.themekita.com">
+									ThemeKita
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#"> Help </a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#"> Licenses </a>
+							</li>
+						</ul>
+					</nav>
+					<div class="copyright">
+						2024, made with <i class="fa fa-heart heart text-danger"></i> by
+						<a href="http://www.themekita.com">ThemeKita</a>
+					</div>
+					<div>
+						Distributed by
+						<a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
+					</div>
+				</div>
+    -->
         </footer>
       </div>
 
-      <!-- Custom template | don't include it in your project! -->
+      <!-- Custom template | don't include it in your project!
       <div class="custom-template">
+    
         <div class="title">Settings</div>
         <div class="custom-content">
           <div class="switcher">
@@ -1164,44 +865,45 @@
           <i class="icon-settings"></i>
         </div>
       </div>
+    -->
       <!-- End Custom template -->
     </div>
     <!--   Core JS Files   -->
-    <script src="assets/js/core/jquery-3.7.1.min.js"></script>
-    <script src="assets/js/core/popper.min.js"></script>
-    <script src="assets/js/core/bootstrap.min.js"></script>
+    <script src="../../assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="../../assets/js/core/popper.min.js"></script>
+    <script src="../../assets/js/core/bootstrap.min.js"></script>
 
     <!-- jQuery Scrollbar -->
-    <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="../../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
     <!-- Chart JS -->
-    <script src="assets/js/plugin/chart.js/chart.min.js"></script>
+    <script src="../../assets/js/plugin/chart.js/chart.min.js"></script>
 
     <!-- jQuery Sparkline -->
-    <script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <script src="../../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 
     <!-- Chart Circle -->
-    <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+    <script src="../../assets/js/plugin/chart-circle/circles.min.js"></script>
 
     <!-- Datatables -->
-    <script src="assets/js/plugin/datatables/datatables.min.js"></script>
+    <script src="../../assets/js/plugin/datatables/datatables.min.js"></script>
 
-    <!-- Bootstrap Notify -->
-    <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-
-    <!-- jQuery Vector Maps -->
-    <script src="assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-    <script src="assets/js/plugin/jsvectormap/world.js"></script>
-
+    <!-- Bootstrap Notify
+    <script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    -->
+    <!-- jQuery Vector Maps
+    <script src="../assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="../assets/js/plugin/jsvectormap/world.js"></script>
+    -->
     <!-- Sweet Alert -->
-    <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script src="../../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
     <!-- Kaiadmin JS -->
-    <script src="assets/js/kaiadmin.min.js"></script>
+    <script src="../../assets/js/kaiadmin.min.js"></script>
 
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="assets/js/setting-demo.js"></script>
-    <script src="assets/js/demo.js"></script>
+    <script src="../../assets/js/setting-demo.js"></script>
+    <script src="../../assets/js/demo.js"></script>
     <script>
       $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
         type: "line",

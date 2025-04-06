@@ -58,7 +58,7 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header">
-            <a href="../../index.php" class="logo">
+            <a href="dashboard_lawyer.php" class="logo">
               <img
                 src="../../assets/img/logo.png"
                 alt="navbar brand"
@@ -89,21 +89,21 @@
                 </span>
                 <h4 class="text-section">Menu</h4>
               <li class="nav-item">
-                <a href="forms.php">
+                <a href="form.php">
                   <i class="fas fa-pen-square"></i>
                   <p>Formulario</p>
                   <span class="sub-item"></span>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../tables/datatables.php">
+                <a href="tables.php">
                   <i class="fas fa-table"></i>
                   <p>Tablas</p>
                   <span class="sub-item"></span>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../documentation/documentation.php">
+                <a href="docs.php">
                   <i class="fas fa-file"></i>
                   <p>Documentación</p>
                   <span class="badge badge-secondary"></span>
@@ -143,95 +143,6 @@
                   <a
                     class="nav-link dropdown-toggle"
                     href="#"
-                    id="messageDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="fa fa-envelope"></i>
-                  </a>
-                  <ul
-                    class="dropdown-menu messages-notif-box animated fadeIn"
-                    aria-labelledby="messageDropdown"
-                  >
-                    <li>
-                      <div
-                        class="dropdown-title d-flex justify-content-between align-items-center">
-                          Mensajes
-                        <a href="#" class="small">Marcar Como Leídos</a>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="message-notif-scroll scrollbar-outer">
-                        <div class="notif-center">
-                          <a href="#">
-                            <div class="notif-img">
-                              <img
-                                src="../../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
-                                alt="Img Profile"
-                              />
-                            </div>
-                            <div class="notif-content">
-                              <span class="subject">Admin</span>
-                              <span class="block"> How are you ? </span>
-                              <span class="time">5 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-img">
-                              <img
-                                src="../../assets/img/Logosimbolo-SENA-PRINCIPAL.png"
-                                alt="Img Profile"
-                              />
-                            </div>
-                            <div class="notif-content">
-                              <span class="subject">Tramites</span>
-                              <span class="block"> Ok, Thanks ! </span>
-                              <span class="time">12 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-img">
-                              <img
-                                src="../../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
-                                alt="Img Profile"
-                              />
-                            </div>
-                            <div class="notif-content">
-                              <span class="subject">abogado</span>
-                              <span class="block">
-                                Ready for the meeting today...
-                              </span>
-                              <span class="time">12 minutes ago</span>
-                            </div>
-                          </a>
-                          <a href="#">
-                            <div class="notif-img">
-                              <img
-                                src="../../assets/img/Logotipo-SENA-PRINCIPAL.png"
-                                alt="Img Profile"
-                              />
-                            </div>
-                            <div class="notif-content">
-                              <span class="subject">abogado</span>
-                              <span class="block"> Hi, Apa Kabar ? </span>
-                              <span class="time">17 minutes ago</span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <a class="see-all" href="javascript:void(0);">Ver Todos los Mensajes<i class="fa fa-angle-right"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item topbar-icon dropdown hidden-caret">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
                     id="notifDropdown"
                     role="button"
                     data-bs-toggle="dropdown"
@@ -239,12 +150,9 @@
                     aria-expanded="false"
                   >
                     <i class="fa fa-bell"></i>
-                    <span class="notification">3</span>
+                    <span class="notification"></span>
                   </a>
-                  <ul
-                    class="dropdown-menu notif-box animated fadeIn"
-                    aria-labelledby="notifDropdown"
-                  >
+                  <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                     <li>
                       <div class="dropdown-title">
                         Tienes 3 Notificaciones
@@ -351,9 +259,7 @@
                           </a>
                           <a class="col-6 col-md-4 p-0" href="#">
                             <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-success rounded-circle"
-                              >
+                              <div class="avatar-item bg-success rounded-circle">
                                 <i class="fas fa-envelope"></i>
                               </div>
                               <span class="text">Emails</span>
@@ -361,9 +267,7 @@
                           </a>
                           <a class="col-6 col-md-4 p-0" href="#">
                             <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-primary rounded-circle"
-                              >
+                              <div class="avatar-item bg-primary rounded-circle">
                                 <i class="fas fa-file-invoice-dollar"></i>
                               </div>
                               <span class="text">Archivados</span>
@@ -371,9 +275,7 @@
                           </a>
                           <a class="col-6 col-md-4 p-0" href="#">
                             <div class="quick-actions-item">
-                              <div
-                                class="avatar-item bg-secondary rounded-circle"
-                              >
+                              <div class="avatar-item bg-secondary rounded-circle">
                                 <i class="fas fa-credit-card"></i>
                               </div>
                               <span class="text"></span>
@@ -390,14 +292,12 @@
                     class="dropdown-toggle profile-pic"
                     data-bs-toggle="dropdown"
                     href="#"
-                    aria-expanded="false"
-                  >
+                    aria-expanded="false">
                     <div class="avatar-sm">
                       <img
                         src="../../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
                         alt="..."
-                        class="avatar-img rounded-circle"
-                      />
+                        class="avatar-img rounded-circle"/>
                     </div>
                     <span class="profile-username">
                       <span class="op-7">Hola,</span>
@@ -411,20 +311,12 @@
                       <li>
                         <div class="user-box">
                           <div class="avatar-lg">
-                            <img
-                              src="../../assets/img/profile.jpg"
-                              alt="image profile"
-                              class="avatar-img rounded"
-                            />
+                            <img src="../../assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"/>
                           </div>
                           <div class="u-text">
                             <h4><?php echo htmlspecialchars($_SESSION['nombres']); ?></h4>
                             <p class="text-muted"><?php echo htmlspecialchars($_SESSION['correo']); ?></p>
-                            <a
-                              href="#"
-                              class="btn btn-xs btn-secondary btn-sm"
-                              >Ver Perfil</a
-                            >
+                            <a href="#" class="btn btn-xs btn-secondary btn-sm">Ver Perfil</a>
                           </div>
                         </div>
                       </li>
@@ -435,8 +327,6 @@
                           <?php echo htmlspecialchars($_SESSION['tipo_rol']); ?>
                         </span>
                         </a>
-                        <a class="dropdown-item" href="#">My Balance</a>
-                        <a class="dropdown-item" href="#">Inbox</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Configuracion de la Cuenta</a>
                         <div class="dropdown-divider"></div>
@@ -457,7 +347,7 @@
               <h3 class="fw-bold mb-3">Formularios</h3>
               <ul class="breadcrumbs mb-3">
                 <li class="nav-home">
-                  <a href="../../index.php">
+                  <a href="dashboard_lawyer.php">
                     <i class="icon-home"></i>
                   </a>
                 </li>
@@ -465,7 +355,7 @@
                   <i class="icon-arrow-right"></i>
                 </li>
                 <li class="nav-item">
-                  <a href="forms.php">Formularios</a>
+                  <a href="form.php">Formularios</a>
                 </li>
               </ul>
             </div>

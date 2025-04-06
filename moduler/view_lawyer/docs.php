@@ -2,22 +2,22 @@
   session_start();
 
   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: loggin.php");
+      header("Location: ../../loggin.php");
       exit;
   }
-?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="es">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Trackus Legalys</title>
+    <title>TL Documentación</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="icon" href="assets/img/sena.ico" type="image/x-icon"/>
+    <link rel="icon" href="../../assets/img/sena.ico" type="image/x-icon"/>
 
     <!-- Fonts and icons -->
-    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="../../assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
       WebFont.load({
         google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -28,7 +28,7 @@
             "Font Awesome 5 Brands",
             "simple-line-icons",
           ],
-          urls: ["assets/css/fonts.min.css"],
+          urls: ["../../assets/css/fonts.min.css"],
         },
         active: function () {
           sessionStorage.fonts = true;
@@ -37,12 +37,12 @@
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/plugins.min.css" />
-    <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
+    <link rel="stylesheet" href="../../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="../../assets/css/kaiadmin.min.css" />
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="assets/css/demo.css" />
+    <link rel="stylesheet" href="../../assets/css/demo.css" />
   </head>
   <body>
     <div class="wrapper">
@@ -50,10 +50,10 @@
       <div class="sidebar">
         <div class="sidebar-logo">
           <!-- Logo Header -->
-            <div class="logo-header">
-              <a href="index.php" class="logo">
-                <img src="assets/img/logo.png" alt="navbar brand" class="navbar-brand" height="50"/>
-              </a>
+          <div class="logo-header">
+            <a href="dashboard_lawyer.php" class="logo">
+              <img src="../../assets/img/logo.png" alt="navbar brand" class="navbar-brand" height="50"/>
+            </a>
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">
                 <i class="gg-menu-right"></i>
@@ -76,53 +76,26 @@
                   <i class="fa fa-ellipsis-h"></i>
                 </span>
                 <h4 class="text-section">Menu</h4>
-              </li>
               <li class="nav-item">
-                <a href="moduler/forms/forms.php">
+                <a href="form.php">
                   <i class="fas fa-pen-square"></i>
                   <p>Formulario</p>
                   <span class="sub-item"></span>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="moduler/tables/datatables.php">
+                <a href="tables.php">
                   <i class="fas fa-table"></i>
                   <p>Tablas</p>
                   <span class="sub-item"></span>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="moduler/documentation/documentation.php">
+                <a href="docs.php">
                   <i class="fas fa-file"></i>
                   <p>Documentación</p>
                   <span class="badge badge-secondary"></span>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#submenu">
-                  <i class="fas fa-bars"></i>
-                  <p>Sub-Menu</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="submenu">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a data-bs-toggle="collapse" href="#subnav1">
-                        <span class="sub-item">Creacion de Usuarios</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a data-bs-toggle="collapse" href="#subnav2">
-                        <span class="sub-item">Auditoría</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <span class="sub-item">Informes</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
               </li>
             </ul>
           </div>
@@ -150,7 +123,8 @@
             <!-- End Logo Header -->
           </div>
           <!-- Navbar Header -->
-          <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+          <nav
+            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
             <div class="container-fluid">
               <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                 <li class="nav-item topbar-icon dropdown hidden-caret">
@@ -163,12 +137,12 @@
                     aria-haspopup="true"
                     aria-expanded="false">
                     <i class="fa fa-bell"></i>
-                    <span class="notification">4</span>
+                    <span class="notification"></span>
                   </a>
                   <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                     <li>
                       <div class="dropdown-title">
-                        Tienes 4 Notificaciones
+                        Tienes 3 Notificaciones
                       </div>
                     </li>
                     <li>
@@ -188,16 +162,20 @@
                               <i class="fa fa-comment"></i>
                             </div>
                             <div class="notif-content">
-                              <span class="block">Rahmad commented on Admin</span>
+                              <span class="block">
+                                Rahmad commented on Admin
+                              </span>
                               <span class="time">12 minutes ago</span>
                             </div>
                           </a>
                           <a href="#">
                             <div class="notif-img">
-                              <img src="assets/img/sena.ico" alt="Img Profile"/>
+                              <img src="../../assets/img/profile2.jpg" alt="Img Profile"/>
                             </div>
                             <div class="notif-content">
-                              <span class="block">Reza send messages</span>
+                              <span class="block">
+                                Reza send messages to you
+                              </span>
                               <span class="time">12 minutes ago</span>
                             </div>
                           </a>
@@ -220,11 +198,7 @@
                   </ul>
                 </li>
                 <li class="nav-item topbar-icon dropdown hidden-caret">
-                  <a
-                    class="nav-link"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    aria-expanded="false">
+                  <a class="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                     <i class="fas fa-layer-group"></i>
                   </a>
                   <div class="dropdown-menu quick-actions animated fadeIn">
@@ -275,6 +249,14 @@
                               <span class="text">Archivados</span>
                             </div>
                           </a>
+                          <a class="col-6 col-md-4 p-0" href="#">
+                            <div class="quick-actions-item">
+                              <div class="avatar-item bg-secondary rounded-circle">
+                                <i class="fas fa-credit-card"></i>
+                              </div>
+                              <span class="text"></span>
+                            </div>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -282,16 +264,9 @@
                 </li>
 
                 <li class="nav-item topbar-user dropdown hidden-caret">
-                  <a
-                    class="dropdown-toggle profile-pic"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    aria-expanded="false">
+                  <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                     <div class="avatar-sm">
-                      <img
-                        src="assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png"
-                        alt="..."
-                        class="avatar-img rounded-circle"/>
+                      <img src="../../assets/img/Logosimbolo-SENA-PRINCIPAL-FONDONEGRO.png" alt="..." class="avatar-img rounded-circle"/>
                     </div>
                     <span class="profile-username">
                       <span class="op-7">Hola,</span>
@@ -305,10 +280,7 @@
                       <li>
                         <div class="user-box">
                           <div class="avatar-lg">
-                            <img
-                              src="assets/img/profile.jpg"
-                              alt="image profile"
-                              class="avatar-img rounded"/>
+                            <img src="../../assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"/>
                           </div>
                           <div class="u-text">
                             <h4><?php echo htmlspecialchars($_SESSION['nombres']); ?></h4>
@@ -327,7 +299,7 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Configuracion de la Cuenta</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="module_login/logout.php">Cerrar Sesion</a>
+                        <a class="dropdown-item" href="../../module_login/logout.php">Cerrar Sesion</a>
                       </li>
                     </div>
                   </ul>
@@ -340,274 +312,48 @@
 
         <div class="container">
           <div class="page-inner">
-            <div
-              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-              <div>
-                <h3 class="fw-bold mb-3">Trackus Legalys</h3>
-                <h6 class="op-7 mb-2">Dependencia Cobro Coactivo</h6>
-              </div>
+            <div class="page-header">
+              <h3 class="fw-bold mb-3">Documentación</h3>
+              <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                  <a href="dashboard_lawyer.php">
+                    <i class="icon-home"></i>
+                  </a>
+                </li>
+                <li class="separator">
+                  <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="docs.php">Documentación</a>
+                </li>
+              </ul>
             </div>
             <div class="row">
-              <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div
-                          class="icon-big text-center icon-primary bubble-shadow-small">
-                          <i class="fas fa-users"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Bancos</p>
-                          <h4 class="card-title">32</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div class="icon-big text-center icon-info bubble-shadow-small">
-                          <i class="fas fa-user-check"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Transito</p>
-                          <h4 class="card-title">4</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div class="icon-big text-center icon-success bubble-shadow-small">
-                          <i class="fas fa-luggage-cart"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Camara Comercio</p>
-                          <h4 class="card-title">1</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div class="icon-big text-center icon-secondary bubble-shadow-small">
-                          <i class="far fa-check-circle"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Tramites Activos</p>
-                          <h4 class="card-title">//</h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="card card-round">
-                  <div class="card-body">
-                    <div class="card-head-row card-tools-still-right">
-                      <div class="card-title">Abogados</div>
-                      <div class="card-tools">
-                        <div class="dropdown">
-                          <button
-                            class="btn btn-icon btn-clean me-0"
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false">
-                            <i class="fas fa-ellipsis-h"></i>
-                          </button>
-                          <div
-                            class="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Asignar Tramite</a>
-                            <a class="dropdown-item" href="#">Reasignar Tramite</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-list py-4">
-                      <div class="item-list">
-                        <div class="avatar">
-                          <img class="avatar-img rounded-circle" src="assets/img/jm_denis.jpg" alt="..."/>
-                        </div>
-                        <div class="info-user ms-3">
-                          <div class="username">Abogado 1</div>
-                          <div class="status">Tramite ...</div>
-                        </div>
-                        <button class="btn btn-icon btn-link op-8 me-1">
-                          <i class="far fa-envelope"></i>
-                        </button>
-                        <button class="btn btn-icon btn-link btn-danger op-8">
-                          <i class="fas fa-ban"></i>
-                        </button>
-                      </div>
-                      <div class="item-list">
-                        <div class="avatar">
-                          <span class="avatar-title rounded-circle border border-white">CF</span>
-                        </div>
-                        <div class="info-user ms-3">
-                          <div class="username">Abogado 2</div>
-                          <div class="status">Tramite ...</div>
-                        </div>
-                        <button class="btn btn-icon btn-link op-8 me-1">
-                          <i class="far fa-envelope"></i>
-                        </button>
-                        <button class="btn btn-icon btn-link btn-danger op-8">
-                          <i class="fas fa-ban"></i>
-                        </button>
-                      </div>
-                      <div class="item-list">
-                        <div class="avatar">
-                          <img src="assets/img/talha.jpg" alt="..." class="avatar-img rounded-circle"/>
-                        </div>
-                        <div class="info-user ms-3">
-                          <div class="username">Abogado 3</div>
-                          <div class="status">Tramite ...</div>
-                        </div>
-                        <button class="btn btn-icon btn-link op-8 me-1">
-                          <i class="far fa-envelope"></i>
-                        </button>
-                        <button class="btn btn-icon btn-link btn-danger op-8">
-                          <i class="fas fa-ban"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-8">
-                <div class="card card-round">
+              <div class="col-md-12">
+                <div class="card">
                   <div class="card-header">
-                    <div class="card-head-row card-tools-still-right">
-                      <div class="card-title">Historial Auditoria</div>
-                      <div class="card-tools">
-                        <div class="dropdown">
-                          <button
-                            class="btn btn-icon btn-clean me-0"
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false">
-                            <i class="fas fa-ellipsis-h"></i>
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                          </div>
+                    <div class="card-title">Archivos - Plantillas</div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6 col-lg-4">
+                        <div class="form-group">
+                          <label for="exampleFormControlFile1">Importar Documento</label>
+                          <input type="file" class="form-control-file" id="exampleFormControlFile1"/>
                         </div>
+                        <div class="form-group">
+                          <label for="comment">Commentario</label>
+                          <textarea class="form-control" id="comment" rows="5">
+                          </textarea>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-4">
                       </div>
                     </div>
                   </div>
-                  <div class="card-body p-0">
-                    <div class="table-responsive">
-                      <!-- Projects table -->
-                      <table class="table align-items-center mb-0">
-                        <thead class="thead-light">
-                          <tr>
-                            <th scope="col">Funcionario</th>
-                            <th scope="col" class="text-end">Fecha -Hora</th>
-                            <th scope="col" class="text-end">Cambios</th>
-                            <th scope="col" class="text-end">Estado</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">
-                              <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">
-                              <button class="btn btn-icon btn-round btn-success btn-sm me-2">
-                                <i class="fa fa-check"></i>
-                              </button>
-                              Payment from #10231
-                            </th>
-                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
-                            <td class="text-end">$250.00</td>
-                            <td class="text-end">
-                              <span class="badge badge-success">Completed</span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                  <div class="card-action">
+                    <button class="btn btn-success">Enviar</button>
+                    <button class="btn btn-danger">Cancelar</button>
                   </div>
                 </div>
               </div>
@@ -633,14 +379,15 @@
               </ul>
             </nav>
             <div class="copyright">
-              2025, Rediseñado por <i class="#"></i>
+              2025, creado por <i class="#"></i>
               <a href="#">Equipo Responsable</a>
             </div>
             <div>
               Creado para 
               <a target="_blank" href="https://www.sena.edu.co/es-co/Paginas/default.aspx"> SENA - CSET</a>.
-            </div>
-            <!--
+            </div> 
+          </div>
+              <!--
           </div>
           <div class="container-fluid d-flex justify-content-between">
 					<nav class="pull-left">
@@ -671,7 +418,7 @@
         </footer>
       </div>
 
-      <!-- Custom template | don't include it in your project
+      <!-- Custom template | don't include it in your project!
       <div class="custom-template">
         <div class="title">Settings</div>
         <div class="custom-content">
@@ -686,7 +433,7 @@
                 ></button>
                 <button
                   type="button"
-                  class="changeLogoHeaderColor"
+                  class="selected changeLogoHeaderColor"
                   data-color="blue"
                 ></button>
                 <button
@@ -797,7 +544,7 @@
                 ></button>
                 <button
                   type="button"
-                  class="selected changeTopBarColor"
+                  class="changeTopBarColor"
                   data-color="white"
                 ></button>
                 <br />
@@ -808,7 +555,7 @@
                 ></button>
                 <button
                   type="button"
-                  class="changeTopBarColor"
+                  class="selected changeTopBarColor"
                   data-color="blue2"
                 ></button>
                 <button
@@ -843,12 +590,12 @@
               <div class="btnSwitch">
                 <button
                   type="button"
-                  class="changeSideBarColor"
+                  class="selected changeSideBarColor"
                   data-color="white"
                 ></button>
                 <button
                   type="button"
-                  class="selected changeSideBarColor"
+                  class="changeSideBarColor"
                   data-color="dark"
                 ></button>
                 <button
@@ -863,73 +610,47 @@
         <div class="custom-toggle">
           <i class="icon-settings"></i>
         </div>
-      </div> 
+      </div>
     -->
       <!-- End Custom template -->
     </div>
     <!--   Core JS Files   -->
-    <script src="assets/js/core/jquery-3.7.1.min.js"></script>
-    <script src="assets/js/core/popper.min.js"></script>
-    <script src="assets/js/core/bootstrap.min.js"></script>
+    <script src="../../assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="../../assets/js/core/popper.min.js"></script>
+    <script src="../../assets/js/core/bootstrap.min.js"></script>
 
     <!-- jQuery Scrollbar -->
-    <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="../../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
     <!-- Chart JS -->
-    <script src="assets/js/plugin/chart.js/chart.min.js"></script>
+    <script src="../../assets/js/plugin/chart.js/chart.min.js"></script>
 
     <!-- jQuery Sparkline -->
-    <script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <script src="../../assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 
     <!-- Chart Circle -->
-    <script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+    <script src="../../assets/js/plugin/chart-circle/circles.min.js"></script>
 
     <!-- Datatables -->
-    <script src="assets/js/plugin/datatables/datatables.min.js"></script>
+    <script src="../../assets/js/plugin/datatables/datatables.min.js"></script>
 
-    <!-- Bootstrap Notify 
-    <script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <!-- Bootstrap Notify
+    <script src="../../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
     -->
-    <!-- jQuery Vector Maps -->
-    <script src="assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-    <script src="assets/js/plugin/jsvectormap/world.js"></script>
+    <!-- jQuery Vector Maps
+    <script src="../../assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="../../assets/js/plugin/jsvectormap/world.js"></script>
+    -->
+    <!-- Google Maps Plugin -->
+    <script src="../../assets/js/plugin/gmaps/gmaps.js"></script>
 
     <!-- Sweet Alert -->
-    <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+    <script src="../../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
     <!-- Kaiadmin JS -->
-    <script src="assets/js/kaiadmin.min.js"></script>
+    <script src="../../assets/js/kaiadmin.min.js"></script>
 
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="assets/js/setting-demo.js"></script>
-    <script src="assets/js/demo.js"></script>
-    <script>
-      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#177dff",
-        fillColor: "rgba(23, 125, 255, 0.14)",
-      });
-
-      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#f3545d",
-        fillColor: "rgba(243, 84, 93, .14)",
-      });
-
-      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#ffa534",
-        fillColor: "rgba(255, 165, 52, .14)",
-      });
-    </script>
+    <script src="../../assets/js/setting-demo2.js"></script>
   </body>
 </html>
