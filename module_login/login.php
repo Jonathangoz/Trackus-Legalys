@@ -84,7 +84,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['tipo_rol'] = $user['tipo_rol'];
 
                 echo "Autenticación exitosa. Redirigiendo al index...";
-                header("Location: ../index.php");
+                switch ($user['tipo_rol']) {
+                    case 'ADMIN':
+                        header("Location: ../index.php");
+                        break;
+                    case 'ADMIN_TRAMITE':
+                        header("Location: ../../dashboard_process.php");
+                        break;
+                    case 'ABOGADO_1':
+                        header("Location: ../../dashboard_lawyer.php");
+                        break;
+                    case 'ABOGADO_2':
+                        header("Location: ../../dashboard_lawyer.php");
+                        break;
+                    case 'ABOGADO_3':   
+                        header("Location: ../../dashboard_lawyer.php");
+                        break;
+                    case 'USUARIOS':
+                        header("Location: ../../dashboard_user.php");
+                        break;
+                    default:
+                        $_SESSION['error'] = "Rol no reconocido.";
+                        echo "Error: " . $_SESSION['error'];
+                        header("Location: ../loggin.php");
+                        exit;
+                }
                 exit;
             } else {
                 // Manejar contraseña incorrecta

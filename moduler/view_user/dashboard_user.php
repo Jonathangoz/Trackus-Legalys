@@ -5,6 +5,13 @@
       header("Location: ../../loggin.php");
       exit;
   }
+
+  if($_SESSION['tipo_rol'] !== 'USUARIOS') {
+    header("Location: ../../loggin.php");
+    //Cerrar la sesión si el rol no es Abogado
+    session_unset(); // Destruir todas las variables de sesión
+    exit;
+}
 ?>
 
 
