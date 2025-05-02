@@ -72,8 +72,8 @@ function initializeCalendar() {
         return alert('Complete todos los campos');
       }
 
-    // Guardar en localStorage (o aquí podrías hacer AJAX a tu PHP)
-  let all = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
+    // Guardar en SessionStorage (o aquí podrías hacer AJAX a tu PHP)
+  let all = JSON.parse(sessionStorage.getItem('calendarEvents') || '[]');
 
   if (idField) {
     // --- MODO EDITAR ---
@@ -85,7 +85,7 @@ function initializeCalendar() {
   }
 
     // Guardo y limpio form
-      localStorage.setItem('calendarEvents', JSON.stringify(all));
+      sessionStorage.setItem('calendarEvents', JSON.stringify(all));
       eventForm.reset();
       document.getElementById('eventId').value = '';
       eventForm.style.display = 'none';
@@ -124,7 +124,7 @@ function showEventsList() {
   cont.innerHTML = `<h4>Eventos de ${monthName.toUpperCase()}</h4>`;
 
   // Recupero y filtro
-  const all = JSON.parse(localStorage.getItem('calendarEvents') || '[]')
+  const all = JSON.parse(sessionStorage.getItem('calendarEvents') || '[]')
     .filter(ev => {
       const d = new Date(ev.date);
       return d.getFullYear() === year && d.getMonth() === month;
@@ -161,9 +161,9 @@ function showEventsList() {
 
 function deleteEvent(id) {
   // 1) Elimino del storage
-  let all = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
+  let all = JSON.parse(sessionStorage.getItem('calendarEvents') || '[]');
   all = all.filter(x => String(x.id) !== String(id));
-  localStorage.setItem('calendarEvents', JSON.stringify(all));
+  sessionStorage.setItem('calendarEvents', JSON.stringify(all));
 
   // 2) Refresco calendario
   generateCalendar(currentDate);
@@ -176,7 +176,7 @@ function deleteEvent(id) {
 }
 
 function editEvent(id) {
-  const all = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
+  const all = JSON.parse(sessionStorage.getItem('calendarEvents') || '[]');
   const ev  = all.find(x => String(x.id) === String(id));
   if (!ev) return;
 
@@ -242,7 +242,7 @@ function loadEvents() {
     .querySelectorAll('.events-container')
     .forEach(ec => ec.innerHTML = '');
 
-  const events = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
+  const events = JSON.parse(sessionStorage.getItem('calendarEvents') || '[]');
   const year  = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
