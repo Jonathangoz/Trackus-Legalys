@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=+, initial-scale=1.0">
-    <title>Consultas</title>
-    <link rel="stylesheet" href="CSS/Consultas.css">
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Consultas</title>
+        <link rel="stylesheet" href="CSS/Consultas.css">
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    </head>
     
-</body>
-    </html>
-
+    <body>
+        <div class="top">
+            <a href="https://www.gov.co" target="_blank" alt="Gov.co" rel="noopener noreferrer">
+                <img class="gov" src="https://css.mintic.gov.co/mt/mintic/img/header_govco.png" alt="Gov Co">
+            </a>
+        </div>
         <div class="container">
                 <div class="section-title">
                     <h2>Consulta de Procesos</h2>
-                    <p>Consulte el estado actual de su proceso de cobro coactivo utilizando su número de identificación o el número del proceso.</p>
+                    <p>Consulte el estado actual de su proceso, utilizando su número de identificación o el número del proceso.</p>
                 </div>
                 <div class="form-container">
                     <h3>Formulario de Consulta</h3>
@@ -42,7 +47,7 @@
                             <input type="text" id="num-proceso" placeholder="Si conoce el número de proceso, ingréselo aquí">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn" style="border: none; cursor: pointer; width: 100%;">Consultar</button>
+                            <button type="submit" class="btn">Consultar</button>
                         </div>
                     </form>
                 </div>

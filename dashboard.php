@@ -1,3 +1,19 @@
+<?php
+  session_start();
+
+  if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+      header("Location: index.html");
+      exit;
+  }
+
+  if($_SESSION['tipo_rol'] !== 'ADMIN'){
+    header("Location: index.html");
+    session_destroy();
+    session_unset();
+    exit;
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -31,7 +47,7 @@
                   <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
                   <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configuración</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item text-danger" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</a></li>
+                  <li><a class="dropdown-item text-danger" href="module_login/logout.php"><i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</a></li>
                 </ul>
               </div>
         </div>
@@ -57,11 +73,7 @@
                             <a class="nav-link" href="./Deudores.html">
                                 <i class="bi bi-people-fill me-2"></i> Deudores
                             </a>
-                        </li>
-                        
-                       
-                       
-                     
+                        </li>                    
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="bi bi-graph-up me-2"></i> Reportes
@@ -148,9 +160,9 @@
                                         <td>15/03/2025</td>
                                         <td><span class="status-badge status-activo">Activo</span></td>
                                         <td>
-                                            <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button>
-                                            <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
-                                            <button class="btn btn-sm btn-outline-info"><i class="bi bi-file-earmark"></i></button>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" aria-label="Ver detalles"><i class="bi bi-eye"></i></button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" aria-label="Ver detalles"><i class="bi bi-pencil"></i></button>
+                                            <button type="button" class="btn btn-sm btn-outline-info" aria-label="Ver detalles"><i class="bi bi-file-earmark"></i></button>
                                         </td>
                                     </tr>
                                     <!-- Más filas de la tabla... -->
@@ -189,9 +201,9 @@
                                         <td>Administrador</td>
                                         <td><span class="status-badge status-activo">Activo</span></td>
                                         <td>
-                                            <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
-                                            <button class="btn btn-sm btn-outline-warning"><i class="bi bi-lock"></i></button>
-                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" aria-label="ver detalles"><i class="bi bi-pencil"></i></button>
+                                            <button type="button" class="btn btn-sm btn-outline-warning" aria-label="ver detalles"><i class="bi bi-lock"></i></button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" aria-label="ver detalles"><i class="bi bi-trash"></i></button>
                                         </td>
                                     </tr>
                                     <!-- Más filas de la tabla... -->
