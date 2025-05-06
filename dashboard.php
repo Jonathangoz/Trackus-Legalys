@@ -20,71 +20,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Cobro Coactivo - SENA Regional Santander</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <!-- Favicon -->
     <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="CSS/dashboard.css">
-    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
 </head>
-<body class="d-flex flex-column min-vh-100">
-    <!-- Encabezado -->
-    <header class="navbar navbar-dark navbar-custom sticky-top">
-        <div class="container-fluid">
-            <div class="d-flex align-items-center">
-                <img src="img/sena.blanco.png" alt="Logo SENA" height="40" class="me-3">
-                <span class="navbar-brand mb-0 h1">Sistema de Cobro Coactivo - Regional Santander</span>
-            </div>
-            
-            <div class="dropdown">
-                <button class="btn dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background: none; border: none; color: white;">
-                  <span class="me-2">Bienvenido, Admin</span>
-                  <div class="rounded-circle bg-white text-primary d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">A</div>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                  <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configuración</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item text-danger" href="module_login/logout.php"><i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</a></li>
+<body>
+    <!-- Botón de volver arriba -->
+    <button type="button" id="backToTopBtn" title="Volver arriba">
+        <i class="fa-solid fa-arrow-up fa-lg" aria-hidden="true"></i>
+    </button>
+    <!-- Encabezado del gobierno -->
+    <div class="top">
+        <a href="https://www.gov.co" target="_blank" alt="Gov.co" rel="noopener noreferrer">
+            <img class="gov" src="https://css.mintic.gov.co/mt/mintic/img/header_govco.png" alt="Gov Co">
+        </a>
+    </div>
+    <!-- Encabezado --> 
+    <header>
+        <div class="logo-container">
+            <img src="img/sena.blanco.png" class="img-sena" alt="Logo SENA">            
+            <p>SENA Regional Santander</p>
+        </div>
+        <div class="title-container">
+            <h1>Sistema de Cobro Coactivo</h1>
+        </div> 
+        <div class="user-home">
+            <div class="dropdown" id="dropdownContainer">
+                <input type="checkbox" id="userToggle" hidden>
+                <label for="userToggle" class="dropdown-toggle">
+                    <span class="user-name">Bienvenido, Admin</span>
+                    <div class="avatar">
+                        <i class="fa-solid fa-user fa-lg" style="margin-right: 6px;"></i>
+                        <i class="fa-solid fa-caret-down" style="margin-right: 6px;"></i>
+                    </div>
+                </label>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="drop"><i class="fa-solid fa-user me-2" style="margin-right: 15px;"></i>Perfil</a></li>
+                    <li><a href="#" class="drop"><i class="fa-solid fa-gear me-2" style="margin-right: 15px;"></i>Configuración</a></li>
+                    <li><hr></li>
+                    <li><a href="module_login/logout.php" class="sesion"><i class="fa-solid fa-right-from-bracket me-2" style="margin-right: 15px;"></i>Cerrar sesión</a></li>
                 </ul>
-              </div>
+            </div>
         </div>
     </header>
 
-    <div class="container-fluid flex-grow-1">
+    <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column">
+            <nav class="sidebar">
+                <div class="position">
+                    <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link active" href="dashboard.php">
-                              <!--  <i class="bi bi-house-door-fill me-2"></i> Inicio -->
-                                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                            <a href="dashboard.php" style="text-decoration: none;">
+                                <i class="fa-solid fa-gauge-high me-2" style="color: white; margin-right: 18px;"></i>
+                                    <span class="text" style="color: white;">Dashboard</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="procesos.php">
-                                <i class="bi bi-files me-2"></i> Procesos
+                            <a href="procesos.php" style="text-decoration: none;"><i class="fa-solid fa-copy me-2" style="color: white; margin-right: 19px;"></i>
+                                <span class="text" style="color: white;">Procesos</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./Deudores.html">
-                                <i class="bi bi-people-fill me-2"></i> Deudores
+                            <a href="Deudores.php" style="text-decoration: none;"><i class="fa-solid fa-users me-2" style="color: white; margin-right: 15px;"></i>
+                                <span class="text" style="color: white;">Deudores</span>
                             </a>
                         </li>                    
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="bi bi-graph-up me-2"></i> Reportes
+                            <a href="#" style="text-decoration: none;"><i class="fa-solid fa-chart-line me-2" style="color: white; margin-right: 18px;"></i>
+                                <span class="text" style="color: white;">Reportes</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="bi bi-gear-fill me-2"></i> Configuración
+                            <a href="#" style="text-decoration: none;"><i class="fa-solid fa-cog me-2" style="color: white; margin-right: 18px;"></i>
+                                <span class="text" style="color: white;">Configuración</span>
                             </a>
                         </li>
                     </ul>
@@ -92,37 +105,37 @@
             </nav>
 
             <!-- Contenido principal -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 main-content">
-                <h2 class="h3 mb-4">Dashboard de Cobro Coactivo</h2>
+            <main class="main-content">
+                <h2>Dashboard de Cobro Coactivo</h2>
                 
                 <!-- Estadísticas -->
-                <div class="row mb-4">
-                    <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card h-100 stat-card">
+                <div class="row-content">
+                    <div class="cuadros">
+                        <div class="card-1 stat-card">
                             <div class="card-body">
                                 <h5 class="card-title">Bancos</h5>
                                 <p class="card-text display-6">124</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card h-100 stat-card">
+                    <div class="cuadros">
+                        <div class="card-1 stat-card">
                             <div class="card-body">
                                 <h5 class="card-title">Transito</h5>
                                 <p class="card-text display-6">$825.4M</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card h-100 stat-card">
+                    <div class="cuadros">
+                        <div class="card-1 stat-card">
                             <div class="card-body">
                                 <h5 class="card-title">Camara de Comercio</h5>
                                 <p class="card-text display-6">18</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="card h-100 stat-card">
+                    <div class="cuadros">
+                        <div class="card-1 stat-card">
                             <div class="card-body">
                                 <h5 class="card-title">Tramites Activos</h5>
                                 <p class="card-text display-6">$56.2M</p>
@@ -132,20 +145,20 @@
                 </div>
                 
                 <!-- Tabla de procesos -->
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Procesos recientes</h5>
-                        <div class="d-flex">
-                            <input type="text" class="form-control me-2" placeholder="Buscar proceso..." style="width: 200px;">
-                            <button class="btn btn-primary">
-                                <i class="bi bi-plus-circle"></i> Nuevo proceso
+                <div class="card-2">
+                    <div class="card-header">
+                        <h4 class="mb-0">Procesos recientes</h4>
+                        <div class="card-h">
+                            <input type="text" class="form-control" placeholder="Buscar proceso..." style="width: 200px;">
+                            <button class="btn btn-new-user">
+                                <i class="fa-solid fa-plus-circle"></i> Nuevo proceso
                             </button>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
+                    <div class="card-body-table">
+                        <div>
+                            <table class="table">
+                                <thead class="table-head">
                                     <tr>
                                         <th>No. Proceso</th>
                                         <th>Deudor</th>
@@ -163,9 +176,9 @@
                                         <td>15/03/2025</td>
                                         <td><span class="status-badge status-activo">Activo</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-outline-primary" aria-label="Ver detalles"><i class="bi bi-eye"></i></button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary" aria-label="Ver detalles"><i class="bi bi-pencil"></i></button>
-                                            <button type="button" class="btn btn-sm btn-outline-info" aria-label="Ver detalles"><i class="bi bi-file-earmark"></i></button>
+                                            <button type="button" class="btn btn-sm" aria-label="Ver detalles"><i class="fa-solid fa-eye me-2" style="color: #198754;"></i></button>
+                                            <button type="button" class="btn btn-sm" aria-label="Editar"><i class="fa-solid fa-pen me-2" style="color: #0d6efd;"></i></button>
+                                            <button type="button" class="btn-sm" aria-label="Descargar"><i class="fa-solid fa-download" style="color:rgb(10, 69, 156);"></i></button>
                                         </td>
                                     </tr>
                                     <!-- Más filas de la tabla... -->
@@ -176,17 +189,19 @@
                 </div>
                 
                 <!-- Sección de usuarios -->
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Administración de Usuarios</h5>
-                        <button class="btn btn-new-user" data-bs-toggle="modal" data-bs-target="#userModal">
-                            <i class="bi bi-person-plus"></i> Nuevo usuario
-                        </button>
+                <div class="card-3">
+                    <div class="card-header">
+                        <h4>Administración de Usuarios</h4>
+                        <div class="card-h">
+                            <button class="btn btn-new-user" data-bs-toggle="modal" data-bs-target="#userModal">
+                                <i class="fa-solid fa-user-plus"></i> Nuevo usuario
+                            </button>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
+                    <div class="card-body-table">
+                        <div>
+                            <table class="table">
+                                <thead class="table-head">
                                     <tr>
                                         <th>ID</th>
                                         <th>Nombre</th>
@@ -204,9 +219,9 @@
                                         <td>Administrador</td>
                                         <td><span class="status-badge status-activo">Activo</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary" aria-label="ver detalles"><i class="bi bi-pencil"></i></button>
-                                            <button type="button" class="btn btn-sm btn-outline-warning" aria-label="ver detalles"><i class="bi bi-lock"></i></button>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" aria-label="ver detalles"><i class="bi bi-trash"></i></button>
+                                            <button type="button" class="btn btn-sm" aria-label="ver detalles"><i class="fa-solid fa-pen" style="color: #0d6efd;"></i></button>
+                                            <button type="button" class="btn btn-sm" aria-label="ver detalles"><i class="fa-solid fa-lock" style="color: #6c757d;"></i></button>
+                                            <button type="button" class="btn btn-sm" aria-label="ver detalles"><i class="fa-solid fa-trash" style="color: #dc3545;"></i></button>
                                         </td>
                                     </tr>
                                     <!-- Más filas de la tabla... -->
@@ -219,7 +234,7 @@
         </div>
     </div>
 
-    <!-- Modal para creación de usuarios -->
+    <!-- Modal para creación de usuarios 
     <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -282,19 +297,16 @@
                 </div>
             </div>
         </div>
-    </div>
-
+    </div> -->
     <!-- Footer -->
-    <footer class="mt-auto bg-dark text-white py-3">
+    <footer class="footer">
         <div class="container text-center">
             <p class="mb-0">© 2025 SENA - Servicio Nacional de Aprendizaje | Regional Santander</p>
         </div>
-    </footer>
-
-    <!-- Bootstrap 5 JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/dashaboard.js"></script>
-    <!-- Scripts personalizados -->
-     
+    </footer>     
 </body>
 </html>
+<!-- Scripts del Boton -->
+<script src="js/back-to-top.js"></script>
+<!-- Scripts dashboard -->
+<script src="js/dashaboard.js"></script>

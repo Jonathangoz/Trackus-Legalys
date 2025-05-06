@@ -11,9 +11,11 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+    <!-- Botón de volver arriba -->
     <button type="button" id="backToTopBtn" title="Volver arriba">
         <i class="fa-solid fa-arrow-up fa-lg" aria-hidden="true"></i>
     </button>
+    <!-- Encabezado del gobierno -->
     <div class="top">
         <a href="https://www.gov.co" target="_blank" alt="Gov.co" rel="noopener noreferrer">
             <img class="gov" src="https://css.mintic.gov.co/mt/mintic/img/header_govco.png" alt="Gov Co">
@@ -30,15 +32,19 @@
         <div class="user-home">
             <div class="home">
                 <a href="dashboard.php" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
-                <div>
-                    <span class="text" style="color: white;">Dashboard</span>
-                </div></a>
+                    <div>
+                        <span class="text" style="color: white;">Dashboard</span>
+                    </div>
+                </a>
             </div>
             <div class="dropdown" id="dropdownContainer">
                 <input type="checkbox" id="userToggle" hidden>
                 <label for="userToggle" class="dropdown-toggle">
                     <span class="user-name">Bienvenido, Admin</span>
-                    <div class="avatar"><i class="fa-solid fa-user fa-lg" style="margin-right: 6px;"></i></div>
+                    <div class="avatar">
+                        <i class="fa-solid fa-user fa-lg" style="margin-right: 6px;"></i>
+                        <i class="fa-solid fa-caret-down" style="margin-right: 6px;"></i>
+                    </div>
                 </label>
                 <ul class="dropdown-menu">
                     <li><a href="#" class="drop"><i class="fa-solid fa-user me-2" style="margin-right: 15px;"></i>Perfil</a></li>
@@ -64,7 +70,6 @@
                 <button id="search-btn">Buscar</button>
             </div>
         </section>
-        
         <section class="stats-section">
             <div class="stat-card">
                 <div class="stat-title">Total de Procesos</div>
@@ -86,8 +91,7 @@
                 <div class="stat-number">124</div>
                 <div>Procesos</div>
             </div>
-        </section>
-        
+        </section>    
         <section class="process-section">
             <div class="process-header">
                 <h2>Listado de Procesos</h2>
@@ -98,7 +102,6 @@
                     <option value="suspendido">Suspendido</option>
                 </select>
             </div>
-            
             <div class="process-list">
                 <div class="process-list-header">
                     <div>No. Radicado</div>
@@ -108,12 +111,10 @@
                     <div>Estado</div>
                 </div>
                 <!-- Los items serán cargados dinamicamente con JavaScript -->
-            </div>
-            
+            </div>            
             <div id="process-details" class="process-detail">
-                <!-- Detalles del proceso seleccionado serán cargados aquí -->
-            </div>
-            
+            <!-- Detalles del proceso seleccionado serán cargados aquí -->
+            </div>            
             <div class="pagination">
                 <button id="prev-page">←</button>
                 <button class="active">1</button>
@@ -124,13 +125,12 @@
         </section>
     </div>    
     <footer>
-        <p>© 2025 SENA - Servicio Nacional de Aprendizaje</p>
         <p>Regional Santander - Área de Cobro Coactivo</p>
         <p>Dirección: Calle 16 No. 27-37 Bucaramanga</p>
         <p>Teléfono: (607) 6800600</p>
+        <p>© 2025 SENA - Servicio Nacional de Aprendizaje</p>
     </footer>
 </body>
 </html>
 <script src="js/back-to-top.js"></script>
-<script src="js/Procesos.js"></script>
-<script src="js/dashaboard.js"></script>    
+<script src="js/Procesos.js"></script>   

@@ -82,7 +82,7 @@ h2 {
     right: 30px;
     z-index: 99;
     font-size: 18px;
-    background-color: var(--color-primary);
+    background-color: var(--sena-dark-green);
     color: white;
     border: none;
     outline: none;
@@ -112,12 +112,20 @@ h2 {
     gap: 2rem;
 }
 
-.home, .dropdown-toggle {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-block-start: 1.4%;
 }
+
+.dropdown-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 
 .home i, .dropdown-toggle .avatar i {
   margin-bottom: 6px;
@@ -261,6 +269,19 @@ input, select, button {
 
 input, select {
     flex-grow: 1;
+}
+
+button {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--sena-dark-green);
 }
 
 .process-section {
@@ -431,7 +452,7 @@ input, select {
 }
 
 footer {
-    background-color: var(--sena-dark-green);
+    background-color: var(--color-primary);
     color: white;
     text-align: center;
     padding: 2rem 1rem;
