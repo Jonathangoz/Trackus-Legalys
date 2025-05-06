@@ -4,17 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Procesos de Cobro Coactivo - SENA Regional Santander</title>
-    <link rel="stylesheet" href="./CSS/procesos.css">
-    
+    <link rel="stylesheet" href="CSS/procesos.css">
+     <!-- Favicon -->
+     <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
+     <!-- Fonts -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+    <button type="button" id="backToTopBtn" title="Volver arriba">
+        <i class="fa-solid fa-arrow-up fa-lg" aria-hidden="true"></i>
+    </button>
+    <div class="top">
+        <a href="https://www.gov.co" target="_blank" alt="Gov.co" rel="noopener noreferrer">
+            <img class="gov" src="https://css.mintic.gov.co/mt/mintic/img/header_govco.png" alt="Gov Co">
+        </a>
+    </div>
     <header>
         <div class="logo-container">
-            <img src="./proyecto/img/sena.blanco.png" alt="Logo SENA">
-            
+            <img src="img/sena.blanco.png" class="img-sena" alt="Logo SENA">            
+            <p>SENA Regional Santander</p>
         </div>
-        <h1>Procesos de Cobro Coactivo</h1>
-        <p>SENA Regional Santander</p>
+        <div class="title-container">
+            <h1>Procesos de Cobro Coactivo</h1>
+        </div>       
+        <div class="user-home">
+            <div class="home">
+                <a href="dashboard.php" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
+                <div>
+                    <span class="text" style="color: white;">Dashboard</span>
+                </div></a>
+            </div>
+            <div class="dropdown" id="dropdownContainer">
+                <input type="checkbox" id="userToggle" hidden>
+                <label for="userToggle" class="dropdown-toggle">
+                    <span class="user-name">Bienvenido, Admin</span>
+                    <div class="avatar"><i class="fa-solid fa-user fa-lg" style="margin-right: 6px;"></i></div>
+                </label>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="drop"><i class="fa-solid fa-user me-2" style="margin-right: 15px;"></i>Perfil</a></li>
+                    <li><a href="#" class="drop"><i class="fa-solid fa-gear me-2" style="margin-right: 15px;"></i>Configuración</a></li>
+                    <li><hr></li>
+                    <li><a href="module_login/logout.php" class="sesion"><i class="fa-solid fa-right-from-bracket me-2" style="margin-right: 15px;"></i>Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
     </header>
     
     <div class="container">
@@ -27,6 +60,7 @@
                     <option value="radicado">Número de radicado</option>
                     <option value="nombre">Nombre del deudor</option>
                 </select>
+                <i class="fa-solid fa-chevron-down"></i>
                 <button id="search-btn">Buscar</button>
             </div>
         </section>
@@ -88,14 +122,15 @@
                 <button id="next-page">→</button>
             </div>
         </section>
-    </div>
-    
+    </div>    
     <footer>
         <p>© 2025 SENA - Servicio Nacional de Aprendizaje</p>
         <p>Regional Santander - Área de Cobro Coactivo</p>
         <p>Dirección: Calle 16 No. 27-37 Bucaramanga</p>
         <p>Teléfono: (607) 6800600</p>
     </footer>
-    <script src="proyecto/js/Procesos.js"></script>
 </body>
 </html>
+<script src="js/back-to-top.js"></script>
+<script src="js/Procesos.js"></script>
+<script src="js/dashaboard.js"></script>    
