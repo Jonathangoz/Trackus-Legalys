@@ -72,7 +72,7 @@
       <button 
         class="btn-gradient text-white font-semibold py-3 px-4 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-sena-green" 
         type="submit"
-        href="dashboard.html"
+        href="dashboard.php"
         aria-label="Iniciar Sesión">
         Iniciar Sesión
       </button>

@@ -24,8 +24,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Favicon -->
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
     <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="CSS/dashboar.css">
+    <link rel="stylesheet" href="CSS/dashboard.css">
     
     
 </head>
@@ -60,12 +62,13 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
+                            <a class="nav-link active" href="dashboard.php">
+                              <!--  <i class="bi bi-house-door-fill me-2"></i> Inicio -->
                                 <i class="bi bi-speedometer2 me-2"></i> Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./procesos.html">
+                            <a class="nav-link" href="procesos.php">
                                 <i class="bi bi-files me-2"></i> Procesos
                             </a>
                         </li>
@@ -290,7 +293,7 @@
 
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/dashaboart.js"></script>
+    <script src="js/dashaboard.js"></script>
     <!-- Scripts personalizados -->
      
 </body>

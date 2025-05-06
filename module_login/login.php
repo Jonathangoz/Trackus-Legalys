@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Autenticación exitosa. Redirigiendo al index...";
                 switch ($user['tipo_rol']) {
                     case 'ADMIN':
-                        header("Location: ../dashboard.html");
+                        header("Location: ../dashboard.php");
                         break;
                     case 'ADMIN_TRAMITE':
                         header("Location: ../moduler/view_process/dashboard_process.php");
