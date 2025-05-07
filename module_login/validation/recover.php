@@ -58,10 +58,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             if ($updateUsuarios->rowCount() > 0) {
                 $_SESSION['success'] = "Contraseña actualizada correctamente.";
-                header("Location: ../../loggin.php");
+                header("Location: ../../logging.php");
             } elseif ($updateFuncionarios->rowCount() > 0) {
                 $_SESSION['success'] = "Contraseña actualizada correctamente.";
-                header("Location: ../../loggin.php");
+                header("Location: ../../logging.php");
             } else {
                 $_SESSION['error3'] = "No se encontró ningún usuario con ese correo.";
                 header("Location: verification.php");

@@ -6,7 +6,7 @@
   <title>SENA - Recuperar Contraseña</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
   <link href="../../CSS/styles2.css" rel="stylesheet">
-  <link rel="icon" href="../../img/sena.ico" type="image/x-icon"/>
+  <link rel="icon" href="../../img/favicon.ico" type="image/x-icon"/>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col justify-center items-center p-4">
   <div class="card bg-white p-8 w-full max-w-md mx-auto shadow-lg rounded-lg">
@@ -56,7 +56,7 @@
         }
       ?>
     
-    <div class="mt-10 text-center">
+    <div class="mt-6 text-center">
       <div class="border-t border-gray-200 pt-4">
             <p class="text-sm text-gray-600">
                 © 2025 SENA - Trackus Legalys
