@@ -1,17 +1,30 @@
 :root {
   --sena-green: #39A900;
-  --sena-green-light: #56C133;
-  --sena-green-dark: #1E6B00; /* Nuevo color verde oscuro */
+  --sena-green-light: #46d417;
+  --sena-green-dark: #267e03; /* Nuevo color verde oscuro */
+  --color-gray: #777;
 }
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, var(--sena-green-dark) 0%, #FFFFFF 100%); /* Gradiente invertido */
+  background: linear-gradient(135deg, var(--sena-green) 0%, #FFFFFF 100%); /* Gradiente invertido */
   min-height: 100vh;
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 4px;
+  background: #0f0f0f00;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--color-gray);
+  border: 2px solid transparent;
+  border-radius: 10px;
 }
 
 /* Centrar la imagen dentro de .logo-section */

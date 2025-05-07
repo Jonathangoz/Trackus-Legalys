@@ -1,21 +1,76 @@
+<?php
+  session_start();
+
+  if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+      header("Location: index.html");
+      exit;
+  }
+
+  if($_SESSION['tipo_rol'] !== 'ADMIN'){
+    header("Location: index.html");
+    session_destroy();
+    session_unset();
+    exit;
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deudores de Bancos de Cobro Coactivo SENA Regional Santander</title>
-    <link rel="stylesheet" href="./CSS/Deudores.css">
+    <!-- Favicon -->
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="CSS/Deudores.css">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 <body>
-    <header class="header">
-        <div class="logo">
-            <div class="logo-img">SENA</div>
-            <span>SENA Regional Santander</span>
+    <!-- Botón de volver arriba -->
+    <button type="button" id="backToTopBtn" title="Volver arriba">
+        <i class="fa-solid fa-arrow-up fa-lg" aria-hidden="true"></i>
+    </button>
+    <!-- Encabezado del gobierno -->
+    <div class="top">
+        <a href="https://www.gov.co" target="_blank" alt="Gov.co" rel="noopener noreferrer">
+            <img class="gov" src="https://css.mintic.gov.co/mt/mintic/img/header_govco.png" alt="Gov Co">
+        </a>
+    </div>
+    <header>
+        <div class="logo-container">
+            <img src="img/sena.blanco.png" class="img-sena" alt="Logo SENA">            
+            <p>SENA Regional Santander</p>
         </div>
-        <nav class="nav-links">
-            <a href="./dashaboart.html" class="btn">Dashaboart</a>
-        </nav>
+        <div class="title-container">
+            <h1>Deudores - Cobro Coactivo</h1>
+        </div>       
+        <div class="user-home">
+            <div class="home">
+                <a href="dashboard.php" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
+                    <div>
+                        <span class="text" style="color: white;">Dashboard</span>
+                    </div>
+                </a>
+            </div>
+            <div class="dropdown" id="dropdownContainer">
+                <input type="checkbox" id="userToggle" hidden>
+                <label for="userToggle" class="dropdown-toggle">
+                    <span class="user-name">Bienvenido, Admin</span>
+                    <div class="avatar">
+                        <i class="fa-solid fa-user fa-lg" style="margin-right: 6px;"></i>
+                        <i class="fa-solid fa-caret-down" style="margin-right: 6px;"></i>
+                    </div>
+                </label>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="drop"><i class="fa-solid fa-user me-2" style="margin-right: 15px;"></i>Perfil</a></li>
+                    <li><a href="#" class="drop"><i class="fa-solid fa-gear me-2" style="margin-right: 15px;"></i>Configuración</a></li>
+                    <li><hr></li>
+                    <li><a href="module_login/logout.php" class="sesion"><i class="fa-solid fa-right-from-bracket me-2" style="margin-right: 15px;"></i>Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </div>
     </header>
     
     <main class="container">
@@ -120,6 +175,8 @@
         <div class="footer-bottom">
             <p>&copy; 2025 SENA Regional Santander - Todos los derechos reservados</p>
         </div>
-        <script src="./js/Deudores.js"></script>
 </body>
 </html>
+<script src="js/Deudores.js"></script>
+<!-- Scripts del Boton -->
+<script src="js/back-to-top.js"></script>

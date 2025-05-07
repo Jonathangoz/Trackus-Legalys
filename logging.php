@@ -51,7 +51,6 @@
           </span>
         </div>
       </div>
-      
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <input 
@@ -62,20 +61,27 @@
           <label for="remember" class="ml-2 block text-sm text-gray-700">
             Recordarme
           </label>
-        </div>
-              
+        </div>       
         <a class="inline-block align-baseline font-medium text-sm text-sena-green hover:underline" href="module_login/validation/verification.php" aria-label="¿Olvidó su contraseña?">
           ¿Olvidó su contraseña?
         </a>
       </div>
-      
-      <button 
-        class="btn-gradient text-white font-semibold py-3 px-4 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-sena-green" 
-        type="submit"
-        href="dashboard.php"
-        aria-label="Iniciar Sesión">
-        Iniciar Sesión
-      </button>
+      <div class="flex flex-row gap-5 mt-6 justify-center">
+        <button 
+          class="btn-gradient text-white text-sm font-semibold py-2 px-12 rounded-lg focus:outline-none focus:ring-2 focus:ring-sena-green" 
+          type="submit"
+          aria-label="Iniciar Sesión">
+          Iniciar Sesión
+        </button>
+        <button 
+          class="btn-gradient text-white text-sm font-semibold py-2 px-16 rounded-lg focus:outline-none focus:ring-2 focus:ring-sena-green" 
+          type="button" 
+          onclick="window.location.href='index.html'"
+          aria-label="Regresar">
+          Regresar
+        </button>
+      </div>
+
       <?php
 
         session_start();
@@ -92,7 +98,7 @@
       ?>
     </form>
     
-    <div class="mt-10 text-center">
+    <div class="mt-6 text-center">
       <div class="border-t border-gray-200 pt-4">
             <p class="text-sm text-gray-600">
                 © 2025 SENA - Trackus Legalys

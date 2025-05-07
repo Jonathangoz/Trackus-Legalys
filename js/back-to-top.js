@@ -2,7 +2,7 @@
 // Mostrar el botón cuando el usuario se desplaza hacia abajo
 window.onscroll = function () {
     const btn = document.getElementById("backToTopBtn");
-    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
       btn.style.display = "block";
     } else {
       btn.style.display = "none";
