@@ -14,6 +14,8 @@
 .phpunit.result.cache
 package-lock.json
 package.json
+.package-lock.json
+.package.json
 Homestead.json
 Homestead.yaml
 npm-debug.log
