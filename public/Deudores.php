@@ -2,12 +2,12 @@
   session_start();
 
   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: index.html");
+      header("Location: ../index.html");
       exit;
   }
 
   if($_SESSION['tipo_rol'] !== 'ADMIN'){
-    header("Location: index.html");
+    header("Location: ../index.html");
     session_destroy();
     session_unset();
     exit;

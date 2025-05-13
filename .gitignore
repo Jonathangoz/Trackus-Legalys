@@ -12,6 +12,8 @@
 .env.production
 .phpactor.json
 .phpunit.result.cache
+package-lock.json
+package.json
 Homestead.json
 Homestead.yaml
 npm-debug.log

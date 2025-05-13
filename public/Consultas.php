@@ -2,12 +2,12 @@
   session_start();
 
   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: ../../loggin.php");
+      header("Location: ../loggin.php");
       exit;
   }
 
   if ($_SESSION['tipo_rol'] !== 'USUARIOS') {
-    header("Location: ../../loggin.php");
+    header("Location: ../loggin.php");
     session_destroy();
     session_unset();
     exit;

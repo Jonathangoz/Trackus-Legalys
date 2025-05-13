@@ -2,12 +2,12 @@
   session_start();
 
   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: index.html");
+      header("Location: ../index.html");
       exit;
   }
 
   if($_SESSION['tipo_rol'] !== 'ADMIN'){
-    header("Location: index.html");
+    header("Location: ../index.html");
     session_destroy();
     session_unset();
     exit;
@@ -193,7 +193,7 @@
                     <div class="card-header">
                         <h4>Administración de Usuarios</h4>
                         <div class="card-h">
-                            <button class="btn btn-new-user" data-bs-toggle="modal" data-bs-target="#userModal">
+                            <button class="btn btn-new-user" id="openModal">
                                 <i class="fa-solid fa-user-plus"></i> Nuevo usuario
                             </button>
                         </div>
@@ -219,9 +219,9 @@
                                         <td>Administrador</td>
                                         <td><span class="status-badge status-activo">Activo</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-sm" aria-label="ver detalles"><i class="fa-solid fa-pen" style="color: #0d6efd;"></i></button>
-                                            <button type="button" class="btn btn-sm" aria-label="ver detalles"><i class="fa-solid fa-lock" style="color: #6c757d;"></i></button>
-                                            <button type="button" class="btn btn-sm" aria-label="ver detalles"><i class="fa-solid fa-trash" style="color: #dc3545;"></i></button>
+                                            <button type="button" class="btn btn-sm" aria-label="Editar"><i class="fa-solid fa-pen" style="color: #0d6efd;"></i></button>
+                                            <button type="button" class="btn btn-sm" aria-label="Activo/Inactivo"><i class="fa-solid fa-lock" style="color: #6c757d;"></i></button>
+                                            <button type="button" class="btn btn-sm" aria-label="Eliminar"><i class="fa-solid fa-trash" style="color: #dc3545;"></i></button>
                                         </td>
                                     </tr>
                                     <!-- Más filas de la tabla... -->
@@ -234,70 +234,70 @@
         </div>
     </div>
 
-    <!-- Modal para creación de usuarios 
-    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header modal-header-custom text-white">
-                    <h5 class="modal-title" id="userModalLabel">Crear nuevo usuario</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="userForm" class="row g-3">
-                        <div class="col-md-6">
-                            <label for="userName" class="form-label">Nombre completo *</label>
-                            <input type="text" class="form-control" id="userName" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="userIdentification" class="form-label">Número de identificación *</label>
-                            <input type="text" class="form-control" id="userIdentification" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="userEmail" class="form-label">Correo electrónico *</label>
-                            <input type="email" class="form-control" id="userEmail" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="userPhone" class="form-label">Teléfono</label>
-                            <input type="tel" class="form-control" id="userPhone">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="userRole" class="form-label">Rol *</label>
-                            <select class="form-select" id="userRole" required>
-                                <option value="">Seleccione un rol</option>
-                                <option value="admin">Administrador</option>
-                                <option value="supervisor">Supervisor</option>
-                                <option value="cobrador">Cobrador</option>
-                                <option value="consulta">Consulta</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="userPassword" class="form-label">Contraseña *</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="userPassword" required>
-                                <button class="btn btn-outline-secondary toggle-password" type="button">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="userConfirmPassword" class="form-label">Confirmar contraseña *</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="userConfirmPassword" required>
-                                <button class="btn btn-outline-secondary toggle-password" type="button">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                            </div>
-                            <div id="passwordError" class="text-danger small mt-1 d-none">Las contraseñas no coinciden</div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" id="saveUser">Guardar</button>
-                </div>
+    <!-- Modal para creación de usuarios -->
+  <div class="modal" id="userModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h5>Crear nuevo usuario</h5>
+        <button class="close-btn" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="userForm">
+          <div class="row">
+            <div class="col">
+              <label for="userName">Nombre completo *</label>
+              <input type="text" id="userName" required>
             </div>
-        </div>
-    </div> -->
+            <div class="col">
+              <label for="userIdentification">Número de identificación *</label>
+              <input type="text" id="userIdentification" required>
+            </div>
+            <div class="col">
+              <label for="userEmail">Correo electrónico *</label>
+              <input type="email" id="userEmail" required>
+            </div>
+            <div class="col">
+              <label for="userPhone">Teléfono</label>
+              <input type="tel" id="userPhone">
+            </div>
+            <div class="col">
+              <label for="userRole">Rol *</label>
+              <select id="userRole" required>
+                <option value="">Seleccione un rol</option>
+                <option value="admin">Administrador</option>
+                <option value="supervisor">Supervisor</option>
+                <option value="cobrador">Cobrador</option>
+                <option value="consulta">Consulta</option>
+              </select>
+            </div>
+            <div class="col">
+              <label for="userPassword">Contraseña *</label>
+              <div class="input-group">
+                <input type="password" id="userPassword" required>
+                <button type="button" class="toggle-password" data-target="userPassword">
+                  👁️
+                </button>
+              </div>
+            </div>
+            <div class="col">
+              <label for="userConfirmPassword">Confirmar contraseña *</label>
+              <div class="input-group">
+                <input type="password" id="userConfirmPassword" required>
+                <button type="button" class="toggle-password" data-target="userConfirmPassword">
+                  👁️
+                </button>
+              </div>
+              <div id="passwordError">Las contraseñas no coinciden</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="cancel" id="cancelBtn">Cancelar</button>
+        <button class="save" id="saveUser">Guardar</button>
+      </div>
+    </div>
+  </div>
     <!-- Footer -->
     <footer class="footer">
         <div class="container text-center">
@@ -310,3 +310,5 @@
 <script src="js/back-to-top.js"></script>
 <!-- Scripts dashboard -->
 <script src="js/dashaboard.js"></script>
+<!-- Scripts del Modal -->
+<script src="js/modal.js"></script>

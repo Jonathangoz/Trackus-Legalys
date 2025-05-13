@@ -13,7 +13,7 @@ if (ini_get("session.use_cookies")) {
     setcookie(
         session_name(), // Nombre de la cookie de sesión
         '',             // Valor vacío
-        time() - 42000, // Tiempo de expiración en el pasado
+        time() - 4200, // Tiempo de expiración en el pasado
         $params["path"], 
         $params["domain"], 
         $params["secure"], 

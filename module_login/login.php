@@ -1,18 +1,4 @@
 <?php
-/*use Firebase\JWT\JWT;
-
-$payload = [
-    'user_id' => 123,
-    'email' => 'usuario@example.com',
-    'exp' => time() + 3600, // Expira en 1 hora
-];
-
-$secretkey = 'TuClaveSecretaSuperSegura';
-$token = JWT::encode($payload, $secretkey, 'HS256'); // para tokens con JWT 
-*/
-?>
-//
-<?php
 session_start();
 require 'conexion.php';
 
@@ -30,16 +16,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($correo) || empty($contraseña)) {
         $_SESSION['error'] = "Por favor, completa todos los campos.";
-        header("Location: ../loggin.php");
+        header("Location: ../public/loggin.php");
         exit;
     }
 
     try {
         $stmt = $connect->prepare("SELECT 'funcionario' AS tipo_usuario, id_funcionario AS id, nombres, apellidos, correo, contrasenia, tipo_rol 
-                                    FROM funcionarios WHERE correo = :correo
-                                    UNION ALL
-                                    SELECT 'usuario' AS tipo_usuario, id_usuario AS id, nombres, apellidos, correo, contrasenia, tipo_rol 
-                                    FROM usuarios WHERE correo = :correo");
+            FROM funcionarios WHERE correo = :correo
+            UNION ALL
+            SELECT 'usuario' AS tipo_usuario, id_usuario AS id, nombres, apellidos, correo, contrasenia, tipo_rol 
+            FROM usuarios WHERE correo = :correo");
         $stmt->bindParam(':correo', $correo);
         $stmt->execute();
 
@@ -54,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $signature = hash_hmac('sha256', $token, $secretkey);
                 $signedToken = $token . '.' . $signature;
                 // encriptacion del token (cifrado simetrico con AES)
-                $iv = random_bytes(32); // vector de inicializacion (iv)
+                $iv = random_bytes(16); // vector de inicializacion (iv)
                 $encryptedToken = openssl_encrypt($token, 'AES-256-CBC', $secretkey, 0, $iv);
 
     
@@ -68,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Autenticación exitosa. Redirigiendo al index...";
                 switch ($user['tipo_rol']) {
                     case 'ADMIN':
-                        header("Location: ../dashboard.php");
+                        header("Location: ../public/dashboard.php");
                         break;
                     case 'ADMIN_TRAMITE':
                         header("Location: ../moduler/view_process/dashboard_process.php");
@@ -88,27 +74,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     default:
                         $_SESSION['error'] = "Rol no Reconicido.";
                         echo "Error: " . $_SESSION['error'];
-                        header("Location: ../loggin.php");
+                        header("Location: ../public/loggin.php");
                         break;
                 }
                 exit;
             } else {
                 $_SESSION['error'] = "Contraseña incorrecta.";
                 echo "Error: " . $_SESSION['error'];
-                header("Location: ../loggin.php");
+                header("Location: ../public/loggin.php");
                 exit;
             }
         } else {
             $_SESSION['error'] = "Usuario no encontrado.";
             echo "Error: " . $_SESSION['error'];
-            header("Location: ../loggin.php");
+            header("Location: ../public/loggin.php");
             exit;
         }
     } catch (PDOException $e) {
         $_SESSION['error'] = "Error: " . $e->getMessage();
         echo "Error en la consulta: " . $_SESSION['error'];
-        header("Location: ../loggin.php");
+        header("Location: ../public/loggin.php");
         exit;
     }
 }
-

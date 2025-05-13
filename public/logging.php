@@ -17,7 +17,7 @@
       <h2 class="text-xl text-gray-700 font-medium">Trackus Legalys</h2>
     </div>
         
-    <form class="space-y-6" aria-label="Formulario de inicio de sesión" action="module_login/login.php" method="POST">
+    <form class="space-y-6" aria-label="Formulario de inicio de sesión" action="../module_login/login.php" method="POST">
       <div>
         <label class="block text-gray-700 text-sm font-semibold mb-2" for="username">Email</label>
         <input 
@@ -62,7 +62,7 @@
             Recordarme
           </label>
         </div>       
-        <a class="inline-block align-baseline font-medium text-sm text-sena-green hover:underline" href="module_login/validation/verification.php" aria-label="¿Olvidó su contraseña?">
+        <a class="inline-block align-baseline font-medium text-sm text-sena-green hover:underline" href="../module_login/validation/verification.php" aria-label="¿Olvidó su contraseña?">
           ¿Olvidó su contraseña?
         </a>
       </div>
@@ -76,7 +76,7 @@
         <button 
           class="btn-gradient text-white text-sm font-semibold py-2 px-16 rounded-lg focus:outline-none focus:ring-2 focus:ring-sena-green" 
           type="button" 
-          onclick="window.location.href='index.html'"
+          onclick="window.location.href='../index.html'"
           aria-label="Regresar">
           Regresar
         </button>

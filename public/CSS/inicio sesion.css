@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Estilos mejorados para el componente de usuario con Bootstrap 5 */
 .user-info {
     position: relative;
