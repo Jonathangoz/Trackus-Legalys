@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+html {
+    @apply scroll-smooth;
+}
+
+.top-button {
+  @apply bg-[#39A900] fixed bottom-[30px] right-[30px] text-white border-none outline-none rounded-lg p-[12px] duration-300 ease-in cursor-pointer z-[99] hover:bg-[#007f54] hover:scale-[1] hover:shadow-lg;
+}
+
+.top-gov {
+  @apply bg-[#015dca] h-[40px] p-[8px] box-border max-w-full mt-auto;
+}
+
+.gov {
+  @apply max-w-full h-auto ml-[8%] max-h-[20px];
+}
+
+.container-header {
+  @apply bg-[#39A900] flex justify-between items-center p-3;
+}
+
+.logo-header {
+  @apply flex flex-col mb-[1rem] items-center justify-center mr-[50px];
+}
+
+.img-sena {
+  @apply w-[45px] h-[45px] rounded-full mr-[1rem];
+}
+
+.menu-toggle {
+  @apply flex-col justify-between cursor-pointer hidden w-[30px] h-[21px];
+}
+
+.nav-ul {
+  @apply flex list-none items-stretch justify-center;
+}
+
+.nav-li-a {
+  @apply text-white font-light px-[1rem] py-[0.5rem] ml-[10px] mt-[30px] flex items-center flex-col hover:bg-[#007f54] rounded-[5px] transition duration-300 ease-in;
+}
+
+.hero {
+  @apply flex flex-col lg:flex-row justify-center items-center p-[60px] text-center font-bold;
+}
+
+.hero-p {
+  @apply text-[1rem] mb-[30px] text-center text-[#14552b] max-w-[800px];
+}
+
+.btn-consulta {
+  @apply bg-[#39A900] text-white inline-block px-[12px] py-[15px] rounded-[5px] text-[0.9rem] cursor-pointer transition duration-300 ease-in hover:bg-[#007f54] hover:scale-[1] hover:shadow-lg;
+}
+
+.container-section {
+  @apply flex flex-col lg:flex-row items-center justify-center w-full max-w-7xl mx-auto mt-[20px] mb-[30px] rounded-xl bg-[#5bd61df6];
+}
+
+.container-cards {
+  @apply flex flex-col sm:flex-row flex-wrap items-center justify-center max-w-full mt-[30px] mb-[30px] gap-x-6 gap-y-6;
+}
+
+.cards-section {
+  @apply flex flex-col items-center justify-center bg-[#f8f8f8] rounded-[10px] shadow-lg p-[20px] m-[10px] w-full max-w-[180px]
+         sm:max-w-[200px]
+         md:max-w-[240px]
+         lg:max-w-[280px]
+         xl:max-w-[320px]
+         2xl:max-w-[400px]
+         mx-auto my-auto hover:shadow-2xl transition-all duration-600 ease-in;
+}
+
+.img-cards {
+  @apply w-full h-40 object-cover filter grayscale-[60%] opacity-85 brightness-105 rounded-t-md mb-[10px] hover:filter-none hover:scale-105 transition-all duration-500 ease-in-out;
+}
+
+.section-h2 {
+  @apply text-[1.5rem] sm:text-[1.8rem] mb-[15px] mt-[10px] text-[#39A900] text-center font-bold;
+}
+
+.card-h3 {
+  @apply text-center font-semibold text-[#14552b] underline underline-offset-1 mt-[10px] mb-[10px];
+}
+
+.card-btn {
+  @apply rounded-md bg-[#39A900] flex justify-center items-center text-white py-[10px] cursor-pointer transition-all duration-300 ease-in hover:bg-[#007f54] hover:scale-[1.03] hover:shadow-lg;
+}
+.card-btn:hover {
+  @apply bg-[#007f54] scale-[1.03] shadow-lg;
+}
