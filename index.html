@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="public/img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body class="overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent dark:scrollbar-thumb-gray-600">
+<body>
     <button class="top-button" id="backToTopBtn" type="button" title="Volver arriba">
         <i class="fa-solid fa-arrow-up fa-lg" aria-hidden="true"></i>
     </button>
@@ -19,12 +19,11 @@
     </div>
     <header>
 
-        <div class="container-header rounded-b-lg">
+        <div class="container-header ">
             <div class="logo-header">
                 <img src="public/img/sena.blanco.png" class="img-sena" alt="Logo SENA">
-                <div class="text-white text-xl">
+                <div class="icono-i text-xl">
                     <h4>SENA - Regional Santander</h4>
-                   <!-- <p>Servicio Nacional de Aprendizaje</p> -->
                 </div>
             </div>
             <div class="menu-toggle" onclick="toggleMenu()">
@@ -44,8 +43,8 @@
 
     <section class="hero">
         <div>
-            <h2 class="text-[1.8rem] mb-[15px] mt-[10px] text-[#39A900]">Proceso de Cobro Coactivo</h2>
-            <p class="hero-p m-[0 auto 30px]">Bienvenido al sistema de gestión de cobro coactivo del SENA Regional Santander.
+            <h2 class="hero-h2">Proceso de Cobro Coactivo</h2>
+            <p class="hero-p">Bienvenido al sistema de gestión de cobro coactivo del SENA Regional Santander.
             Aquí podrá consultar información relacionada con el proceso de cobro coactivo y normatividad vigente.</p>
             <a href="public/logging.php" class="btn-consulta">Consultar Estado</a>
         </div>
@@ -53,18 +52,18 @@
 
     <section class="container-section" id="inicio">
         <div>
-            <div class="mt-[5%] mb-[4%] rounded-xl bg-white">
+            <div class="inicio-section">
                 <h2 class="section-h2">Servicios de Cobro Coactivo</h2>
-                <p class="m-[0 auto 30px] text-center text-[#14552b] font-bold">Conozca los diferentes servicios que ofrecemos en el proceso de cobro coactivo del SENA Regional Santander.</p>
+                <p class="p-inicio">Conozca los diferentes servicios que ofrecemos en el proceso de cobro coactivo del SENA Regional Santander.</p>
             </div>
             <div class="container-cards">
                 <div class="cards-section">
                     <div>
-                        <img class="img-cards" src="public/img/cautelares.png" width="320vw" height="160vh" alt="Consulta de Procesos">
+                        <img class="img-cards" src="public/img/cautelares.png" width="380vw" height="160vh" alt="Consulta de Procesos">
                     </div>
                     <div>
                         <h3 class="card-h3">CONSULTA DE PROCESOS</h3>
-                        <p class="text-center mb-[4%] py-[2%]">Consulte el estado actual de su proceso de cobro coactivo, expedientes y notificaciones pendientes.</p>
+                        <p class="p-card-1">Consulte el estado actual de su proceso de cobro coactivo, expedientes y notificaciones pendientes.</p>
                         <a href="public/Consultas.php" class="card-btn">Consultar</a>
                     </div>
                 </div>
@@ -72,170 +71,230 @@
                     <div>
                         <img class="img-cards" src="public/img/acuerdopago.png" width="320vw" height="160vh" alt="Acuerdos de Pago">
                     </div>
-                    <div class="">
+                    <div>
                         <h3 class="card-h3">ACUERDOS DE PAGO</h3>
-                        <p class="text-center mb-[4%]">Solicite y gestione acuerdos de pago para facilitar el cumplimiento de sus obligaciones.</p>
+                        <p class="p-card-1">Solicite y gestione acuerdos de pago para facilitar el cumplimiento de sus obligaciones.</p>
                         <a href="#" class="card-btn">Solicitar</a>
                     </div>
                 </div>
                 <div class="cards-section">
-                    <div class="">
+                    <div>
                         <img class="img-cards" src="public/img/medidascaute.jpg" width="320vw" height="160vh" alt="Medidas Cautelares">
                     </div>
-                    <div class="">
+                    <div>
                         <h3 class="card-h3">MEDIDAS CAUTELARES</h3>
-                        <p class="text-center mb-[4%]">Información sobre medidas cautelares, embargos y procedimientos relacionados con su proceso.</p>
+                        <p class="p-card-1">Información sobre medidas cautelares, embargos y procedimientos relacionados con su proceso.</p>
                         <a href="#" class="card-btn">Más Información</a>
                     </div>
                 </div>
             </div>
         </div>
     </section> 
-        <div class="">
-            <div class="" id="procedimiento">
-                <h2>Procedimiento de Cobro Coactivo</h2>
-                <p>Conozca las etapas del proceso de cobro coactivo establecido por el SENA Regional Santander.</p>
+
+    <section id="procedimiento">
+        <div class="procedimientos">
+            <div class="proced-section">
+                <h2 class="section-h2">Procedimiento de Cobro Coactivo</h2>
+                <p class="proced-p">Conozca las etapas del proceso de cobro coactivo establecido por el SENA Regional Santander.</p>
             </div>
-            <div class="">
-                <div class="">
-                    <div class="">1</div>
-                    <h3>Etapa Persuasiva</h3>
-                    <p>Invitación al deudor para que realice el pago voluntario de la obligación antes de iniciar el cobro coactivo.</p>
+            <div class="proced-cards">
+                <div class="cards-proced">
+                    <div class="proced-div-p">
+                        <p class="p-proced">01</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-comments fa-2xl proced-i"></i>
+                    </div>
+                    <h3 class="proced-card-h3">Etapa Persuasiva</h3>
+                    <p class="proced-card-p">Invitación al deudor para que realice el pago voluntario de la obligación antes de iniciar el cobro coactivo.</p>
                 </div>
-                <div class="">
-                    <div class="">2</div>
-                    <h3>Mandamiento de Pago</h3>
-                    <p>Acto administrativo que ordena el pago de la obligación a favor del SENA, más los intereses generados.</p>
+                <div class="cards-proced">
+                    <div class="proced-div-p">
+                        <p class="p-proced">02</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-file-invoice-dollar fa-2xl proced-i"></i>
+                    </div>                      
+                    <h3 class="proced-card-h3">Orden de Pago</h3>
+                    <p class="proced-card-p">Acto administrativo que ordena el pago de la obligación a favor del SENA, más los intereses generados.</p>
                 </div>
-                <div class="">
-                    <div class="">3</div>
-                    <h3>Medidas Cautelares</h3>
-                    <p>Aplicación de embargos sobre bienes o cuentas bancarias del deudor para garantizar el pago de la obligación.</p>
+                <div class="cards-proced">
+                    <div class="proced-div-p">
+                        <p class="p-proced">03</p>
+                    </div>
+                     <div>
+                        <i class="fas fa-gavel fa-2xl proced-i"></i>
+                    </div>
+                    <h3 class="proced-section-h3">Medidas Cautelares</h3>
+                    <p class="proced-card-p">Aplicación de embargos sobre bienes o cuentas bancarias del deudor para garantizar el pago de la obligación.</p>
                 </div>
-                <div class="">
-                    <div class="">4</div>
-                    <h3>Resolución de Seguir Adelante</h3>
-                    <p>Orden para continuar con la ejecución y proceder con el remate de los bienes embargados si es necesario.</p>
+                <div class="cards-proced">
+                    <div class="proced-div-p">
+                        <p class="p-proced">04</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-chart-line fa-2xl proced-i"></i>
+                    </div>
+                    <h3 class="proced-card-h3">Seguimiento</h3>
+                    <p class="proced-card-p">Orden para continuar con la ejecución y proceder con el remate de los bienes embargados si es necesario.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="" id="normatividad">
-        <div class="">
-            <div class="">
-                <h2>Normatividad Aplicable</h2>
-                <p>Marco legal que regula el proceso de cobro coactivo en el SENA Regional Santander.</p>
+    <section class="container-section" id="normatividad">    
+        <div>
+            <div class="section-norma">
+                <h2 class="section-h2">Normatividad Aplicable</h2>
+                <p class="p-norma">Marco legal que regula el proceso de cobro coactivo en el SENA Regional Santander.</p>
             </div>
-            <div class="">
-                <div class="">
-                    <div class="">
-                        <h3>Estatuto Tributario</h3>
-                        <p>Artículos 823 al 849-4 que establecen el procedimiento de cobro coactivo para entidades públicas.</p>
-                        <a href="#" class="">Ver Documento</a>
+            <div class="container-cards">
+                <div>
+                    <div class="cards-section">
+                        <h3 class="h3-norma">Estatuto Tributario</h3>
+                        <span class="span-norma"></span>
+                        <p class="p-card-norma">Artículos 823 - 849-4 establecen el procedimiento para entidades públicas.</p>
+                        <a href="https://www.amb.gov.co/jdownloads/Documentos/Administracin%20y%20Financiera/estatuto_tributario_cobro__coactivo.pdf" target="_blank" rel="noopener noreferrer" title="Articulos Cobro Coactivo" class="btn-norma">Ver Documento</a>
                     </div>
                 </div>
-                <div class="">
-                    <div class="">
-                        <h3>Ley 1066 de 2006</h3>
-                        <p>Normas para la normalización de la cartera pública y otras disposiciones.</p>
-                        <a href="#" class="">Ver Documento</a>
+                <div>
+                    <div class="cards-section">
+                        <h3 class="h3-norma">Ley 1066 de 2006</h3>
+                        <span class="span-norma"></span>
+                        <p class="p-card-norma">Normas para la normalización de la cartera pública y otras disposiciones.</p>
+                        <a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=20866" target="_blank" rel="noopener noreferrer" title="Normativa de Cartera publica" class="btn-norma">Ver Documento</a>
                     </div>
                 </div>
-                <div class="">
-                    <div class="">
-                        <h3>Reglamento Interno</h3>
-                        <p>Manual de procedimiento de cobro coactivo del SENA Regional Santander.</p>
-                        <a href="#" class="">Ver Documento</a>
+                <div>
+                    <div class="cards-section">
+                        <h3 class="h3-norma">Reglamento Interno</h3>
+                        <span class="span-norma"></span>
+                        <p class="p-card-norma">Manual de procedimiento de cobro coactivo del SENA Regional Santander.</p>
+                        <a href="https://www.sena.edu.co/es-co/transparencia/ProyectoNorma/proy_res_reglam_%20inter_recaudo_cartera_cobro_coactivo.pdf" target="_blank" rel="noopener noreferrer" class="btn-norma">Ver Documento</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    </section>
-
-    <section class="" id="contacto">
-        <div class="">
-            <div class="">
-                <h2>Contáctenos</h2>
-                <p>Si tiene dudas o inquietudes sobre su proceso de cobro coactivo, puede comunicarse con nosotros a través de cualquiera de nuestros canales de atención.</p>
+    <section id="contacto">
+        <div class="contactos">
+            <div class="section-contactos">
+                <h2 class="section-h2">Contáctenos</h2>
+                <p class="p-contactos">Si tiene dudas o inquietudes sobre su proceso de cobro coactivo,</p>
+                <p class="p-contactos">Comunicate con nosotros a través de cualquiera de nuestros canales de atención.</p>
             </div>
-            <div class="">
-                <h3>Información de Contacto</h3>
-                <div class="">
-                    <div>
-                        <div class="">
-                            <strong>Dirección:</strong>
-                            <p>Calle 16 No. 27-37 Centro, Bucaramanga, Santander</p>
-                        </div>
-                        <div class="">
-                            <strong>Teléfono:</strong>
-                            <p>(607) 652-5200 Ext. 82401</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="">
-                            <strong>Correo Electrónico:</strong>
-                            <p>cobrocoactivo.santander@sena.edu.co</p>
-                        </div>
-                        <div class="">
-                            <strong>Horario de Atención:</strong>
-                            <p>Lunes a Viernes: 8:00 AM - 5:00 PM</p>
-                        </div>
-                    </div>
+            <div class="form-cont">
+                <div class="form-section">
+                <h2 class="form-h2">Envianos Un Mensaje</h2>
+                    <form class="form-contactos">
+                        <input type="text" class="form-input" placeholder="Nombres y Apellidos"/>
+                        <input type="email" class="form-input-2" placeholder="Correo"/>
+                        <input type="text" class="form-input" placeholder="Numero Tel/Movil"/>
+                        <input type="text" class="form-input-2" placeholder="Asunto"/>
+                        <textarea name="message" class="form-mensaje" placeholder="Mensaje"></textarea>
+                        <button type="submit" class="form-btn">Enviar</button>
+                    </form>
                 </div>
-            </div>
-            <div class="">
-                <h3>Envíenos un Mensaje</h3>
-                <form>
-                    <div class="">
-                        <div class="">
-                            <div class="">
-                                <label for="nombre">Nombre Completo</label>
-                                <input type="text" id="nombre" placeholder="Ingrese su nombre completo" required>
-                            </div>
-                        </div>
-                        <div class="">
-                            <div class="">
-                                <label for="email">Correo Electrónico</label>
-                                <input type="email" id="email" placeholder="Ingrese su correo electrónico" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="">
-                        <div class="">
-                            <div class="">
-                                <label for="telefono">Teléfono</label>
-                                <input type="tel" id="telefono" placeholder="Ingrese su número de teléfono">
-                            </div>
-                        </div>
-                        <div class="">
-                            <div class="">
-                                <label for="asunto">Asunto</label>
-                                <input type="text" id="asunto" placeholder="Ingrese el asunto" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="">
-                        <label for="mensaje">Mensaje</label>
-                        <textarea id="mensaje" placeholder="Escriba su mensaje aquí" required></textarea>
-                    </div>
-                    <div class="">
-                        <button type="submit" class="">Enviar Mensaje</button>
-                    </div>
-                </form>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="">
-            <div class="">
-                <p>&copy; 2025 SENA Regional Santander - Todos los derechos reservados</p>
+        <div class="footer"> 
+            <div class="gov-co-footer-presentacion">
+                <div class="container-footer">
+                    <div class="div-footer">
+                        <div class="div-footer-2">
+                            <h2 class="footer-h2">SERVICIO NACIONAL DE APRENDIZAJE SENA</h2>
+                            <div class="div-p">
+                                <p class="p1">Dirección Regional</p>
+                                <p class="p2">Calle 16 No. 27-37 Centro, Bucaramanga, Santander</p>
+                                <p class="p1">Telefono - Contacto</p>
+                                <p class="p2">(607) 652-5200 Ext. 82401</p>
+                                <p class="p1">Correo Electrónico</p>
+                                <p class="p2">cobrocoactivo.santander@sena.edu.co</p>
+                                <p class="p1">Horarios de Atención</p>
+                                <p class="p2">Lunes a Viernes: 8:00 AM - 5:00 PM</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="p-links-footer">Links de Interes</p>
+                            <span class="span-norma"></span>
+                            <div class="div-a">
+                                <a href="http://sciudadanos.sena.edu.co/SolicitudIndex.aspx" target="_blank" rel="noopener noreferrer" title="PQRS" class="a-links">PQRS</a>
+                                <a href="/es-co/sena/Paginas/directorio.aspx" target="_blank" rel="noopener noreferrer" class="a-links">Directorio SENA</a>
+                                <a href="/es-co/Paginas/mapaSitio.aspx" target="_blank" rel="noopener noreferrer" title="Mapeo del Sitio" class="a-links">Mapa Del Sitio</a>
+                                <a href="/es-co/transparencia/Paginas/mecanismosContacto.aspx#notificacionesJudiciales" target="_blank" rel="noopener noreferrer" title="Notificaciones" class="a-links">Notificaciones Judiciales</a>
+                                <a href="/es-co/ciudadano/Paginas/chat.aspx" target="_blank" rel="noopener noreferrer" title="chat" class="a-links">Chat En Linea</a>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="p-links-footer">Links Informativos</p>
+                            <span class="span-norma"></span>
+                            <div class="div-a">
+                                <a href="/es-co/Paginas/politicasCondicionesUso.aspx" target="_blank" rel="noopener noreferrer" title="Terminos y Condiciones" class="a-links">Terminos y Condiciones Del Portal Web</a>
+                                <a href="/es-co/Paginas/politicasCondicionesUso.aspx#derechoAutor" target="_blank" rel="noopener noreferrer" title="Derechos de Autor" class="a-links">Derechos De Autor y/o Autorización De Uso Sobre Contenido</a>
+                                <a href="/es-co/transparencia/Paginas/habeas_data.aspx" target="_blank" rel="noopener noreferrer" title="Politicas de Tratamiento" class="a-links">Politica De Tratamiento Para Recolección De Datos</a>
+                                <a href="http://compromiso.sena.edu.co/index.php?text=inicio&id=27" target="_blank" rel="noopener noreferrer" title="Politicas de Seguridad" class="a-links">Politica De Seguridad y Privacidad De La Infornación</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="hr" />
+                    
+                    <div class="presentacion-footer">
+                        <div dir="rtl" class="logo-footer">
+                            <img src="public/img/logo sena.png" alt="logo sena" class="logo-footer-img">
+                        </div>
+                        <div class="iso-footer">
+                            <img src="http://www.sena.edu.co/Style%20Library/alayout/images/Icontec03_all.png" alt="certificados ISO">
+                        </div>
+                        <div class="icono-footer">
+                            <div class="div-icono">
+                                <a href="https://www.facebook.com/SENA/" target="_blank" rel="noopener noreferrer" title="Visitar página de Facebook del SENA">
+                                    <i class="fab fa-facebook-f icono-i"></i>
+                                </a>
+                            </div>
+                            <div class="div-icono">
+                                <a href="https://www.instagram.com/senacomunica/" target="_blank" rel="noopener noreferrer" title="Visitar página de Instagram del SENA">
+                                    <i class="fab fa-instagram icono-i"></i>
+                                </a>
+                            </div>
+                            <div class="div-icono">
+                                <a href="https://twitter.com/SENAComunica" target="_blank" rel="noopener noreferrer" title="Visitar página de Twitter/X del SENA">
+                                    <i class="fab fa-twitter icono-i"></i>
+                                </a>
+                            </div>
+                            <div class="div-icono">
+                                <a href="https://www.youtube.com/user/SENATV" target="_blank" rel="noopener noreferrer" title="Visitar página de la Emisora en YouTube del SENA">
+                                    <i class="fab fa-youtube icono-i"></i>
+                                </a>
+                            </div>
+                            <div class="div-icono">
+                                <a href="https://www.linkedin.com/school/servicio-nacional-de-aprendizaje-sena-/" target="_blank" rel="noopener noreferrer" title="Visitar página de Linkedin del SENA">
+                                    <i class="fab fa-linkedin-in icono-i"></i>
+                                </a>
+                            </div>
+                            <div class="div-icono">
+                                <a href="https://www.tiktok.com/@senacomunica_" target="_blank" rel="noopener noreferrer" title="Visitar página de TikTok del SENA">
+                                    <i class="fab fa-tiktok icono-i"></i>
+                                </a>
+                            <div>                                                
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </footer>   
+    <div class="gov-co-footer">
+        <div class="gov-co">
+            <img class="img-footer-col" src="https://www.mintic.gov.co/portal/715/channels-616_marca_colombia.png" alt="logo co Colombia" srcset>
+            <div class="border-img"></div>
+            <img class="img-footer-gov" src="https://css.mintic.gov.co/mt/mintic/img/header_govco.png" alt="logo co gov" srcset>
+        </div>
+    </div>
 </body>
 </html>
 <script src="public/js/back-to-top.js"></script>

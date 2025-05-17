@@ -2,6 +2,7 @@
   "dependencies": {
     "@tailwindcss/cli": "^4.1.6",
     "tailwind-scrollbar": "^4.0.2",
+    "tailwind-scrollbar-hide": "^2.0.0",
     "tailwindcss": "^4.1.6"
   }
 }

@@ -1,11 +1,15 @@
 @import "tailwindcss";
 
 html {
-    @apply scroll-smooth;
+    @apply scroll-smooth cursor-default;
+}
+
+body {
+  @apply bg-green-100 font-sans;
 }
 
 .top-button {
-  @apply bg-[#39A900] fixed bottom-[30px] right-[30px] text-white border-none outline-none rounded-lg p-[12px] duration-300 ease-in cursor-pointer z-[99] hover:bg-[#007f54] hover:scale-[1] hover:shadow-lg;
+  @apply bg-[#44be07] fixed bottom-[30px] right-[30px] text-white border-none outline-none rounded-lg p-[12px] duration-300 ease-in cursor-pointer z-[99] hover:bg-[#007f54] hover:scale-[1] shadow-[0_0_15px_rgba(57,169,0,0.3)] hover:shadow-lg;
 }
 
 .top-gov {
@@ -21,7 +25,7 @@ html {
 }
 
 .logo-header {
-  @apply flex flex-col mb-[1rem] items-center justify-center mr-[50px];
+  @apply flex flex-col mb-[1rem] items-center justify-center mr-4;
 }
 
 .img-sena {
@@ -41,7 +45,11 @@ html {
 }
 
 .hero {
-  @apply flex flex-col lg:flex-row justify-center items-center p-[60px] text-center font-bold;
+  @apply flex flex-col lg:flex-row justify-center items-center p-[40px] text-center font-bold;
+}
+
+.hero-h2 {
+  @apply text-[1.8rem] mb-[15px] mt-[10px] text-[#39A900];
 }
 
 .hero-p {
@@ -52,8 +60,16 @@ html {
   @apply bg-[#39A900] text-white inline-block px-[12px] py-[15px] rounded-[5px] text-[0.9rem] cursor-pointer transition duration-300 ease-in hover:bg-[#007f54] hover:scale-[1] hover:shadow-lg;
 }
 
+.p-inicio {
+  @apply text-center text-[#14552b] font-bold;
+}
+
+.inicio-section {
+  @apply mt-[5%] mb-[4%] p-5 rounded-xl bg-white shadow-lg border-t-[#39A900] border-t-2;
+}
+
 .container-section {
-  @apply flex flex-col lg:flex-row items-center justify-center w-full max-w-7xl mx-auto mt-[20px] mb-[30px] rounded-xl bg-[#5bd61df6];
+  @apply flex flex-col lg:flex-row items-center justify-center w-full mx-auto mb-[30px] bg-zinc-50;
 }
 
 .container-cards {
@@ -67,19 +83,23 @@ html {
          lg:max-w-[280px]
          xl:max-w-[320px]
          2xl:max-w-[400px]
-         mx-auto my-auto hover:shadow-2xl transition-all duration-600 ease-in;
+         mx-auto my-auto hover:shadow-2xl transition-all duration-300 ease-in hover:-translate-y-2 border-t-[#39A900] border-t-2;
 }
 
 .img-cards {
-  @apply w-full h-40 object-cover filter grayscale-[60%] opacity-85 brightness-105 rounded-t-md mb-[10px] hover:filter-none hover:scale-105 transition-all duration-500 ease-in-out;
+  @apply w-auto h-40 rounded-t-md mb-[10px] hover:scale-105 transition-all duration-500 ease-in-out;
 }
 
 .section-h2 {
-  @apply text-[1.5rem] sm:text-[1.8rem] mb-[15px] mt-[10px] text-[#39A900] text-center font-bold;
+  @apply text-[1.5rem] sm:text-[1.8rem] mb-[10px] mt-[8px] text-[#39A900] text-center font-bold;
 }
 
 .card-h3 {
-  @apply text-center font-semibold text-[#14552b] underline underline-offset-1 mt-[10px] mb-[10px];
+  @apply text-center font-semibold text-[#1a7239] underline underline-offset-1 mt-[10px] mb-[10px];
+}
+
+.p-card-1 {
+  @apply text-center mb-[4%] py-[2%] text-slate-900;
 }
 
 .card-btn {
@@ -87,4 +107,216 @@ html {
 }
 .card-btn:hover {
   @apply bg-[#007f54] scale-[1.03] shadow-lg;
+}
+
+.procedimientos {
+  @apply flex flex-col items-center justify-center w-full max-w-full mx-auto mt-[20px] mb-[30px];
+}
+
+.proced-section {
+  @apply mt-[1%] mb-[1%] p-2;
+}
+
+.proced-i {
+  @apply text-[#47c707];
+}
+
+.proced-card-h3 {
+  @apply font-bold text-base text-slate-950;
+}
+
+.proced-card-p {
+  @apply text-sm text-slate-900 leading-6;
+}
+
+.proced-p {
+  @apply text-center text-[#14552b] font-bold;
+}
+
+.proced-cards {
+  @apply flex flex-col sm:flex-row flex-wrap items-center justify-center max-w-full mt-[40px] mb-[30px] space-x-4;
+}
+
+.cards-proced {
+  @apply w-64 bg-white shadow-[0_0_15px_rgba(57,169,0,0.3)] hover:shadow-[0_0_25px_rgba(57,169,0,0.8)] p-12 space-y-4 rounded-lg relative overflow-hidden hover:-translate-y-2 duration-300;
+}
+
+.proced-div-p {
+  @apply w-24 h-24 bg-[#39A900] rounded-full absolute -right-5 -top-5;
+}
+
+.p-proced {
+  @apply absolute bottom-6 left-7 text-white text-2xl;
+}
+
+.section-norma {
+  @apply mt-[5%] mb-[4%];
+}
+
+.p-norma {
+  @apply text-center text-[#14552b] font-bold;
+}
+
+.h3-norma {
+  @apply font-bold text-[1.1rem] text-gray-800;
+}
+
+.span-norma {
+  @apply bg-lime-500 mx-auto mb-6 inline-block mt-1 h-1 w-[90px] rounded;
+}
+
+.p-card-norma {
+  @apply text-center mt-1 mb-[4%] py-[2%] text-slate-900;
+}
+
+.btn-norma {
+  @apply rounded-md bg-[#39A900] w-full max-w-[140px] flex justify-center items-center text-white py-[10px] cursor-pointer transition-all duration-300 ease-in hover:bg-[#007f54] hover:scale-[1.03] hover:shadow-lg;
+}
+
+.btn-norma:hover {
+  @apply bg-[#007f54] scale-[1.02] shadow-lg;
+}
+
+.contactos {
+  @apply flex flex-col items-center justify-center w-full max-w-full mx-auto mt-[20px] mb-[30px];
+}
+
+.section-contactos {
+  @apply mt-[0.5%] mb-[1%] p-2;
+}
+
+.p-contactos {
+  @apply text-center text-[#14552b] font-bold;
+}
+
+.form-cont {
+  @apply flex flex-col items-center justify-center mt-[2%] mb-[5%];
+}
+
+.form-section {
+  @apply w-full max-w-[80%] bg-[#39a900] rounded-lg shadow-md p-6;
+}
+
+.form-h2 {
+  @apply text-2xl font-bold text-gray-50 mb-4;
+}
+
+.form-contactos {
+  @apply flex flex-wrap;
+}
+
+.form-input {
+  @apply bg-gray-100 text-gray-700 border-0 rounded-md p-2 mb-4 focus:bg-lime-100 focus:outline-none focus:ring-1 focus:ring-green-500 transition ease-in-out duration-150 w-full md:w-[48%] mr-[2%];
+}
+
+.form-input-2 {
+  @apply bg-gray-100 text-gray-700 border-0 rounded-md p-2 mb-4 focus:bg-lime-100 focus:outline-none focus:ring-1 focus:ring-green-500 transition ease-in-out duration-150 w-full md:w-[48%] ml-[2%];
+}
+
+.form-mensaje {
+  @apply bg-gray-100 text-gray-700 border-0 rounded-md p-2 mb-auto focus:bg-lime-100 focus:outline-none focus:ring-1 focus:ring-green-500 md:mb-auto md:w-full md:h-auto md:min-h-[100px] md:max-h-[100px] md:flex-grow md:flex-shrink md:flex-auto transition ease-in-out;
+}
+
+.form-btn {
+  @apply mt-3 py-2 px-8 text-gray-700 text-base font-bold overflow-hidden bg-gray-100 rounded-md transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-lime-500 before:to-lime-300 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-md hover:before:left-0;
+}
+
+.footer {
+  @apply flex flex-col h-auto bg-[#39A900] text-white p-4;
+}
+
+.gov-co-footer-presentacion {
+  @apply mt-[-2rem] bg-white rounded-lg h-auto shadow-[0_0_15px_rgba(57,169,0,0.6)];
+}
+
+.container-footer {
+  @apply px-15 py-12 mx-auto;
+}
+
+.hr {
+  @apply my-6 border-gray-200 md:my-8 dark:border-white h-2;
+}
+
+.div-footer {
+  @apply grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4;
+}
+
+.div-footer-2 {
+  @apply sm:col-span-2;
+}
+
+.footer-h2 {
+  @apply max-w-lg text-xl font-semibold tracking-tight text-gray-900 xl:text-2xl dark:text-white;
+}
+
+.div-p {
+  @apply flex flex-col ml-4 mx-auto mt-6 space-y-3 md:space-y-0 md:flex-col;
+}
+
+.p1 {
+  @apply text-lg text-gray-900;
+}
+
+.p2 {
+  @apply text-base text-gray-600;
+}
+
+.p-links-footer {
+  @apply font-semibold text-gray-900 dark:text-white;
+}
+
+.div-a {
+  @apply flex flex-col items-start mt-5 space-y-2;
+}
+
+.div-icono {
+  @apply w-10 h-10 bg-[#39a900] rounded-full flex items-center justify-center;
+}
+
+.icono-i {
+  @apply text-white;
+}
+
+.a-links {
+  @apply text-gray-600 transition-colors duration-300 hover:underline hover:cursor-pointer hover:text-blue-500;
+}
+
+.presentacion-footer {
+  @apply flex justify-between;
+}
+
+.logo-footer {
+  @apply max-w-[70%] w-[200px];
+}
+
+.logo-footer-img {
+  @apply w-[80%] flex h-auto justify-start flex-row;
+}
+
+.icono-footer {
+  @apply flex items-center gap-5 justify-center hover:cursor-pointer;
+}
+
+.iso-footer {
+  @apply flex ml-[10%] items-center max-w-[25%];
+}
+
+.gov-co-footer {
+  @apply flex items-center w-full h-[101px] bg-[#36c];
+}
+
+.gov-co {
+  @apply flex flex-row justify-start w-full ml-25;
+}
+
+.img-footer-col {
+  @apply w-[68px] h-[48px] pl-[20px] ml-[5px] ;
+}
+
+.border-img {
+  @apply w-2 ml-[0.7rem] border-l border-white;
+}
+
+.img-footer-gov {
+  @apply h-[48px] mr-[4px] ml-4;
 }
