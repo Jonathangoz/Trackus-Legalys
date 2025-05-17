@@ -14,7 +14,6 @@
     --color-green-100: oklch(96.2% 0.044 156.743);
     --color-green-500: oklch(72.3% 0.219 149.579);
     --color-blue-500: oklch(62.3% 0.214 259.815);
-    --color-slate-200: oklch(92.9% 0.013 255.508);
     --color-slate-900: oklch(20.8% 0.042 265.755);
     --color-slate-950: oklch(12.9% 0.042 264.695);
     --color-gray-50: oklch(98.5% 0.002 247.839);
@@ -633,16 +632,8 @@ body {
   color: #14552b;
 }
 .inicio-section {
-  margin-top: 5%;
+  margin-top: 3%;
   margin-bottom: 4%;
-  border-radius: var(--radius-xl);
-  border-top-style: var(--tw-border-style);
-  border-top-width: 2px;
-  border-top-color: #39A900;
-  background-color: var(--color-white);
-  padding: calc(var(--spacing) * 5);
-  --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
-  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 .container-section {
   margin-inline: auto;

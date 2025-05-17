@@ -65,7 +65,7 @@ body {
 }
 
 .inicio-section {
-  @apply mt-[5%] mb-[4%] p-5 rounded-xl bg-white shadow-lg border-t-[#39A900] border-t-2;
+  @apply mt-[3%] mb-[4%];
 }
 
 .container-section {
