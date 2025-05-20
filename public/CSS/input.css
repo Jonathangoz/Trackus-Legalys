@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html {
     @apply scroll-smooth cursor-default;
@@ -13,7 +15,7 @@ body {
 }
 
 .top-gov {
-  @apply bg-[#015dca] h-[40px] p-[8px] box-border max-w-full mt-auto;
+  @apply bg-gov h-[32px] p-[6px] box-border w-full max-w-full mt-auto md:h-[40px] md:p-[8px];
 }
 
 .gov {
@@ -21,7 +23,7 @@ body {
 }
 
 .container-header {
-  @apply bg-[#39A900] flex justify-between items-center p-3;
+  @apply bg-sena flex justify-between items-center p-3;
 }
 
 .logo-header {
@@ -33,7 +35,7 @@ body {
 }
 
 .menu-toggle {
-  @apply flex-col justify-between cursor-pointer hidden w-[30px] h-[21px];
+  @apply flex-row justify-between hidden cursor-pointer w-[30px] h-[21px];
 }
 
 .nav-ul {
@@ -87,7 +89,7 @@ body {
 }
 
 .img-cards {
-  @apply w-auto h-40 rounded-t-md mb-[10px] hover:scale-105 transition-all duration-500 ease-in-out;
+  @apply w-full h-40 rounded-t-md mb-[10px] hover:scale-105 transition-all duration-500 ease-in-out;
 }
 
 .section-h2 {
@@ -138,7 +140,7 @@ body {
 }
 
 .cards-proced {
-  @apply w-64 bg-white shadow-[0_0_15px_rgba(57,169,0,0.3)] hover:shadow-[0_0_25px_rgba(57,169,0,0.8)] p-12 space-y-4 rounded-lg relative overflow-hidden hover:-translate-y-2 duration-300;
+  @apply w-64 bg-white shadow-[0_0_15px_rgba(57,169,0,0.3)] hover:shadow-[0_0_25px_rgba(57,169,0,0.8)] p-12 space-y-4 rounded-lg relative hover:-translate-y-2 duration-300;
 }
 
 .proced-div-p {
@@ -218,7 +220,7 @@ body {
 }
 
 .form-btn {
-  @apply mt-3 py-2 px-8 text-gray-700 text-base font-bold overflow-hidden bg-gray-100 rounded-md transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-lime-500 before:to-lime-300 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-md hover:before:left-0;
+  @apply mt-3 py-2 px-8 text-gray-700 text-base font-bold bg-gray-100 rounded-md transition-all duration-300 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-lime-500 before:to-lime-300 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-md hover:before:left-0;
 }
 
 .footer {
@@ -230,7 +232,7 @@ body {
 }
 
 .container-footer {
-  @apply px-15 py-12 mx-auto;
+  @apply px-16 py-12 mx-auto;
 }
 
 .hr {
@@ -306,7 +308,7 @@ body {
 }
 
 .gov-co {
-  @apply flex flex-row justify-start w-full ml-25;
+  @apply flex flex-row justify-start w-full ml-24;
 }
 
 .img-footer-col {

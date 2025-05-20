@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SENA Regional Santander - Cobro Coactivo</title>
-    <link rel="stylesheet" href="public/CSS/output.css">
+    <link rel="stylesheet" href="public/CSS/index.css">
     <link rel="shortcut icon" href="public/img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -13,30 +13,36 @@
         <i class="fa-solid fa-arrow-up fa-lg" aria-hidden="true"></i>
     </button>
     <div class="top-gov">
-        <a href="https://www.gov.co" target="_blank" alt="Gov.co" rel="noopener noreferrer">
-            <img class="gov" src="https://css.mintic.gov.co/mt/mintic/img/header_govco.png" alt="Gov Co">
-        </a>
+        <div>
+            <a href="https://www.gov.co" title="Redirecionar a Gov.co" target="_blank" alt="Gov.co" rel="noopener noreferrer">
+                <img class="gov" src="https://css.mintic.gov.co/mt/mintic/img/header_govco.png" alt="Gov Co">
+            </a>
+        </div>
+        <div>
+            <a class="icon-gov" href="https://www.gov.co/login" title="Redirecionar a Gov/Login" target="_blank" alt="inicio sesión Gov" rel="noopener noreferrer">
+                <i class="fas fa-door-open fa-sm"></i>
+            </a>
+        </div>
     </div>
     <header>
-
         <div class="container-header ">
             <div class="logo-header">
                 <img src="public/img/sena.blanco.png" class="img-sena" alt="Logo SENA">
-                <div class="icono-i text-xl">
-                    <h4>SENA - Regional Santander</h4>
+                <div>
+                    <h4 class="logo-text">Regional Santander</h4>
                 </div>
             </div>
-            <div class="menu-toggle" onclick="toggleMenu()">
-                <i class="fa-solid fa-bars fa-lg"></i>
-            </div>
-            <nav>
-                <ul class="nav-ul" id="menu">
-                    <li><a class="nav-li-a" href="#inicio"><i class="fas fa-house"></i>Inicio</a></li>
-                    <li><a class="nav-li-a" href="#procedimiento"><i class="fas fa-clipboard-list"></i>Procedimiento</a></li>
-                    <li><a class="nav-li-a" href="#normatividad"><i class="fas fa-gavel"></i>Normatividad</a></li>
-                    <li><a class="nav-li-a" href="#contacto"><i class="fas fa-envelope"></i>Contacto</a></li>
-                    <li><a class="nav-li-a" href="public/logging.php"><i class="fas fa-right-to-bracket"></i>Iniciar Sesión</a></li>
-                </ul>
+            <nav class="nav-ul">
+                <div class="nav-menu">
+                        <i class="fas fa-bars fa-lg text-white"></i>
+                    <ul class="nav-li-a">
+                        <li><a class="list" href="#inicio"><i class="fas fa-house"></i>Inicio</a></li>
+                        <li><a class="list" href="#procedimiento"><i class="fas fa-clipboard-list"></i>Procedimiento</a></li>
+                        <li><a class="list" href="#normatividad"><i class="fas fa-gavel"></i>Normatividad</a></li>
+                        <li><a class="list" href="#contacto"><i class="fas fa-envelope"></i>Contacto</a></li>
+                        <li><a class="list" href="public/logging.php"><i class="fas fa-right-to-bracket"></i>Iniciar Sesión</a></li>
+                    </ul>
+                </div>
             </nav>
         </div>
     </header>
@@ -59,34 +65,54 @@
             <div class="container-cards">
                 <div class="cards-section">
                     <div>
-                        <img class="img-cards" src="public/img/cautelares.png" width="380vw" height="160vh" alt="Consulta de Procesos">
+                        <img class="img-cards" src="public/img/cautelares.png" alt="Consulta de Procesos">
                     </div>
                     <div>
                         <h3 class="card-h3">CONSULTA DE PROCESOS</h3>
-                        <p class="p-card-1">Consulte el estado actual de su proceso de cobro coactivo, expedientes y notificaciones pendientes.</p>
+                        <details>
+                            <summary>Ver Más...</summary>
+                            <p class="p-card-1">
+                                Consulte el estado actual de su proceso de cobro coactivo, expedientes y notificaciones pendientes.
+                            </p>
+                        </details>
+                        <p class="p-card-1-block">
+                        Consulte el estado actual de su proceso de cobro coactivo, expedientes y notificaciones pendientes.
+                        </p>
                         <a href="public/Consultas.php" class="card-btn">Consultar</a>
                     </div>
                 </div>
                 <div class="cards-section">
                     <div>
-                        <img class="img-cards" src="public/img/acuerdopago.png" width="320vw" height="160vh" alt="Acuerdos de Pago">
+                        <img class="img-cards" src="public/img/acuerdopago.png" alt="Acuerdos de Pago">
                     </div>
                     <div>
                         <h3 class="card-h3">ACUERDOS DE PAGO</h3>
-                        <p class="p-card-1">Solicite y gestione acuerdos de pago para facilitar el cumplimiento de sus obligaciones.</p>
-                        <a href="#" class="card-btn">Solicitar</a>
+                        <details>
+                            <summary>Ver Más...</summary>
+                            <p class="p-card-1">
+                                Solicite y gestione acuerdos de pago para facilitar el cumplimiento de sus obligaciones.
+                            </p>
+                        </details>
+                        <p class="p-card-1-block">Solicite y gestione acuerdos de pago para facilitar el cumplimiento de sus obligaciones.</p>
+                        <a href="public/Consultas.php" class="card-btn">Solicitar</a>
                     </div>
                 </div>
                 <div class="cards-section">
                     <div>
-                        <img class="img-cards" src="public/img/medidascaute.jpg" width="320vw" height="160vh" alt="Medidas Cautelares">
+                        <img class="img-cards" src="public/img/medidascaute.jpg" alt="Medidas Cautelares">
                     </div>
                     <div>
                         <h3 class="card-h3">MEDIDAS CAUTELARES</h3>
-                        <p class="p-card-1">Información sobre medidas cautelares, embargos y procedimientos relacionados con su proceso.</p>
-                        <a href="#" class="card-btn">Más Información</a>
+                        <details>
+                            <summary>Ver Más...</summary>
+                            <p class="p-card-1">
+                                Información sobre medidas cautelares, embargos y procedimientos relacionados con su proceso.
+                            </p>
+                        </details>
+                        <p class="p-card-1-block">Información sobre medidas cautelares, embargos y procedimientos relacionados con su proceso.</p>
+                        <a href="public/Consultas.php" class="card-btn">Más Información</a>
                     </div>
-                </div>
+                </div>                
             </div>
         </div>
     </section> 
@@ -94,7 +120,7 @@
     <section id="procedimiento">
         <div class="procedimientos">
             <div class="proced-section">
-                <h2 class="section-h2">Procedimiento de Cobro Coactivo</h2>
+                <h2 class="proced-h2">Procedimiento de Cobro Coactivo</h2>
                 <p class="proced-p">Conozca las etapas del proceso de cobro coactivo establecido por el SENA Regional Santander.</p>
             </div>
             <div class="proced-cards">
@@ -180,7 +206,7 @@
     <section id="contacto">
         <div class="contactos">
             <div class="section-contactos">
-                <h2 class="section-h2">Contáctenos</h2>
+                <h2 class="h2-contactos">Contáctenos</h2>
                 <p class="p-contactos">Si tiene dudas o inquietudes sobre su proceso de cobro coactivo,</p>
                 <p class="p-contactos">Comunicate con nosotros a través de cualquiera de nuestros canales de atención.</p>
             </div>
