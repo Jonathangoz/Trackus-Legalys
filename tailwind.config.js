@@ -5,16 +5,23 @@ export default {
     "./public/**/*.{html,php}",
     "./.html"],
   theme: {
-    screens: { // Esto SOBRESCRIBE los breakpoints por defecto
-      xss: '320px',
-      xs:  '480px',
-      sm:  '640px',
-      md:  '768px',
-      lg:  '1024px',
-      xl:  '1280px',
-      '2xl':'1440px',
-    },
-    extend: { // Tus extensiones de colores y fuentes están bien aquí
+    extend: { 
+      screens: { // Esto SOBRESCRIBE los breakpoints por defecto
+        xss: '320px',
+        xs:  '480px',
+        xsm: '520px',
+        sm:  '600px',
+        md:  '768px',
+        lg:  '1024px',
+        xl:  '1280px',
+        '2xl':'1440px',
+        '3xl':'1600px',
+        '4xl':'1920px',
+        '5xl':'2040px',
+        '6xl':'2500px',
+        '7xl':'3800px',
+      },  
+      // Tus extensiones de colores y fuentes están bien aquí
       colors: {
         gov:  '#015dca',
         sena: '#39A900',
