@@ -2,12 +2,12 @@
   session_start();
 
   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: ../index.html");
+      header("Location: logging");
       exit;
   }
 
   if($_SESSION['tipo_rol'] !== 'ADMIN'){
-    header("Location: ../index.html");
+    header("Location: logging");
     session_destroy();
     session_unset();
     exit;
@@ -175,8 +175,9 @@
         <div class="footer-bottom">
             <p>&copy; 2025 SENA Regional Santander - Todos los derechos reservados</p>
         </div>
+
+    <script src="js/Deudores.js"></script>
+    <!-- Scripts del Boton -->
+    <script src="js/back-to-top.js"></script>
 </body>
 </html>
-<script src="js/Deudores.js"></script>
-<!-- Scripts del Boton -->
-<script src="js/back-to-top.js"></script>

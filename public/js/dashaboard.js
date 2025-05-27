@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Simulación:
         alert('Sesión cerrada exitosamente');
-        window.location.href = 'login.html';
+        window.location.href = 'logging.html';
       }
     });
     

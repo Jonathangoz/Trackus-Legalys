@@ -2,12 +2,12 @@
   session_start();
 
   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: ../index.html");
+      header("Location: logging.php");
       exit;
   }
 
   if($_SESSION['tipo_rol'] !== 'ADMIN'){
-    header("Location: ../index.html");
+    header("Location: logging.php");
     session_destroy();
     session_unset();
     exit;
@@ -20,7 +20,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Procesos de Cobro Coactivo - SENA Regional Santander</title>
-    <link rel="stylesheet" href="CSS/procesos.css">
+    <link rel="stylesheet" href="../CSS/procesos.css">
      <!-- Favicon -->
      <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
      <!-- Fonts -->
@@ -66,7 +66,7 @@
                     <li><a href="#" class="drop"><i class="fa-solid fa-user me-2" style="margin-right: 15px;"></i>Perfil</a></li>
                     <li><a href="#" class="drop"><i class="fa-solid fa-gear me-2" style="margin-right: 15px;"></i>Configuración</a></li>
                     <li><hr></li>
-                    <li><a href="module_login/logout.php" class="sesion"><i class="fa-solid fa-right-from-bracket me-2" style="margin-right: 15px;"></i>Cerrar sesión</a></li>
+                    <li><a href="../module_login/logout.php" class="sesion"><i class="fa-solid fa-right-from-bracket me-2" style="margin-right: 15px;"></i>Cerrar sesión</a></li>
                 </ul>
             </div>
         </div>
@@ -146,7 +146,8 @@
         <p>Teléfono: (607) 6800600</p>
         <p>© 2025 SENA - Servicio Nacional de Aprendizaje</p>
     </footer>
+
+    <script src="js/back-to-top.js"></script>
+    <script src="js/Procesos.js"></script>
 </body>
-</html>
-<script src="js/back-to-top.js"></script>
-<script src="js/Procesos.js"></script>   
+</html>   

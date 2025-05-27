@@ -2,12 +2,12 @@
   session_start();
 
   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: ../index.html");
+      header("Location: index.html");
       exit;
   }
 
   if($_SESSION['tipo_rol'] !== 'ADMIN'){
-    header("Location: ../index.html");
+    header("Location: logging.php");
     session_destroy();
     session_unset();
     exit;
@@ -30,177 +30,250 @@
 </head>
 <body>
     <!-- Botón de volver arriba -->
-    <button type="button" id="backToTopBtn" title="Volver arriba">
+    <button class="top-button" type="button" id="backToTopBtn" title="Volver arriba">
         <i class="fa-solid fa-arrow-up fa-lg" aria-hidden="true"></i>
     </button>
-    <!-- Encabezado del gobierno -->
-    <div class="top">
-        <a href="https://www.gov.co" target="_blank" alt="Gov.co" rel="noopener noreferrer">
-            <img class="gov" src="https://css.mintic.gov.co/mt/mintic/img/header_govco.png" alt="Gov Co">
-        </a>
-    </div>
-    <!-- Encabezado --> 
-    <header>
-        <div class="logo-container">
-            <img src="img/sena.blanco.png" class="img-sena" alt="Logo SENA">            
-            <p>SENA Regional Santander</p>
-        </div>
-        <div class="title-container">
-            <h1>Sistema de Cobro Coactivo</h1>
-        </div> 
-        <div class="user-home">
-            <div class="dropdown" id="dropdownContainer">
-                <input type="checkbox" id="userToggle" hidden>
-                <label for="userToggle" class="dropdown-toggle">
-                    <span class="user-name">Bienvenido, Admin</span>
-                    <div class="avatar">
-                        <i class="fa-solid fa-user fa-lg" style="margin-right: 6px;"></i>
-                        <i class="fa-solid fa-caret-down" style="margin-right: 6px;"></i>
-                    </div>
-                </label>
-                <ul class="dropdown-menu">
-                    <li><a href="#" class="drop"><i class="fa-solid fa-user me-2" style="margin-right: 15px;"></i>Perfil</a></li>
-                    <li><a href="#" class="drop"><i class="fa-solid fa-gear me-2" style="margin-right: 15px;"></i>Configuración</a></li>
-                    <li><hr></li>
-                    <li><a href="module_login/logout.php" class="sesion"><i class="fa-solid fa-right-from-bracket me-2" style="margin-right: 15px;"></i>Cerrar sesión</a></li>
-                </ul>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="images/sena.blanco.png" class="img-sena" alt="Logo SENA">
+            <div class="logo">
+                
+                <h1>Regional Santander</h1>
             </div>
+            <button type="button" title="boton retractil" class="toggle-btn" id="toggleBtn">
+                <span id="toggleIcon"><i class="fa-solid fa-chevron-left"></i></span>
+            </button>
         </div>
-    </header>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#inicio" class="nav-link active">
+                    <div class="nav-icon-dashboard">
+                        <i class="fa-solid fa-gauge-high me-2 fa-lg"></i>
+                    </div>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#proyectos" class="nav-link">
+                    <div class="nav-icon">
+                        <i class="fa-solid fa-copy me-2 fa-lg"></i>
+                    </div>
+                    <span class="nav-text">Procesos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#servicios" class="nav-link">
+                    <div class="nav-icon">
+                        <i class="fa-solid fa-users me-2 fa-lg"></i>
+                    </div>
+                    <span class="nav-text">Deudores</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#contacto" class="nav-link">
+                    <div class="nav-icon">
+                        <i class="fa-solid fa-chart-line me-2 fa-lg"></i>
+                    </div>
+                    <span class="nav-text">Reportes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#contacto" class="nav-link">
+                    <div class="nav-icon">
+                        <i class="fa-solid fa-user fa-lg"></i>
+                    </div>
+                    <span class="nav-text">Usuarios</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav class="sidebar">
-                <div class="position">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a href="dashboard.php" style="text-decoration: none;">
-                                <i class="fa-solid fa-gauge-high me-2" style="color: white; margin-right: 18px;"></i>
-                                    <span class="text" style="color: white;">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="procesos.php" style="text-decoration: none;"><i class="fa-solid fa-copy me-2" style="color: white; margin-right: 19px;"></i>
-                                <span class="text" style="color: white;">Procesos</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="Deudores.php" style="text-decoration: none;"><i class="fa-solid fa-users me-2" style="color: white; margin-right: 15px;"></i>
-                                <span class="text" style="color: white;">Deudores</span>
-                            </a>
-                        </li>                    
-                        <li class="nav-item">
-                            <a href="#" style="text-decoration: none;"><i class="fa-solid fa-chart-line me-2" style="color: white; margin-right: 18px;"></i>
-                                <span class="text" style="color: white;">Reportes</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" style="text-decoration: none;"><i class="fa-solid fa-cog me-2" style="color: white; margin-right: 18px;"></i>
-                                <span class="text" style="color: white;">Configuración</span>
-                            </a>
-                        </li>
-                    </ul>
+    <!-- Main Container -->
+    <div class="main-container">
+        <main class="content">
+            <!-- Hero Section -->
+            <section id="inicio" class="hero">
+                <div class="hero-content">
+                <h1>Dashboard Cobro Coactivo</h1>
                 </div>
-            </nav>
+                <div class="user-home">
+                    <div class="user-home-content">
+                        <a class="a-tigger" href="#" id="calendarTrigger">
+                            <div class="user-home-icon">
+                                <div class="icon-user">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <span class="text-sidebar-calendar">Calendario</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="dropdown" id="dropdownContainer">
+                        <input type="checkbox" id="userToggle" hidden>
+                        <label for="userToggle" class="dropdown-toggle">
+                            <span class="user-name">Bienvenido, Admin</span>
+                            <div class="avatar">
+                                <i class="fa-solid fa-user fa-lg"></i>
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </label>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="drop"><i class="fa-solid fa-user me-2"></i>Perfil</a></li>
+                            <li><a href="#" class="drop"><i class="fa-solid fa-gear me-2""></i>Configuración</a></li>
+                            <li><hr></li>
+                            <li><a href="../module_login/logout.php" class="sesion"><i class="fa-solid fa-right-from-bracket me-2"></i>Cerrar sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="calendarModalContainer"></div>
+            </section>
+            
+            <!-- Card Section -->
+            <section id="proyectos" class="section-card">
+                <div class="projects-row">
+                    <!-- Estadísticas -->
+                    <div class="row-content">
+                        <div class="cuadros">
+                            <div class="card-1 stat-card">
+                                <div class="card-body">
+                                    <div>
+                                        <i class="fas fa-solid fa-bank fa-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Bancos</h5>
+                                        <p>124</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cuadros">
+                            <div class="card-1 stat-card">
+                                <div class="card-body">
+                                    <div>
+                                        <i class="fas fa-solid fa-traffic-light fa-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Transito</h5>
+                                        <p>$825.4M</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cuadros">
+                            <div class="card-1 stat-card">
+                                <div class="card-body">
+                                    <div>
+                                        <i class="fas fa-solid fa-handshake fa-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Camara de Comercio</h5>
+                                        <p>18</p>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cuadros">
+                            <div class="card-1 stat-card">
+                                <div class="card-body">
+                                    <div>
+                                        <i class="fas fa-solid fa-sync-alt fa-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Tramites Activos</h5>
+                                        <p>$56.2M</p>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <!-- Contenido principal -->
-            <main class="main-content">
-                <h2>Dashboard de Cobro Coactivo</h2>
-                
-                <!-- Estadísticas -->
-                <div class="row-content">
-                    <div class="cuadros">
-                        <div class="card-1 stat-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Bancos</h5>
-                                <p class="card-text display-6">124</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cuadros">
-                        <div class="card-1 stat-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Transito</h5>
-                                <p class="card-text display-6">$825.4M</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cuadros">
-                        <div class="card-1 stat-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Camara de Comercio</h5>
-                                <p class="card-text display-6">18</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="cuadros">
-                        <div class="card-1 stat-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Tramites Activos</h5>
-                                <p class="card-text display-6">$56.2M</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Tabla de procesos -->
+            <!-- Services Section -->
+            <section id="servicios" class="section">
                 <div class="card-2">
                     <div class="card-header">
                         <h4 class="mb-0">Procesos recientes</h4>
                         <div class="card-h">
-                            <input type="text" class="form-control" placeholder="Buscar proceso..." style="width: 200px;">
-                            <button class="btn btn-new-user">
-                                <i class="fa-solid fa-plus-circle"></i> Nuevo proceso
+                            <input type="text" class="form-control" placeholder="Buscar proceso...">
+                            <button type="button" class="btn btn-new-user">
+                                <i class="fa-solid fa-plus-circle"></i> 
+                                Nuevo proceso 
                             </button>
-                        </div>
-                    </div>
-                    <div class="card-body-table">
-                        <div>
-                            <table class="table">
-                                <thead class="table-head">
-                                    <tr>
-                                        <th>No. Proceso</th>
-                                        <th>Deudor</th>
-                                        <th>Valor</th>
-                                        <th>Fecha inicio</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>CC-2025-0142</td>
-                                        <td>Empresa XYZ S.A.S</td>
-                                        <td>$52,450,000</td>
-                                        <td>15/03/2025</td>
-                                        <td><span class="status-badge status-activo">Activo</span></td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm" aria-label="Ver detalles"><i class="fa-solid fa-eye me-2" style="color: #198754;"></i></button>
-                                            <button type="button" class="btn btn-sm" aria-label="Editar"><i class="fa-solid fa-pen me-2" style="color: #0d6efd;"></i></button>
-                                            <button type="button" class="btn-sm" aria-label="Descargar"><i class="fa-solid fa-download" style="color:rgb(10, 69, 156);"></i></button>
-                                        </td>
-                                    </tr>
-                                    <!-- Más filas de la tabla... -->
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Sección de usuarios -->
-                <div class="card-3">
+                <div>
+                    <table class="pricing-table">
+                        <thead class="table-head">
+                            <tr>
+                                <th>No. Proceso</th>
+                                <th>Deudor</th>
+                                <th>Valor</th>
+                                <th>Fecha inicio</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CC-2025-0150</td>
+                                <td>Empresa ABC S.A.S</td>
+                                <td>$16,450,000</td>
+                                <td>15/03/2024</td>
+                                <td><span class="status-badge status-activo">Activo</span></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm" aria-label="Ver detalles"><i class="fa-solid fa-eye me-2" style="color: #198754;"></i></button>
+                                    <button type="button" class="btn btn-sm" aria-label="Editar"><i class="fa-solid fa-pen me-2" style="color: #0d6efd;"></i></button>
+                                    <button type="button" class="btn-sm" aria-label="Descargar"><i class="fa-solid fa-download" style="color:rgb(10, 69, 156);"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>CC-2025-0165</td>
+                                <td>Empresa 123 S.A.S</td>
+                                <td>$2,450,000</td>
+                                <td>15/06/2025</td>
+                                <td><span class="status-badge status-activo">Activo</span></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm" aria-label="Ver detalles"><i class="fa-solid fa-eye me-2" style="color: #198754;"></i></button>
+                                    <button type="button" class="btn btn-sm" aria-label="Editar"><i class="fa-solid fa-pen me-2" style="color: #0d6efd;"></i></button>
+                                    <button type="button" class="btn-sm" aria-label="Descargar"><i class="fa-solid fa-download" style="color:rgb(10, 69, 156);"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>CC-2025-0167</td>
+                                <td>Empresa ghj S.A.S</td>
+                                <td>952,450,000</td>
+                                <td>11/08/2023</td>
+                                <td><span class="status-badge status-activo">Activo</span></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm" aria-label="Ver detalles"><i class="fa-solid fa-eye me-2" style="color: #198754;"></i></button>
+                                    <button type="button" class="btn btn-sm" aria-label="Editar"><i class="fa-solid fa-pen me-2" style="color: #0d6efd;"></i></button>
+                                    <button type="button" class="btn-sm" aria-label="Descargar"><i class="fa-solid fa-download" style="color:rgb(10, 69, 156);"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Más filas de la tabla... -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contacto" class="section">                
+                <div class="card-2">
                     <div class="card-header">
-                        <h4>Administración de Usuarios</h4>
+                        <h4 class="mb-0">Administración de Usuarios</h4>
                         <div class="card-h">
-                            <button class="btn btn-new-user" id="openModal">
-                                <i class="fa-solid fa-user-plus"></i> Nuevo usuario
+                            <button type="button" class="btn btn-new-user" data-bs-toggle="modal" data-bs-target="#userModal">
+                                <i class="fa-solid fa-user-plus"></i>
+                                 Nuevo usuario
                             </button>
                         </div>
                     </div>
-                    <div class="card-body-table">
-                        <div>
-                            <table class="table">
+                </div>
+                <div>
+                            <table class="pricing-table">
                                 <thead class="table-head">
                                     <tr>
                                         <th>ID</th>
@@ -219,9 +292,9 @@
                                         <td>Administrador</td>
                                         <td><span class="status-badge status-activo">Activo</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-sm" aria-label="Editar"><i class="fa-solid fa-pen" style="color: #0d6efd;"></i></button>
-                                            <button type="button" class="btn btn-sm" aria-label="Activo/Inactivo"><i class="fa-solid fa-lock" style="color: #6c757d;"></i></button>
-                                            <button type="button" class="btn btn-sm" aria-label="Eliminar"><i class="fa-solid fa-trash" style="color: #dc3545;"></i></button>
+                                            <button type="button" class="btn btn-sm" aria-label="ver detalles"><i class="fa-solid fa-pen" style="color: #0d6efd;"></i></button>
+                                            <button type="button" class="btn btn-sm" aria-label="ver detalles"><i class="fa-solid fa-lock" style="color: #6c757d;"></i></button>
+                                            <button type="button" class="btn btn-sm" aria-label="ver detalles"><i class="fa-solid fa-trash" style="color: #dc3545;"></i></button>
                                         </td>
                                     </tr>
                                     <!-- Más filas de la tabla... -->
@@ -230,85 +303,18 @@
                         </div>
                     </div>
                 </div>
-            </main>
-        </div>
-    </div>
+            </section>
+        </main>
 
-    <!-- Modal para creación de usuarios -->
-  <div class="modal" id="userModal">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h5>Crear nuevo usuario</h5>
-        <button class="close-btn" id="closeModal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form id="userForm">
-          <div class="row">
-            <div class="col">
-              <label for="userName">Nombre completo *</label>
-              <input type="text" id="userName" required>
-            </div>
-            <div class="col">
-              <label for="userIdentification">Número de identificación *</label>
-              <input type="text" id="userIdentification" required>
-            </div>
-            <div class="col">
-              <label for="userEmail">Correo electrónico *</label>
-              <input type="email" id="userEmail" required>
-            </div>
-            <div class="col">
-              <label for="userPhone">Teléfono</label>
-              <input type="tel" id="userPhone">
-            </div>
-            <div class="col">
-              <label for="userRole">Rol *</label>
-              <select id="userRole" required>
-                <option value="">Seleccione un rol</option>
-                <option value="admin">Administrador</option>
-                <option value="supervisor">Supervisor</option>
-                <option value="cobrador">Cobrador</option>
-                <option value="consulta">Consulta</option>
-              </select>
-            </div>
-            <div class="col">
-              <label for="userPassword">Contraseña *</label>
-              <div class="input-group">
-                <input type="password" id="userPassword" required>
-                <button type="button" class="toggle-password" data-target="userPassword">
-                  👁️
-                </button>
-              </div>
-            </div>
-            <div class="col">
-              <label for="userConfirmPassword">Confirmar contraseña *</label>
-              <div class="input-group">
-                <input type="password" id="userConfirmPassword" required>
-                <button type="button" class="toggle-password" data-target="userConfirmPassword">
-                  👁️
-                </button>
-              </div>
-              <div id="passwordError">Las contraseñas no coinciden</div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="cancel" id="cancelBtn">Cancelar</button>
-        <button class="save" id="saveUser">Guardar</button>
-      </div>
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 SENA - Servicio Nacional de Aprendizaje | Regional Santander</p>
+        </footer>
     </div>
-  </div>
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container text-center">
-            <p class="mb-0">© 2025 SENA - Servicio Nacional de Aprendizaje | Regional Santander</p>
-        </div>
-    </footer>     
-</body>
-</html>
 <!-- Scripts del Boton -->
 <script src="js/back-to-top.js"></script>
 <!-- Scripts dashboard -->
 <script src="js/dashaboard.js"></script>
-<!-- Scripts del Modal -->
-<script src="js/modal.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

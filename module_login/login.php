@@ -2,9 +2,6 @@
 session_start();
 require 'conexion.php';
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
@@ -16,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($correo) || empty($contraseña)) {
         $_SESSION['error'] = "Por favor, completa todos los campos.";
-        header("Location: ../public/loggin.php");
+        header("Location: ../public/logging.php");
         exit;
     }
 
@@ -38,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // firma del token con HMAC
                 $secretkey = "Jonathan94Goz@";
                 $signature = hash_hmac('sha256', $token, $secretkey);
-                $signedToken = $token . '.' . $signature;
+                $signedToken = $signature;
                 // encriptacion del token (cifrado simetrico con AES)
                 $iv = random_bytes(16); // vector de inicializacion (iv)
                 $encryptedToken = openssl_encrypt($token, 'AES-256-CBC', $secretkey, 0, $iv);
@@ -74,26 +71,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     default:
                         $_SESSION['error'] = "Rol no Reconicido.";
                         echo "Error: " . $_SESSION['error'];
-                        header("Location: ../public/loggin.php");
+                        header("Location: ../public/logging.php");
                         break;
                 }
                 exit;
             } else {
                 $_SESSION['error'] = "Contraseña incorrecta.";
                 echo "Error: " . $_SESSION['error'];
-                header("Location: ../public/loggin.php");
+                header("Location: ../public/logging.php");
                 exit;
             }
         } else {
             $_SESSION['error'] = "Usuario no encontrado.";
             echo "Error: " . $_SESSION['error'];
-            header("Location: ../public/loggin.php");
+            header("Location: ../public/logging.php");
             exit;
         }
     } catch (PDOException $e) {
         $_SESSION['error'] = "Error: " . $e->getMessage();
         echo "Error en la consulta: " . $_SESSION['error'];
-        header("Location: ../public/loggin.php");
+        header("Location: ../public/logging.php");
         exit;
     }
 }

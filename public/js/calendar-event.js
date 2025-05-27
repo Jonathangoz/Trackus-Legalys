@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadCalendarModal(e) {
   // Si fuera un <a>, también haríamos e.preventDefault() aquí
-  fetch('components/calendar-event.php')
+  fetch('../public/calendar-event.php')
     .then(res => res.text())
     .then(html => {
       const container = document.getElementById('calendarModalContainer');
