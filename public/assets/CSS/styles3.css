@@ -1,0 +1,116 @@
+:root {
+  --sena-green: #39A900;
+  --sena-green-light: #46d417;
+  --sena-green-dark: #267e03; /* Nuevo color verde oscuro */
+  --color-gray: #777;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--sena-green) 0%, #FFFFFF 100%); /* Gradiente invertido */
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 4px;
+  background: #0f0f0f00;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--color-gray);
+  border: 2px solid transparent;
+  border-radius: 10px;
+}
+
+/* Centrar la imagen dentro de .logo-section */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrar horizontalmente */
+  justify-content: center; /* Centrar verticalmente */
+  text-align: center; /* Asegurar que el texto también esté centrado */
+}
+
+/* Estilos para la imagen */
+.img img {
+  width: 150px; /* Ajusta el tamaño de la imagen */
+  height: auto; /* Mantener la proporción */
+  display: block; /* Asegurar que la imagen sea un bloque */
+  margin: 0 auto; /* Centrar horizontalmente */
+}
+
+.text-sena-green {
+  color: var(--sena-green);
+}
+
+.border-sena-green {
+  border-color: var(--sena-green);
+}
+
+.btn-gradient {
+  background: linear-gradient(90deg, var(--sena-green) 0%, var(--sena-green-light) 100%);
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(90deg, var(--sena-green-light) 0%, var(--sena-green) 100%);
+  box-shadow: 0 4px 12px rgba(57, 169, 0, 0.2);
+}
+
+.focus-sena:focus {
+  border-color: var(--sena-green);
+  box-shadow: 0 0 0 3px rgba(57, 169, 0, 0.15);
+}
+
+.card {
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border-top: 4px solid rgb(57, 138, 17);
+  background-color: white; /* Fondo blanco para la tarjeta */
+  padding: 2rem; /* Ajustar el padding */
+}
+
+.form-control {
+  transition: all 0.2s ease;
+}
+
+.logo-section {
+  position: relative;
+}
+
+.logo-section::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 3px;
+  width: 50%;
+  background: linear-gradient(90deg, var(--sena-green) 0%, var(--sena-green-light) 100%);
+  border-radius: 10px;
+}
+
+.password-container {
+  position: relative;
+  width: 300px;
+}
+
+/* .password-container .password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+} 
+
+.password-toggle img {
+  width: 20px;
+  height: auto;
+  cursor: pointer;
+} */
+ 
