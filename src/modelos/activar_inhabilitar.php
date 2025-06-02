@@ -1,5 +1,5 @@
 <?php
-// src/modelos/obligados_pagos.php
+// src/modelos/activar_inhabilitar.php
 declare(strict_types=1);
 
 namespace App\modelos;
@@ -7,7 +7,7 @@ namespace App\modelos;
 use App\DB\conexion;
 use PDO;
 
-class obligados_pagos
+class activar_inhabilitar
 {
     /**
      * Trae todos los deudores activos.
@@ -17,7 +17,7 @@ class obligados_pagos
     {
         $db = conexion::getInstance();
         $sql = "SELECT id, nombre, deuda 
-                  FROM deudores 
+                  FROM funcionarios 
                  WHERE activo = TRUE";
         $stmt = $db->prepare($sql);
         $stmt->execute();
@@ -32,7 +32,7 @@ class obligados_pagos
     public static function activate(int $id): bool
     {
         $db = conexion::getInstance();
-        $sql = "SELECT activar_deudor(:id)";
+        $sql = "SELECT activar_funcionario(:id)";
         $stmt = $db->prepare($sql);
         return $stmt->execute(['id' => $id]);
     }
@@ -40,7 +40,7 @@ class obligados_pagos
     public static function deactivate(int $id): bool
     {
         $db = conexion::getInstance();
-        $sql = "SELECT desactivar_deudor(:id)";
+        $sql = "SELECT desactivar_funcionario(:id)";
         $stmt = $db->prepare($sql);
         return $stmt->execute(['id' => $id]);
     }

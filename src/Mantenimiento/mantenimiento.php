@@ -1,5 +1,7 @@
 <?php
-// mantenimiento.php
+// src/Mantenimiento/mantenimiento.php
+declare(strict_types=1);
+
 namespace App\Mantenimiento;
 
 class mantenimiento {

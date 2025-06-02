@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Mantenimiento\mantenimiento;
-
-require __DIR__ . '/vendor/autoload.php';
 
 // Cargar variables desde .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -14,10 +15,7 @@ $logger = \App\Log\loggers::createLogger();
 // 3) Empezar a usarlo
 $logger->info('Aplicación iniciada correctamente.');
 $logger->warning('Algo inusual ocurrió, pero no es crítico.');
-$logger->error('¡Ha ocurrido un error crítico!', ['usuario' => 'juan123', 'acción' => 'login']);
-
-require_once 'config/env.php';
-require_once 'Mantenimiento/mantenimiento.php';
+$logger->error('Error de login para usuario', ['usuario' => $correo,'acción'  => 'login','detalle' => 'Contraseña incorrecta']);
 
 // Verificar mantenimiento
 mantenimiento::check();
@@ -62,7 +60,7 @@ unset($_SESSION['login_errors'], $_SESSION['old']);
       <h2 class="text-xl text-gray-700 font-medium">Gestion Juridica</h2>
     </div>
         
-    <form class="space-y-6" aria-label="Formulario de inicio de sesión" action="../module_login/login.php" method="POST">
+    <form class="space-y-6" aria-label="Formulario de inicio de sesión" action="/control_logging" method="POST">
       <div>
         <label class="block text-gray-700 text-sm font-semibold mb-2" for="username">Email</label>
         <input 

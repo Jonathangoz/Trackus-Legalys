@@ -1,24 +1,24 @@
 <?php
-// src/Controllers/UsuarioController.php
+// src/controladores/control_usuarios.php
 declare(strict_types=1);
 
-namespace App\Controllers;
+namespace App\controladores;
 
-use App\Services\AuthService;
+use App\seguridad\autenticacion;
 
-class UsuarioController extends BaseController
+class control_usuarios extends controlador_base
 {
     /**
      * GET /usuario/consultas
      */
     public function consultas(): void
     {
-        if (! AuthService::checkUserIsLogged() || AuthService::getUserRole() !== 'USUARIO') {
-            AuthService::logout();
+        if (! autenticacion::checkUserIsLogged() || autenticacion::getUserRole() !== 'USUARIO') {
+            autenticacion::logout();
             $this->redirect('/login');
         }
         $data = [
-            'usuarioNombre' => AuthService::getUserFullName(),
+            'usuarioNombre' => autenticacion::getUserFullName(),
             // 'misConsultas' => Consulta::allForUser($_SESSION['user_id'])
         ];
         $this->renderView('usuario/consultas', $data);

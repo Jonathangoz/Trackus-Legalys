@@ -1,16 +1,16 @@
 <?php
-// public/index.php
+// public/index.php (controlador principal validacion y redirecion de vistas)
 declare(strict_types=1);
 
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../config/env.php';
+require __DIR__ . '../vendor/autoload.php';
+require __DIR__ . '../config/env.php';
 
-use App\Controllers\AuthController;
-use App\Controllers\AdminController;
-use App\Controllers\AbogadoController;
-use App\Controllers\AdminTramiteController;
-use App\Controllers\UsuarioController;
-use App\Controllers\ApiController;
+use App\controladores\control_logging;
+use App\controladores\control_admin;
+use App\controladores\control_abogados;
+use App\controladores\control_adminTramites;
+use App\controladores\control_usuarios;
+use App\Controladores\API\control_query;
 
 // ───────────────────────────────────────────────────────────────────────────────
 // 1) Configuracion de vida de Sesiones
@@ -55,7 +55,7 @@ if (isset($_SESSION['LAST_ACTIVITY'])) {
     if ($inactividad > $idleTimeout) {
         // Ya superó el tiempo de inactividad: cerramos sesión automáticamente.
         // Llamamos al logout para limpiar todo (cookie, session_destroy, headers anti-cache).
-        $auth = new AuthController();
+        $auth = new control_logging();
         $auth->logout();
         exit; // asegurarnos de no seguir con más código
     }
@@ -80,14 +80,14 @@ switch ($uri) {
     // GET  /login   → muestra formulario de login
     // POST /login   → procesa datos de login
     case '/login':
-        $auth = new AuthController();
+        $auth = new control_logging();
         if ($method === 'GET') {
             $auth->showLoginForm();
         } elseif ($method === 'POST') {
             // Validar CSRF
             $csrfForm = $_POST['csrf_token'] ?? '';
             $csrfSes  = $_SESSION['csrf_token'] ?? '';
-            if (! hash_equals($csrfSes, $csrfForm)) {
+            if (!hash_equals($csrfSes, $csrfForm)) {
                 http_response_code(400);
                 echo "CSRF token inválido.";
                 exit;
@@ -101,7 +101,7 @@ switch ($uri) {
 
     // GET /logout → cierra sesión y redirige a /login
     case '/logout':
-        $auth = new AuthController();
+        $auth = new control_logging();
         $auth->logout();
         break;
 
@@ -115,7 +115,7 @@ switch ($uri) {
     // GET /admin/usuarios     → CRUD de usuarios (exclusivo ADMIN)
     // GET /admin/deudores     → lista/gestiona deudores
     if (strpos($uri, '/admin') === 0) {
-        $admin = new AdminController();
+        $admin = new control_admin();
         // Si vinieron en GET /admin/dashboard
         if ($uri === '/admin/dashboard' && $method === 'GET') {
             $admin->dashboard();
@@ -143,7 +143,7 @@ switch ($uri) {
 
     // Ejemplo: GET /admin_tramite/dashboard
     if (strpos($uri, '/admin_tramite') === 0) {
-        $adminT = new AdminTramiteController();
+        $adminT = new control_adminTramites();
         if ($uri === '/admin_tramite/dashboard' && $method === 'GET') {
             $adminT->dashboard();
         }
@@ -164,7 +164,7 @@ switch ($uri) {
     // GET /abogado/procesos     → lista de procesos
     // GET /abogado/calendario   → calendario
     if (strpos($uri, '/abogado') === 0) {
-        $abogado = new AbogadoController();
+        $abogado = new control_abogados();
         if ($uri === '/abogado/procesos' && $method === 'GET') {
             $abogado->procesos();
         }
@@ -186,7 +186,7 @@ switch ($uri) {
 
     // Ejemplo: GET /usuario/consultas
     if (strpos($uri, '/usuario') === 0) {
-        $usuario = new UsuarioController();
+        $usuario = new control_usuarios();
         if ($uri === '/usuario/consultas' && $method === 'GET') {
             $usuario->consultas();
         }
@@ -204,7 +204,7 @@ switch ($uri) {
     // ------------------------------------------------------
     case '/api':
         if ($method === 'POST') {
-            $api = new ApiController();
+            $api = new control_query();
             $api->handle();
         } else {
             http_response_code(405);

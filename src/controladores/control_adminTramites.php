@@ -1,24 +1,24 @@
 <?php
-// src/Controllers/AdminTramiteController.php
+// src/controladores/control_adminTramites.php
 declare(strict_types=1);
 
-namespace App\Controllers;
+namespace App\controladores;
 
-use App\Services\AuthService;
+use App\seguridad\autenticacion;
 
-class AdminTramiteController extends BaseController
+class control_adminTramites extends controlador_base
 {
     /**
      * GET /admin_tramite/dashboard
      */
     public function dashboard(): void
     {
-        if (! AuthService::checkUserIsLogged() || AuthService::getUserRole() !== 'ADMIN_TRAMITE') {
-            AuthService::logout();
+        if (! autenticacion::checkUserIsLogged() || autenticacion::getUserRole() !== 'ADMIN_TRAMITE') {
+            autenticacion::logout();
             $this->redirect('/login');
         }
         $data = [
-            'usuarioNombre' => AuthService::getUserFullName(),
+            'usuarioNombre' => autenticacion::getUserFullName(),
             // … otros datos para trámite …
         ];
         $this->renderView('admin_tramite/dashboard', $data);

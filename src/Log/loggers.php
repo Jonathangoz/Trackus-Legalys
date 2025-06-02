@@ -1,4 +1,7 @@
 <?php
+// src/Log/loggers.php (procesos de log, que guarda los log en la carpeta logs duracion el mismo dependiendo de como se define en .env)
+declare(strict_types=1);
+
 namespace App\Log;
 
 use Monolog\Logger;

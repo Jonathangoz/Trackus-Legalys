@@ -1,5 +1,5 @@
 <?php
-// src/Controllers/BaseController.php
+// src/controladores/controlador_base.php
 declare(strict_types=1);
 
 namespace App\controladores;

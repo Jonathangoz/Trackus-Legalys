@@ -1,11 +1,14 @@
 <?php
-// database/conexion.php
+// src/DB/conexion.php
 declare(strict_types=1);
+
+namespace App\DB;
+
+require_once __DIR__ . '../../config/env.php';
 
 /**
  * Devuelve una instancia PDO única (patrón singleton).
  */
-namespace App\DB;
 
 use PDO;
 use PDOException;

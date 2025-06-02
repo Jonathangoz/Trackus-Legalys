@@ -1,24 +1,24 @@
 <?php
-// src/Controllers/AbogadoController.php
+// src/controladores/control_abogados.php
 declare(strict_types=1);
 
-namespace App\Controllers;
+namespace App\controladores;
 
-use App\Services\AuthService;
+use App\seguridad\autenticacion;
 
-class AbogadoController extends BaseController
+class control_abogados extends controlador_base
 {
     /**
      * GET /abogado/procesos
      */
     public function procesos(): void
     {
-        if (! AuthService::checkUserIsLogged() || ! in_array(AuthService::getUserRole(), ['ABOGADO_1','ABOGADO_2','ABOGADO_3'])) {
-            AuthService::logout();
+        if (! autenticacion::checkUserIsLogged() || ! in_array(autenticacion::getUserRole(), ['ABOGADO_1','ABOGADO_2','ABOGADO_3'])) {
+            autenticacion::logout();
             $this->redirect('/login');
         }
         $data = [
-            'usuarioNombre' => AuthService::getUserFullName(),
+            'usuarioNombre' => autenticacion::getUserFullName(),
             // 'procesos' => Proceso::allByAbogado($_SESSION['user_id'])
         ];
         $this->renderView('abogado/procesos', $data);
@@ -29,12 +29,12 @@ class AbogadoController extends BaseController
      */
     public function calendario(): void
     {
-        if (! AuthService::checkUserIsLogged() || ! in_array(AuthService::getUserRole(), ['ABOGADO_1','ABOGADO_2','ABOGADO_3'])) {
-            AuthService::logout();
+        if (! autenticacion::checkUserIsLogged() || ! in_array(autenticacion::getUserRole(), ['ABOGADO_1','ABOGADO_2','ABOGADO_3'])) {
+            autenticacion::logout();
             $this->redirect('/login');
         }
         $data = [
-            'usuarioNombre' => AuthService::getUserFullName(),
+            'usuarioNombre' => autenticacion::getUserFullName(),
             // 'eventos' => Evento::allForAbogado($_SESSION['user_id'])
         ];
         $this->renderView('abogado/calendario', $data);

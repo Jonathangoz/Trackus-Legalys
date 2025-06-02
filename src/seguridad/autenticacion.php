@@ -1,10 +1,8 @@
 <?php
-// src/Services/AuthService.php
+// src/seguridad/autenticacion.php
 declare(strict_types=1);
 
-namespace App\servicios;
-
-use App\modelos\modeloBase;
+namespace App\seguridad;
 
 class autenticacion
 {
@@ -78,6 +76,14 @@ class autenticacion
         }
         return encriptacion::verifySignedToken($_SESSION['auth_token']) !== null;
     }
+
+    /**
+     * Retorna el rol del usuario actual (o null).
+     */
+    public static function getUserId(): ?int
+    {
+        return $_SESSION['user_id'] ?? null;
+    }    
 
     /**
      * Retorna el rol del usuario actual (o null).

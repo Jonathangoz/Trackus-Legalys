@@ -1,12 +1,13 @@
 <?php
-// src/Controllers/AdminController.php
+// src/controladores/control_admin.php
 declare(strict_types=1);
 
-namespace App\Controllers;
+namespace App\controladores;
 
-use App\Services\AuthService;
+use App\controladores\controlador_base;
+use App\seguridad\autenticacion;
 
-class AdminController extends BaseController
+class control_admin extends controlador_base
 {
     /**
      * GET /admin/dashboard
@@ -14,18 +15,18 @@ class AdminController extends BaseController
     public function dashboard(): void
     {
         // 1) Verificar que esté autenticado
-        if (! AuthService::checkUserIsLogged()) {
+        if (! autenticacion::checkUserIsLogged()) {
             $this->redirect('/login');
         }
         // 2) Verificar rol = 'ADMIN'
-        if (AuthService::getUserRole() !== 'ADMIN') {
-            AuthService::logout();
+        if (autenticacion::getUserRole() !== 'ADMIN') {
+            autenticacion::logout();
             $this->redirect('/login');
         }
 
         // 3) Cargar datos necesarios (ejemplo: contar usuarios, deudores, etc.)
         $data = [
-            'usuarioNombre' => AuthService::getUserFullName(),
+            'usuarioNombre' => autenticacion::getUserFullName(),
             // 'cantidadUsuarios' => Usuario::countAll(),
             // 'cantidadDeudores' => Deudor::countAllActivos(),
         ];
@@ -39,8 +40,8 @@ class AdminController extends BaseController
      */
     public function usuarios(): void
     {
-        if (! AuthService::checkUserIsLogged() || AuthService::getUserRole() !== 'ADMIN') {
-            AuthService::logout();
+        if (! autenticacion::checkUserIsLogged() || autenticacion::getUserRole() !== 'ADMIN') {
+            autenticacion::logout();
             $this->redirect('/login');
         }
         // Cargar lista de usuarios activos/inactivos
@@ -53,8 +54,8 @@ class AdminController extends BaseController
      */
     public function deudores(): void
     {
-        if (! AuthService::checkUserIsLogged() || AuthService::getUserRole() !== 'ADMIN') {
-            AuthService::logout();
+        if (! autenticacion::checkUserIsLogged() || autenticacion::getUserRole() !== 'ADMIN') {
+            autenticacion::logout();
             $this->redirect('/login');
         }
         // $deudores = Deudor::allActivos();

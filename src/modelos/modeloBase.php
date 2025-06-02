@@ -1,5 +1,5 @@
 <?php
-// src/Models/User.php
+// src/Models/User.php (modelo que verifica la existencia de los roles y credenciales)
 declare(strict_types=1);
 
 namespace App\modelos;

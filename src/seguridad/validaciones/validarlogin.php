@@ -1,5 +1,5 @@
 <?php
-// src/Validation/LoginValidator.php
+// src/seguridad/validaciones/validarlogin.php
 declare(strict_types=1);
 
 namespace App\validaciones;

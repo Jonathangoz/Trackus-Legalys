@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadUserModal(e) {
   // Si fuera un <a>, también haríamos e.preventDefault() aquí
-  fetch('../public/components/modaldashboard.php')
+  fetch('../public/componentes/modalDashboard.php')
     .then(res => res.text())
     .then(html => {
       const container = document.getElementById('userModalContainer');

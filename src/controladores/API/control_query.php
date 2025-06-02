@@ -1,48 +1,74 @@
 <?php
-// src/Controllers/ApiController.php
+// src/controladores/API/control_query.php
 declare(strict_types=1);
 
-namespace App\Controllers;
+namespace App\controladores\API;
 
-use App\Services\AuthService;
-use App\Services\CryptoService;
-use App\Models\Deudor;
-use App\Models\Funcionario;
+use App\controladores\controlador_base;
+use App\seguridad\autenticacion as SeguridadAutenticacion;
+use App\seguridad\encriptacion as SeguridadEncriptacion;
+use App\modelos\obligados_pagos;
+use App\modelos\activar_inhabilitar;
+use App\DB\conexion;
 
-class ApiController extends BaseController
+class Control_query extends controlador_base
 {
     /**
-     * Maneja todas las llamadas a /api
-     * Espera un JSON en el body con al menos { action: '...' }.
-     * Verifica X-Auth-Token y CSRF (en POST), luego despacha a la acción correspondiente.
+     * Maneja todas las llamadas AJAX/JSON a /api
      */
     public function handle(): void
     {
-        // 1) Verificar que sea aplicación/json
+        // 1) Forzar respuesta JSON
         header('Content-Type: application/json; charset=UTF-8');
 
-        // 2) Verificar que venga un token de autenticación firmado
-        $headers = getallheaders();
-        $authHeader = $headers['X-Auth-Token'] ?? '';
-        if (empty($authHeader) || CryptoService::verifySignedToken($authHeader) === null) {
+        // 2) Obtener token cifrado de la cookie
+        $encryptedToken = $_COOKIE['auth_token'] ?? '';
+        if (empty($encryptedToken)) {
             http_response_code(401);
-            echo json_encode(['error' => 'Token de autenticación inválido.']);
+            echo json_encode(['error' => 'No autenticado (cookie ausente).']);
             return;
         }
 
-        // 3) Validar que la sesión PHP siga activa y el token sea el mismo
-        session_start([
-            'cookie_httponly' => true,
-            'cookie_samesite' => 'Strict',
-            'cookie_secure'   => false, // true si usas HTTPS
-        ]);
-        if (! AuthService::checkUserIsLogged()) {
+        // 2.5) Verificar en PostgreSQL que el token exista, no expiró y no fue revocado
+        $db = conexion::getInstance();
+        $sql = "SELECT user_id
+                FROM user_tokens
+                WHERE token = :token
+                  AND expires_at > NOW()
+                  AND revoked = FALSE
+                LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->execute(['token' => $encryptedToken]);
+        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if (! $row) {
             http_response_code(401);
-            echo json_encode(['error' => 'Usuario no autenticado.']);
+            echo json_encode(['error' => 'Token no encontrado o expirado (DB).']);
             return;
         }
 
-        // 4) Leer el JSON del body
+        // 3) Descifrar y verificar HMAC + expiración en sesión
+        $tokenOriginal = SeguridadEncriptacion::decryptAndVerifyWithExpiry($encryptedToken);
+        if ($tokenOriginal === null) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Sesión expirada o token inválido.']);
+            return;
+        }
+
+        // 4) Validar sesión PHP y rol
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start([
+                'cookie_httponly' => true,
+                'cookie_samesite' => 'Strict',
+                'cookie_secure'   => true,
+            ]);
+        }
+        if (! SeguridadAutenticacion::checkUserIsLogged()) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Sesión no válida.']);
+            return;
+        }
+
+        // 5) Leer JSON del cuerpo
         $body = file_get_contents('php://input');
         $data = json_decode($body, true);
         if (! is_array($data)) {
@@ -51,7 +77,7 @@ class ApiController extends BaseController
             return;
         }
 
-        // 5) (Opcional) verificar CSRF en POST
+        // 6) Validar CSRF para POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $csrfForm = $data['csrf_token'] ?? '';
             $csrfSes  = $_SESSION['csrf_token'] ?? '';
@@ -62,7 +88,7 @@ class ApiController extends BaseController
             }
         }
 
-        // 6) Dispatch según action
+        // 7) Dispatch según acción
         $action = $data['action'] ?? '';
         switch ($action) {
             case 'listar_deudores':
@@ -100,23 +126,20 @@ class ApiController extends BaseController
         }
     }
 
-    /**
-     * Ejemplo: retorna JSON con todos los deudores activos.
-     */
     private function listarDeudores(): void
     {
         try {
-            $deudores = Deudor::allActivos(); // Debe devolver array (prepared statement en el modelo)
+            $deudores = obligados_pagos::allActivos();
             echo json_encode(['deudores' => $deudores]);
         } catch (\Throwable $e) {
             http_response_code(500);
-            echo json_encode(['error' => 'Error interno.', 'details' => $e->getMessage()]);
+            echo json_encode([
+                'error'   => 'Error interno al listar deudores.',
+                'details' => $e->getMessage()
+            ]);
         }
     }
 
-    /**
-     * Ejemplo: activa un deudor vía función almacenada o query preparada.
-     */
     private function activarDeudor(int $id): void
     {
         if ($id <= 0) {
@@ -124,10 +147,8 @@ class ApiController extends BaseController
             echo json_encode(['error' => 'ID deudor inválido.']);
             return;
         }
-
         try {
-            // Suponiendo que el modelo Deudor tenga método activate()
-            $ok = Deudor::activate($id);
+            $ok = obligados_pagos::activate($id);
             if ($ok) {
                 echo json_encode(['success' => true]);
             } else {
@@ -136,7 +157,10 @@ class ApiController extends BaseController
             }
         } catch (\Throwable $e) {
             http_response_code(500);
-            echo json_encode(['error' => 'Error interno.', 'details' => $e->getMessage()]);
+            echo json_encode([
+                'error'   => 'Error interno al activar deudor.',
+                'details' => $e->getMessage()
+            ]);
         }
     }
 
@@ -147,9 +171,8 @@ class ApiController extends BaseController
             echo json_encode(['error' => 'ID deudor inválido.']);
             return;
         }
-
         try {
-            $ok = Deudor::deactivate($id);
+            $ok = obligados_pagos::deactivate($id);
             if ($ok) {
                 echo json_encode(['success' => true]);
             } else {
@@ -158,21 +181,24 @@ class ApiController extends BaseController
             }
         } catch (\Throwable $e) {
             http_response_code(500);
-            echo json_encode(['error' => 'Error interno.', 'details' => $e->getMessage()]);
+            echo json_encode([
+                'error'   => 'Error interno al desactivar deudor.',
+                'details' => $e->getMessage()
+            ]);
         }
     }
 
-    /**
-     * Ejemplo: lista todos los funcionarios
-     */
     private function listarFuncionarios(): void
     {
         try {
-            $funcionarios = Funcionario::allActivos();
+            $funcionarios = activar_inhabilitar::allActivos();
             echo json_encode(['funcionarios' => $funcionarios]);
         } catch (\Throwable $e) {
             http_response_code(500);
-            echo json_encode(['error' => 'Error interno.', 'details' => $e->getMessage()]);
+            echo json_encode([
+                'error'   => 'Error interno al listar funcionarios.',
+                'details' => $e->getMessage()
+            ]);
         }
     }
 
@@ -183,9 +209,8 @@ class ApiController extends BaseController
             echo json_encode(['error' => 'ID funcionario inválido.']);
             return;
         }
-
         try {
-            $ok = Funcionario::activate($id);
+            $ok = activar_inhabilitar::activate($id);
             if ($ok) {
                 echo json_encode(['success' => true]);
             } else {
@@ -194,7 +219,10 @@ class ApiController extends BaseController
             }
         } catch (\Throwable $e) {
             http_response_code(500);
-            echo json_encode(['error' => 'Error interno.', 'details' => $e->getMessage()]);
+            echo json_encode([
+                'error'   => 'Error interno al activar funcionario.',
+                'details' => $e->getMessage()
+            ]);
         }
     }
 
@@ -205,9 +233,8 @@ class ApiController extends BaseController
             echo json_encode(['error' => 'ID funcionario inválido.']);
             return;
         }
-
         try {
-            $ok = Funcionario::deactivate($id);
+            $ok = activar_inhabilitar::deactivate($id);
             if ($ok) {
                 echo json_encode(['success' => true]);
             } else {
@@ -216,7 +243,10 @@ class ApiController extends BaseController
             }
         } catch (\Throwable $e) {
             http_response_code(500);
-            echo json_encode(['error' => 'Error interno.', 'details' => $e->getMessage()]);
+            echo json_encode([
+                'error'   => 'Error interno al desactivar funcionario.',
+                'details' => $e->getMessage()
+            ]);
         }
     }
 }

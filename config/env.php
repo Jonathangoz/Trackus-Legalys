@@ -52,13 +52,12 @@ try {
         // Enteros
         $dotenv->required([
             'DB_PORT',
-            'REDIS_PORT',
             'CACHE_DEFAULT_TTL',
             'SESSION_LIFETIME',
         ])->isInteger();
 
         // URLs válidas
-        $urlFields = ['APP_URL', 'CDN_URL'];
+        $urlFields = ['APP_URL'];
         foreach ($urlFields as $field) {
             if (!empty($_ENV[$field]) && !filter_var($_ENV[$field], FILTER_VALIDATE_URL)) {
                 throw new ValidationException("$field debe ser una URL válida");
@@ -77,6 +76,7 @@ try {
         $secretKeys = [
             'APP_KEY'        => 32,
             'ENCRYPTION_KEY' => 16,
+            'SECRET_KEY'     => 32,
         ];
         foreach ($secretKeys as $key => $minLength) {
             if (!empty($_ENV[$key])) {
@@ -96,14 +96,14 @@ try {
     // CONFIGURACIONES POR DEFECTO (desarrollo)
     // ==============================================
     $_ENV['APP_ENV'] ??= $environment;
-    $_ENV['APP_DEBUG']        ?? 'true';
-    $_ENV['MAINTENANCE_MODE'] ?? 'false';
-    $_ENV['CACHE_DRIVER']     ?? 'file';
-    $_ENV['SESSION_DRIVER']   ?? 'file';
-    $_ENV['LOG_LEVEL']        ?? 'debug';
-    $_ENV['BCRYPT_ROUNDS']    ?? '12';
-    $_ENV['RATE_LIMIT_REQUESTS'] ?? '60';
-    $_ENV['RATE_LIMIT_MINUTES']  ?? '1';
+    $_ENV['APP_DEBUG']        ??= 'true';
+    $_ENV['MAINTENANCE_MODE'] ??= 'false';
+    $_ENV['CACHE_DRIVER']     ??= 'file';
+    $_ENV['SESSION_DRIVER']   ??= 'file';
+    $_ENV['LOG_LEVEL']        ??= 'debug';
+    $_ENV['BCRYPT_ROUNDS']    ??= '12';
+    $_ENV['RATE_LIMIT_REQUESTS'] ??= '60';
+    $_ENV['RATE_LIMIT_MINUTES']  ??= '1';
 
     // ==============================================
     // HELPER FUNCTIONS
@@ -113,7 +113,7 @@ try {
      * Obtener variable de entorno con valor por defecto
      */
     function env($key, $default = null) {
-        return $_ENV[$key] ?? $_SERVER[$key] ?? $default;
+        return $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key) ?: $default;
     }
 
     /**
@@ -209,4 +209,3 @@ if (env('SESSION_COOKIE_HTTPONLY')) {
 if (env('SESSION_SAME_SITE')) {
     ini_set('session.cookie_samesite', env('SESSION_SAME_SITE'));
 }
-
