@@ -5,7 +5,10 @@
 /storage/pail
 /vendor
 /extras/
+/public/uploads/
+/backups/
 /logs/
+/exportarArchivos/
 .env
 .env.backup
 .env.production

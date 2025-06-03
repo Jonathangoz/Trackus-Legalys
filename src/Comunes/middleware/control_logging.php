@@ -6,7 +6,7 @@ namespace App\controladores;
 
 use App\seguridad\autenticacion;
 use App\seguridad\encriptacion;
-use App\validaciones\validarlogin;
+use App\seguridad\validaciones\validarlogin;
 use App\DB\conexion;
 
 class control_logging extends controlador_base

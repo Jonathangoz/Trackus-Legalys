@@ -15,7 +15,7 @@ $logger = \App\Log\loggers::createLogger();
 // 3) Empezar a usarlo
 $logger->info('Aplicación iniciada correctamente.');
 $logger->warning('Algo inusual ocurrió, pero no es crítico.');
-$logger->error('Error de login para usuario', ['usuario' => $correo,'acción'  => 'login','detalle' => 'Contraseña incorrecta']);
+$logger->error('Error de login para usuario', ['usuario' => $correo,'acción'  => 'login','detalle' => 'Sesion invalada']);
 
 // Verificar mantenimiento
 mantenimiento::check();
@@ -25,7 +25,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start([
         'cookie_httponly' => true,
         'cookie_samesite' => 'Strict',
-        'cookie_secure'   => false, // pon true si usas HTTPS
+        'cookie_secure'   => true, // pon true si usas HTTPS
     ]);
 }
 

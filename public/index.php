@@ -2,8 +2,8 @@
 // public/index.php (controlador principal validacion y redirecion de vistas)
 declare(strict_types=1);
 
-require __DIR__ . '../vendor/autoload.php';
-require __DIR__ . '../config/env.php';
+require_once __DIR__ . '../vendor/autoload.php';
+require_once __DIR__ . '../config/env.php';
 
 use App\controladores\control_logging;
 use App\controladores\control_admin;
@@ -26,7 +26,7 @@ session_set_cookie_params([
     'lifetime' => $lifetime,
     'path'     => '/',
     'domain'   => '',       // deja vacío o pon tu dominio
-    'secure'   => false,    // pon true si usas HTTPS
+    'secure'   => true,    // pon true si usas HTTPS
     'httponly' => true,
     'samesite' => 'Strict',
 ]);
@@ -41,7 +41,7 @@ session_cache_expire(intval($lifetime / 60)); // en minutos
 session_start([
     'cookie_httponly' => true,
     'cookie_samesite' => 'Strict',
-    'cookie_secure'   => false, // true si usas HTTPS
+    'cookie_secure'   => true, // true si usas HTTPS
 ]);
 
 // ───────────────────────────────────────────────────────────────────────────────

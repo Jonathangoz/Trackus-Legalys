@@ -11,7 +11,7 @@ use App\modelos\obligados_pagos;
 use App\modelos\activar_inhabilitar;
 use App\DB\conexion;
 
-class Control_query extends controlador_base
+class control_query extends controlador_base
 {
     /**
      * Maneja todas las llamadas AJAX/JSON a /api
