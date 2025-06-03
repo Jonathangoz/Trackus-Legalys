@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '../vendor/autoload.php';
 
-use App\Mantenimiento\mantenimiento;
+use App\Comunes\middleware\mantenimiento;
 
 // Cargar variables desde .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 // 2) Obtener una instancia del Logger
-$logger = \App\Log\loggers::createLogger();
+$logger = \App\Comunes\utilidades\loggers::createLogger();
 
 // 3) Empezar a usarlo
 $logger->info('Aplicación iniciada correctamente.');

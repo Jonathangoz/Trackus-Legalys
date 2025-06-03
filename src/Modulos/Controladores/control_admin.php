@@ -2,10 +2,10 @@
 // src/controladores/control_admin.php
 declare(strict_types=1);
 
-namespace App\controladores;
+namespace App\Modulos\Controladores;
 
-use App\controladores\controlador_base;
-use App\seguridad\autenticacion;
+use App\Modulos\Controladores\controlador_base;
+use App\Comunes\seguridad\autenticacion;
 
 class control_admin extends controlador_base
 {

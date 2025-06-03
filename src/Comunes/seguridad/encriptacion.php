@@ -2,7 +2,7 @@
 // src/seguridad/encriptacion.php
 declare(strict_types=1);
 
-namespace App\seguridad;
+namespace App\Comunes\seguridad;
 
 class encriptacion
 {

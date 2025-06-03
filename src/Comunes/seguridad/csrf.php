@@ -1,6 +1,6 @@
 <?php
 
-namespace App\utilidades;
+namespace App\Comunes\seguridad;
 
 class csrf
 {

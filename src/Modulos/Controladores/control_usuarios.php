@@ -1,10 +1,10 @@
 <?php
-// src/controladores/control_usuarios.php
+// src/Modulos/controladores/control_usuarios.php
 declare(strict_types=1);
 
-namespace App\controladores;
+namespace App\Modulos\Controladores;
 
-use App\seguridad\autenticacion;
+use App\Comunes\seguridad\autenticacion;
 
 class control_usuarios extends controlador_base
 {

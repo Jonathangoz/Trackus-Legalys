@@ -5,12 +5,12 @@ declare(strict_types=1);
 require_once __DIR__ . '../vendor/autoload.php';
 require_once __DIR__ . '../config/env.php';
 
-use App\controladores\control_logging;
-use App\controladores\control_admin;
-use App\controladores\control_abogados;
-use App\controladores\control_adminTramites;
-use App\controladores\control_usuarios;
-use App\Controladores\API\control_query;
+use App\Comunes\middleware\control_logging;
+use App\Modulos\Controladores\control_admin;
+use App\Modulos\Controladores\control_abogados;
+use App\Modulos\Controladores\control_adminTramites;
+use App\Modulos\Controladores\control_usuarios;
+use App\Modulos\Dashboard\Controladores\control_query;
 
 // ───────────────────────────────────────────────────────────────────────────────
 // 1) Configuracion de vida de Sesiones

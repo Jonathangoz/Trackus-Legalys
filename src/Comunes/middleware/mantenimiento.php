@@ -2,7 +2,7 @@
 // src/Mantenimiento/mantenimiento.php
 declare(strict_types=1);
 
-namespace App\Mantenimiento;
+namespace App\Comunes\middleware;
 
 class mantenimiento {
     

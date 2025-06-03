@@ -2,9 +2,9 @@
 // src/modelos/obligados_pagos.php
 declare(strict_types=1);
 
-namespace App\modelos;
+namespace App\Modulos\CobroCoactivo\Modelos;
 
-use App\DB\conexion;
+use App\Comunes\DB\conexion;
 use PDO;
 
 class obligados_pagos

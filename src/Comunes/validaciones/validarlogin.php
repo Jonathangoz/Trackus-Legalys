@@ -1,8 +1,8 @@
 <?php
-// src/seguridad/validaciones/validarlogin.php
+// src/Comunes/validaciones/validarlogin.php
 declare(strict_types=1);
 
-namespace App\seguridad\validaciones;
+namespace App\Comunes\validaciones;
 
 class validarlogin
 {

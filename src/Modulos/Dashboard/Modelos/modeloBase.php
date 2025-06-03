@@ -2,9 +2,9 @@
 // src/Models/User.php (modelo que verifica la existencia de los roles y credenciales)
 declare(strict_types=1);
 
-namespace App\modelos;
+namespace App\Modulos\Dashboard\Modelos;
 
-use App\DB\conexion;
+use App\Comunes\DB\conexion;
 use PDO;
 use PDOException;
 

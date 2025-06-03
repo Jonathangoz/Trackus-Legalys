@@ -2,7 +2,7 @@
 // src/controladores/controlador_base.php
 declare(strict_types=1);
 
-namespace App\controladores;
+namespace App\Modulos\Controladores;
 
 abstract class controlador_base
 {

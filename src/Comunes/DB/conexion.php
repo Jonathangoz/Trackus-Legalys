@@ -1,10 +1,10 @@
 <?php
-// src/DB/conexion.php
+// src/Comunes/DB/conexion.php
 declare(strict_types=1);
 
-namespace App\DB;
+namespace App\Comunes\DB;
 
-require_once __DIR__ . '../../config/env.php';
+require_once __DIR__ . '../../../config/env.php';
 
 /**
  * Devuelve una instancia PDO única (patrón singleton).

@@ -1,7 +1,7 @@
 <?php
-// src/Utils/RateLimiterPg.php
+// src/Comunes/utilidades/limitarPeticiones.php
 
-namespace App\servicios;
+namespace App\Comunes\utilidades;
 
 use PDO;
 use DateTime;

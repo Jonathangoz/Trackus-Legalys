@@ -1,10 +1,10 @@
 <?php
-// src/controladores/control_adminTramites.php
+// src/modulos/controladores/control_adminTramites.php
 declare(strict_types=1);
 
-namespace App\controladores;
+namespace App\Modulos\Controladores;
 
-use App\seguridad\autenticacion;
+use App\Comunes\seguridad\autenticacion;
 
 class control_adminTramites extends controlador_base
 {

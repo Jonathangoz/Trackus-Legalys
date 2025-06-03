@@ -2,12 +2,13 @@
 // src/controladores/control_logging.php
 declare(strict_types=1);
 
-namespace App\controladores;
+namespace App\Comunes\middleware;
 
-use App\seguridad\autenticacion;
-use App\seguridad\encriptacion;
-use App\seguridad\validaciones\validarlogin;
-use App\DB\conexion;
+use App\Comunes\seguridad\autenticacion;
+use App\Comunes\seguridad\encriptacion;
+use App\Comunes\validaciones\validarlogin;
+use App\Modulos\Controladores\controlador_base;
+use App\Comunes\DB\conexion;
 
 class control_logging extends controlador_base
 {

@@ -1,15 +1,15 @@
 <?php
-// src/controladores/API/control_query.php
+// src/Modulos/Dashboard/Controladores/API/control_query.php
 declare(strict_types=1);
 
-namespace App\controladores\API;
+namespace App\Modulos\Dashboard\Controladores;
 
-use App\controladores\controlador_base;
-use App\seguridad\autenticacion as SeguridadAutenticacion;
-use App\seguridad\encriptacion as SeguridadEncriptacion;
-use App\modelos\obligados_pagos;
-use App\modelos\activar_inhabilitar;
-use App\DB\conexion;
+use App\Modulos\Controladores\controlador_base;
+use App\Comunes\seguridad\autenticacion as SeguridadAutenticacion;
+use App\Comunes\seguridad\encriptacion as SeguridadEncriptacion;
+use App\Modulos\CobroCoactivo\Modelos\obligados_pagos;
+use App\Modulos\Dashboard\Modelos\activar_inhabilitar;
+use App\Comunes\DB\conexion;
 
 class control_query extends controlador_base
 {

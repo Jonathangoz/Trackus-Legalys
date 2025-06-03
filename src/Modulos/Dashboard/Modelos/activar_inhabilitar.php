@@ -1,10 +1,10 @@
 <?php
-// src/modelos/activar_inhabilitar.php
+// src/Modulos/Dashboard/Modelos/activar_inhabilitar.php
 declare(strict_types=1);
 
-namespace App\modelos;
+namespace App\Modulos\Dashboard\Modelos;
 
-use App\DB\conexion;
+use App\Comunes\DB\conexion;
 use PDO;
 
 class activar_inhabilitar

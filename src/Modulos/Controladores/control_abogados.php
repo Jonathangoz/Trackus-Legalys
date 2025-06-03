@@ -1,10 +1,11 @@
 <?php
-// src/controladores/control_abogados.php
+// src/Modulos/controladores/control_abogados.php
 declare(strict_types=1);
 
-namespace App\controladores;
+namespace App\Modulos\Controladores;
 
-use App\seguridad\autenticacion;
+use App\Comunes\seguridad\autenticacion;
+use App\Modulos\Controladores\controlador_base;
 
 class control_abogados extends controlador_base
 {

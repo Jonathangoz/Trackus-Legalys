@@ -1,8 +1,8 @@
 <?php
-// src/Log/loggers.php (procesos de log, que guarda los log en la carpeta logs duracion el mismo dependiendo de como se define en .env)
+// src/Comunes/utilidades/loggers.php (procesos de log, que guarda los log en la carpeta logs duracion el mismo dependiendo de como se define en .env)
 declare(strict_types=1);
 
-namespace App\Log;
+namespace App\Comunes\utilidades;
 
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;

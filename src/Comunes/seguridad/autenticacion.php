@@ -1,8 +1,8 @@
 <?php
-// src/seguridad/autenticacion.php
+// src/Comunes/seguridad/autenticacion.php
 declare(strict_types=1);
 
-namespace App\seguridad;
+namespace App\Comunes\seguridad;
 
 class autenticacion
 {
