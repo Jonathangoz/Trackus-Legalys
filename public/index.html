@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SENA Regional Santander - Cobro Coactivo</title>
-    <link rel="stylesheet" href="public/assets/CSS/index.css">
-    <link rel="shortcut icon" href="public/assets/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/CSS/index.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <!-- fontawesome -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -28,23 +28,23 @@
     <header>
         <div class="container-header ">
             <div class="logo-header">
-                <img src="public/assets/img/sena.blanco.png" class="img-sena" alt="Logo SENA">
+                <img src="assets/images/sena.blanco.png" class="img-sena" alt="Logo SENA">
                 <div>
                     <h4 class="logo-text"><span class="text-logo">SENA -  </span> Regional Santander</h4>
                 </div>
             </div>
             <nav class="nav-ul">
                 <div class="nav-menu" id="navcontainer">
-                    <input type="checkbox" id="navbar" hidden>
-                    <label for="navtoggle" class="nav-down">
+                   <!-- <input type="checkbox" id="navbar" hidden>
+                    <label id="navtoggle" class="nav-down">
                         <span class="icon-nav"><i class="fas fa-bars fa-lg text-white"></i></span>
-                    </label>
+                    </label> -->
                     <ul class="nav-li-a">
                         <li><a class="list" href="#inicio"><i class="fas fa-house"></i>Inicio</a></li>
                         <li><a class="list" href="#procedimiento"><i class="fas fa-clipboard-list"></i>Procedimiento</a></li>
                         <li><a class="list" href="#normatividad"><i class="fas fa-gavel"></i>Normatividad</a></li>
                         <li><a class="list" href="#contacto"><i class="fas fa-envelope"></i>Contacto</a></li>
-                        <li><a class="list" href="public/logging.php"><i class="fas fa-right-to-bracket"></i>Iniciar Sesión</a></li>
+                        <li><a class="list" href="/login"><i class="fas fa-right-to-bracket"></i>Iniciar Sesión</a></li>
                     </ul>
                 </div>
             </nav>
@@ -56,7 +56,7 @@
                 <h2 class="hero-h2">Proceso de Cobro Coactivo</h2>
                 <p class="hero-p">Bienvenido al sistema de gestión de cobro coactivo del SENA Regional Santander.
                 Aquí podrá consultar información relacionada con el proceso de cobro coactivo y normatividad vigente.</p>
-                <a href="public/logging.php" class="btn-consulta">Consultar Estado</a>
+                <a href="logging.php" class="btn-consulta">Consultar Estado</a>
             </div>
         </section>
 
@@ -69,7 +69,7 @@
                 <div class="container-cards">
                     <div class="cards-section">
                         <div>
-                            <img class="img-cards" src="public/assets/img/cautelares.png" alt="Consulta de Procesos">
+                            <img class="img-cards" src="assets/images/cautelares.png" alt="Consulta de Procesos">
                         </div>
                         <div>
                             <h3 class="card-h3">CONSULTA DE PROCESOS</h3>
@@ -82,12 +82,12 @@
                             <p class="p-card-1-block">
                             Consulte el estado actual de su proceso de cobro coactivo, expedientes y notificaciones pendientes.
                             </p>
-                            <a href="public/logging.php" class="card-btn">Consultar</a>
+                            <a href="logging.php" class="card-btn">Consultar</a>
                         </div>
                     </div>
                     <div class="cards-section">
                         <div>
-                            <img class="img-cards" src="public/assets/img/acuerdopago.png" alt="Acuerdos de Pago">
+                            <img class="img-cards" src="assets/images/acuerdopago.png" alt="Acuerdos de Pago">
                         </div>
                         <div>
                             <h3 class="card-h3">ACUERDOS DE PAGO</h3>
@@ -98,12 +98,12 @@
                                 </p>
                             </details>
                             <p class="p-card-1-block">Solicite y gestione acuerdos de pago para facilitar el cumplimiento de sus obligaciones.</p>
-                            <a href="public/logging.php" class="card-btn">Solicitar</a>
+                            <a href="logging.php" class="card-btn">Solicitar</a>
                         </div>
                     </div>
                     <div class="cards-section">
                         <div>
-                            <img class="img-cards" src="public/assets/img/medidascaute.jpg" alt="Medidas Cautelares">
+                            <img class="img-cards" src="assets/images/medidascaute.jpg" alt="Medidas Cautelares">
                         </div>
                         <div>
                             <h3 class="card-h3">MEDIDAS CAUTELARES</h3>
@@ -114,7 +114,7 @@
                                 </p>
                             </details>
                             <p class="p-card-1-block">Información sobre medidas cautelares, embargos y procedimientos relacionados con su proceso.</p>
-                            <a href="public/logging.php" class="card-btn">Más Información</a>
+                            <a href="logging.php" class="card-btn">Más Información</a>
                         </div>
                     </div>                
                 </div>
@@ -223,12 +223,12 @@
                     <h2 class="form-h2">Envianos Un Mensaje</h2>
                         <form class="form-contactos">
                             <div class="input-1">
-                                <input type="text" class="form-input" placeholder="Nombres y Apellidos"/>
-                                <input type="email" class="form-input-2" placeholder="Correo"/>
+                                <input type="text" class="form-input" name="nombres" placeholder="Nombres y Apellidos"/>
+                                <input type="email" class="form-input-2" name="correo" placeholder="Correo"/>
                             </div>
                             <div class="input-2">
-                                <input type="text" class="form-input" placeholder="Numero Tel/Movil"/>
-                                <input type="text" class="form-input-2" placeholder="Asunto"/>
+                                <input type="text" class="form-input" name="telefono" placeholder="Numero Tel/Movil"/>
+                                <input type="text" class="form-input-2" name="asuntos" placeholder="Asunto"/>
                             </div>
 
                             <textarea name="message" class="form-mensaje" placeholder="Mensaje"></textarea>
@@ -292,10 +292,10 @@
                     <div class="presentacion-footer">
                         <div class="logos">
                             <div dir="rtl" class="logo-footer">
-                                <img src="public/assets/img/logo sena.png" alt="logo sena" class="logo-footer-img">
+                                <img src="assets/images/logo sena.png" alt="logo sena" class="logo-footer-img">
                             </div>
                             <div class="iso-footer">
-                                <img src="public/assets/img/Icontec03_all.png" alt="certificados ISO">
+                                <img src="assets/images/Icontec03_all.png" alt="certificados ISO">
                             </div>
                         </div>
                         <div class="icono-footer">
@@ -345,4 +345,4 @@
     </div>
 </body>
 </html>
-<script src="public/assets/js/back-to-top.js"></script>
+<script src="assets/js/back-to-top.js"></script>

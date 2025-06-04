@@ -1,10 +1,10 @@
 <?php
 // src/Comunes/DB/conexion.php
-declare(strict_types=1);
+#declare(strict_types=1);
 
 namespace App\Comunes\DB;
 
-require_once __DIR__ . '../../../config/env.php';
+require_once __DIR__ . '/../../../config/env.php';
 
 /**
  * Devuelve una instancia PDO única (patrón singleton).
@@ -15,13 +15,13 @@ use PDOException;
 
 class conexion
 {
-    private static ?PDO $instance = null;
+    private static ?PDO $instancia = null;
 
     private function __construct() { }
 
-    public static function getInstance(): PDO
+    public static function instanciaDB(): PDO
     {
-        if (self::$instance === null) {
+        if (self::$instancia === null) {
             $host = $_ENV['DB_HOST'];
             $port = $_ENV['DB_PORT'] ?? '5432';
             $db   = $_ENV['DB_NAME'];
@@ -37,13 +37,13 @@ class conexion
                     PDO::ATTR_EMULATE_PREPARES   => false,
                 ]);
                 $pdo->exec("SET TIME ZONE 'UTC'");
-                self::$instance = $pdo;
+                self::$instancia = $pdo;
             } catch (PDOException $e) {
                 error_log("Error en conexión PDO: " . $e->getMessage());
                 throw new \RuntimeException("No se pudo conectar a la base de datos.");
             }
         }
 
-        return self::$instance;
+        return self::$instancia;
     }
 }

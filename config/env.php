@@ -1,6 +1,6 @@
 <?php
 // config/env.php
-declare(strict_types=1);
+#declare(strict_types=1);
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
@@ -180,10 +180,10 @@ try {
     if ($environment === 'development') {
         die("Error de configuración: " . $e->getMessage());
     }
-    die("Error de configuración del sistema");
+    die("Error de configuración del sistema" . $e->getMessage());
 } catch (Exception $e) {
     error_log("Error cargando configuración: " . $e->getMessage());
-    die("Error crítico del sistema");
+    die("Error crítico del sistema" . $e->getMessage());
 }
 
 // ==============================================

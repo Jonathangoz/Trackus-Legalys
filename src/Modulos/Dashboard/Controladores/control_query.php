@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace App\Modulos\Dashboard\Controladores;
 
-use App\Modulos\Controladores\controlador_base;
 use App\Comunes\seguridad\autenticacion as SeguridadAutenticacion;
 use App\Comunes\seguridad\encriptacion as SeguridadEncriptacion;
 use App\Modulos\CobroCoactivo\Modelos\obligados_pagos;
 use App\Modulos\Dashboard\Modelos\activar_inhabilitar;
 use App\Comunes\DB\conexion;
 
-class control_query extends controlador_base
+class control_query
 {
     /**
      * Maneja todas las llamadas AJAX/JSON a /api
      */
-    public function handle(): void
-    {
+    public function handle(): void {
         // 1) Forzar respuesta JSON
         header('Content-Type: application/json; charset=UTF-8');
 
@@ -30,7 +28,7 @@ class control_query extends controlador_base
         }
 
         // 2.5) Verificar en PostgreSQL que el token exista, no expiró y no fue revocado
-        $db = conexion::getInstance();
+        $db = conexion::instanciaDB();
         $sql = "SELECT user_id
                 FROM user_tokens
                 WHERE token = :token
@@ -47,7 +45,7 @@ class control_query extends controlador_base
         }
 
         // 3) Descifrar y verificar HMAC + expiración en sesión
-        $tokenOriginal = SeguridadEncriptacion::decryptAndVerifyWithExpiry($encryptedToken);
+        $tokenOriginal = SeguridadEncriptacion::descencriptverificarExpiracion($encryptedToken);
         if ($tokenOriginal === null) {
             http_response_code(401);
             echo json_encode(['error' => 'Sesión expirada o token inválido.']);
@@ -62,7 +60,7 @@ class control_query extends controlador_base
                 'cookie_secure'   => true,
             ]);
         }
-        if (! SeguridadAutenticacion::checkUserIsLogged()) {
+        if (! SeguridadAutenticacion::revisarLogueoUsers()) {
             http_response_code(401);
             echo json_encode(['error' => 'Sesión no válida.']);
             return;

@@ -1,5 +1,5 @@
 <?php
-// src/Modulos/controladores/control_abogados.php
+// src/Modulos/Controladores/control_abogados.php
 declare(strict_types=1);
 
 namespace App\Modulos\Controladores;
@@ -9,37 +9,35 @@ use App\Modulos\Controladores\controlador_base;
 
 class control_abogados extends controlador_base
 {
-    /**
-     * GET /abogado/procesos
-     */
-    public function procesos(): void
-    {
-        if (! autenticacion::checkUserIsLogged() || ! in_array(autenticacion::getUserRole(), ['ABOGADO_1','ABOGADO_2','ABOGADO_3'])) {
+    public function handle(string $uri, string $method): void {
+        if (!autenticacion::revisarLogueoUsers() 
+            || !in_array(autenticacion::rolUsuario(), ['ABOGADO_1','ABOGADO_2','ABOGADO_3'])) {
             autenticacion::logout();
             $this->redirect('/login');
         }
-        $data = [
-            'usuarioNombre' => autenticacion::getUserFullName(),
-            // 'procesos' => Proceso::allByAbogado($_SESSION['user_id'])
-        ];
-        $this->renderView('abogado/procesos', $data);
-    }
 
-    /**
-     * GET /abogado/calendario
-     */
-    public function calendario(): void
-    {
-        if (! autenticacion::checkUserIsLogged() || ! in_array(autenticacion::getUserRole(), ['ABOGADO_1','ABOGADO_2','ABOGADO_3'])) {
-            autenticacion::logout();
-            $this->redirect('/login');
+        switch ("$method $uri") {
+            case 'GET /abogado/procesos':
+                $this->procesos();
+                break;
+            case 'GET /abogado/calendario':
+                $this->calendario();
+                break;
+            // Otras rutas ABOGADO...
+            default:
+                http_response_code(404);
+                echo "Abogado: ruta no encontrada.";
+                break;
         }
-        $data = [
-            'usuarioNombre' => autenticacion::getUserFullName(),
-            // 'eventos' => Evento::allForAbogado($_SESSION['user_id'])
-        ];
-        $this->renderView('abogado/calendario', $data);
     }
 
-    // Otros métodos para ABAOGADO (documentación, informes, etc.)
+    public function procesos(): void {
+        // $data = [ 'procesos' => Proceso::porAbogado($_SESSION['user_id']) ];
+        $this->redirect('/abogado/procesos');
+    }
+
+    public function calendario(): void {
+        // $data = [ 'eventos' => Evento::porAbogado($_SESSION['user_id']) ];
+        $this->redirect('/abogado/calendario');
+    }
 }

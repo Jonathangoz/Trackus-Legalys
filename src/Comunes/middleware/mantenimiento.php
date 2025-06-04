@@ -1,6 +1,6 @@
 <?php
 // src/Mantenimiento/mantenimiento.php
-declare(strict_types=1);
+#declare(strict_types=1);
 
 namespace App\Comunes\middleware;
 
@@ -9,7 +9,7 @@ class mantenimiento {
     public static function check() {
         // Cargar configuración si no está cargada
         if (!function_exists('is_maintenance_mode')) {
-            require_once __DIR__ . '/../../config/env.php';
+            require_once __DIR__ . '/../../../config/env.php';
         }
         
         // Verificar si está en modo mantenimiento

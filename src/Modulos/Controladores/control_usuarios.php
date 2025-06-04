@@ -1,28 +1,34 @@
 <?php
-// src/Modulos/controladores/control_usuarios.php
+// src/Modulos/Controladores/control_usuarios.php
 declare(strict_types=1);
 
 namespace App\Modulos\Controladores;
 
 use App\Comunes\seguridad\autenticacion;
+use App\Modulos\Controladores\controlador_base;
 
 class control_usuarios extends controlador_base
 {
-    /**
-     * GET /usuario/consultas
-     */
-    public function consultas(): void
-    {
-        if (! autenticacion::checkUserIsLogged() || autenticacion::getUserRole() !== 'USUARIO') {
+    public function handle(string $uri, string $method): void {
+        if (!autenticacion::revisarLogueoUsers() || autenticacion::rolUsuario() !== 'USUARIO') {
             autenticacion::logout();
             $this->redirect('/login');
         }
-        $data = [
-            'usuarioNombre' => autenticacion::getUserFullName(),
-            // 'misConsultas' => Consulta::allForUser($_SESSION['user_id'])
-        ];
-        $this->renderView('usuario/consultas', $data);
+
+        switch ("$method $uri") {
+            case 'GET /usuario/consultas':
+                $this->consultas();
+                break;
+            // Otras rutas USUARIO...
+            default:
+                http_response_code(404);
+                echo "Usuario: ruta no encontrada.";
+                break;
+        }
     }
 
-    // Puedes añadir más acciones de usuario si en el futuro se requiere.
+    public function consultas(): void {
+        // $data = [ 'consultas' => Consulta::porUsuario($_SESSION['user_id']) ];
+        $this->redirect('/usuario/consultas');
+    }
 }

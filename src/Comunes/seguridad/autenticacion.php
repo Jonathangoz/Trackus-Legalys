@@ -1,8 +1,10 @@
 <?php
 // src/Comunes/seguridad/autenticacion.php
-declare(strict_types=1);
+#declare(strict_types=1);
 
 namespace App\Comunes\seguridad;
+
+use App\Comunes\middleware\credencialesDB;
 
 class autenticacion
 {
@@ -12,13 +14,13 @@ class autenticacion
      * - Verifica password.
      * - Regenera sesión, genera token firmado y almacena datos en $_SESSION.
      */
-    public static function login(string $correo, string $contrasenia): bool
+    public static function login(string $email, string $password): bool
     {
-        $user = $contrasenia::findByEmail($correo);
+        $user = credencialesDB::credenciales($email, $password);
         if (! $user) {
             return false;
         }
-        if (! password_verify($contrasenia, $user->password_hash)) {
+        if (! password_verify($password, $user->password_hash)) {
             return false;
         }
 
@@ -26,8 +28,8 @@ class autenticacion
         session_regenerate_id(true);
 
         // 2) Generar un token aleatorio y firmarlo
-        $rawToken = encriptacion::generateRandomToken();
-        $signedToken = encriptacion::signToken($rawToken);
+        $tokens = encriptacion::tokenRandom();
+        $firmaToken = encriptacion::lenToken($tokens);
 
         // 3) Guardar en sesión los datos mínimos
         $_SESSION['loggedin']      = true;
@@ -37,7 +39,7 @@ class autenticacion
         $_SESSION['nombres']       = $user->nombres;
         $_SESSION['apellidos']     = $user->apellidos;
         $_SESSION['tipo_rol']      = $user->tipo_rol;
-        $_SESSION['auth_token']    = $signedToken;
+        $_SESSION['auth_token']    = $firmaToken;
 
         return true;
     }
@@ -66,7 +68,7 @@ class autenticacion
     /**
      * Devuelve true si hay un usuario logueado y el token firmado es válido.
      */
-    public static function checkUserIsLogged(): bool
+    public static function revisarLogueoUsers(): bool
     {
         if (empty($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             return false;
@@ -74,13 +76,13 @@ class autenticacion
         if (empty($_SESSION['auth_token'])) {
             return false;
         }
-        return encriptacion::verifySignedToken($_SESSION['auth_token']) !== null;
+        return encriptacion::verificarToken($_SESSION['auth_token']) !== null;
     }
 
     /**
      * Retorna el rol del usuario actual (o null).
      */
-    public static function getUserId(): ?int
+    public static function idUsuario(): ?int
     {
         return $_SESSION['user_id'] ?? null;
     }    
@@ -88,7 +90,7 @@ class autenticacion
     /**
      * Retorna el rol del usuario actual (o null).
      */
-    public static function getUserRole(): ?string
+    public static function rolUsuario(): ?string
     {
         return $_SESSION['tipo_rol'] ?? null;
     }
@@ -96,7 +98,7 @@ class autenticacion
     /**
      * Retorna el nombre completo del usuario.
      */
-    public static function getUserFullName(): ?string
+    public static function nombresUsuario(): ?string
     {
         if (empty($_SESSION['nombres']) || empty($_SESSION['apellidos'])) {
             return null;

@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Comunes\\DB\\conexion' => $baseDir . '/src/Comunes/DB/conexion.php',
     'App\\Comunes\\middleware\\control_logging' => $baseDir . '/src/Comunes/middleware/control_logging.php',
+    'App\\Comunes\\middleware\\credencialesDB' => $baseDir . '/src/Comunes/middleware/credencialesDB.php',
     'App\\Comunes\\middleware\\mantenimiento' => $baseDir . '/src/Comunes/middleware/mantenimiento.php',
     'App\\Comunes\\seguridad\\autenticacion' => $baseDir . '/src/Comunes/seguridad/autenticacion.php',
     'App\\Comunes\\seguridad\\csrf' => $baseDir . '/src/Comunes/seguridad/csrf.php',
@@ -23,7 +24,6 @@ return array(
     'App\\Modulos\\Controladores\\controlador_base' => $baseDir . '/src/Modulos/Controladores/controlador_base.php',
     'App\\Modulos\\Dashboard\\Controladores\\control_query' => $baseDir . '/src/Modulos/Dashboard/Controladores/control_query.php',
     'App\\Modulos\\Dashboard\\Modelos\\activar_inhabilitar' => $baseDir . '/src/Modulos/Dashboard/Modelos/activar_inhabilitar.php',
-    'App\\Modulos\\Dashboard\\Modelos\\modeloBase' => $baseDir . '/src/Modulos/Dashboard/Modelos/modeloBase.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Complex\\Complex' => $vendorDir . '/markbaker/complex/classes/src/Complex.php',
     'Complex\\Exception' => $vendorDir . '/markbaker/complex/classes/src/Exception.php',

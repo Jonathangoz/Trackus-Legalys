@@ -1,9 +1,11 @@
 <?php
 // public/index.php (controlador principal validacion y redirecion de vistas)
-declare(strict_types=1);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 
-require_once __DIR__ . '../vendor/autoload.php';
-require_once __DIR__ . '../config/env.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../config/env.php';
 
 use App\Comunes\middleware\control_logging;
 use App\Modulos\Controladores\control_admin;
@@ -82,7 +84,7 @@ switch ($uri) {
     case '/login':
         $auth = new control_logging();
         if ($method === 'GET') {
-            $auth->showLoginForm();
+            $auth->vistaLogging();
         } elseif ($method === 'POST') {
             // Validar CSRF
             $csrfForm = $_POST['csrf_token'] ?? '';

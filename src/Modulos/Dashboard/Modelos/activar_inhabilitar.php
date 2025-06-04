@@ -15,7 +15,7 @@ class activar_inhabilitar
      */
     public static function allActivos(): array
     {
-        $db = conexion::getInstance();
+        $db = conexion::instanciaDB();
         $sql = "SELECT id, nombre, deuda 
                   FROM funcionarios 
                  WHERE activo = TRUE";
@@ -31,7 +31,7 @@ class activar_inhabilitar
      */
     public static function activate(int $id): bool
     {
-        $db = conexion::getInstance();
+        $db = conexion::instanciaDB();
         $sql = "SELECT activar_funcionario(:id)";
         $stmt = $db->prepare($sql);
         return $stmt->execute(['id' => $id]);
@@ -39,7 +39,7 @@ class activar_inhabilitar
 
     public static function deactivate(int $id): bool
     {
-        $db = conexion::getInstance();
+        $db = conexion::instanciaDB();
         $sql = "SELECT desactivar_funcionario(:id)";
         $stmt = $db->prepare($sql);
         return $stmt->execute(['id' => $id]);

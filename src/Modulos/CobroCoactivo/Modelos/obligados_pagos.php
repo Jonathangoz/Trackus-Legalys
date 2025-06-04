@@ -15,7 +15,7 @@ class obligados_pagos
      */
     public static function allActivos(): array
     {
-        $db = conexion::getInstance();
+        $db = conexion::instanciaDB();
         $sql = "SELECT id, nombre, deuda 
                   FROM deudores 
                  WHERE activo = TRUE";
@@ -31,7 +31,7 @@ class obligados_pagos
      */
     public static function activate(int $id): bool
     {
-        $db = conexion::getInstance();
+        $db = conexion::instanciaDB();
         $sql = "SELECT activar_deudor(:id)";
         $stmt = $db->prepare($sql);
         return $stmt->execute(['id' => $id]);
@@ -39,7 +39,7 @@ class obligados_pagos
 
     public static function deactivate(int $id): bool
     {
-        $db = conexion::getInstance();
+        $db = conexion::instanciaDB();
         $sql = "SELECT desactivar_deudor(:id)";
         $stmt = $db->prepare($sql);
         return $stmt->execute(['id' => $id]);

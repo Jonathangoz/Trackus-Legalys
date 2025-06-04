@@ -1,6 +1,6 @@
 <?php
 // src/Comunes/validaciones/validarlogin.php
-declare(strict_types=1);
+#declare(strict_types=1);
 
 namespace App\Comunes\validaciones;
 
@@ -10,7 +10,7 @@ class validarlogin
      * @param array $input ['correo' => '...', 'contrasenia' => '...']
      * @return array ['correo' => 'mensaje', 'contrasenia' => 'mensaje'] (vacío si no hay errores)
      */
-    public static function validate(array $input): array
+    public static function validarCampos(array $input): array
     {
         $errors = [];
 

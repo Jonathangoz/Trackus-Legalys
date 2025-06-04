@@ -1,12 +1,18 @@
 <?php
-declare(strict_types=1);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 
-require_once __DIR__ . '../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+
 
 use App\Comunes\middleware\mantenimiento;
 
+// Verificar mantenimiento
+mantenimiento::check();
+
 // Cargar variables desde .env
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
 // 2) Obtener una instancia del Logger
@@ -15,10 +21,7 @@ $logger = \App\Comunes\utilidades\loggers::createLogger();
 // 3) Empezar a usarlo
 $logger->info('Aplicación iniciada correctamente.');
 $logger->warning('Algo inusual ocurrió, pero no es crítico.');
-$logger->error('Error de login para usuario', ['usuario' => $correo,'acción'  => 'login','detalle' => 'Sesion invalada']);
-
-// Verificar mantenimiento
-mantenimiento::check();
+#$logger->error('Error de login para usuario', ['usuario' => $correo,'acción'  => 'login','detalle' => 'Sesion invalada']);
 
 // Iniciar sesión si no está iniciada
 if (session_status() === PHP_SESSION_NONE) {
@@ -28,6 +31,8 @@ if (session_status() === PHP_SESSION_NONE) {
         'cookie_secure'   => true, // pon true si usas HTTPS
     ]);
 }
+
+\App\Comunes\seguridad\csrf::insertarInput();
 
 // Generar o reusar token CSRF
 if (empty($_SESSION['csrf_token'])) {
@@ -47,15 +52,17 @@ unset($_SESSION['login_errors'], $_SESSION['old']);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SENA Cobro Coactivo - Inicio de Sesion</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-  <link href="CSS/styles3.css" rel="stylesheet">
-  <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+  <link href="assets/CSS/styles3.css" rel="stylesheet">
+
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col justify-center items-center p-4">
   <div class="card bg-white p-8 w-full max-w-md mx-auto shadow-lg rounded-lg">
     <div class="logo-section text-center mb-10">
         <div class="img">
-         <img src="img/Logosimbolo-SENA-PRINCIPAL.png" alt="Logo SENA" aria-label="Logo SENA">
+         <img src="assets/images/Logosimbolo-SENA-PRINCIPAL.png" alt="Logo SENA" aria-label="Logo SENA">
         </div>
       <h2 class="text-xl text-gray-700 font-medium">Gestion Juridica</h2>
     </div>
@@ -110,6 +117,7 @@ unset($_SESSION['login_errors'], $_SESSION['old']);
         </a>
       </div>
       <div class="flex flex-row gap-5 mt-6 justify-center">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf) ?>" />
         <button 
           class="btn-gradient text-white text-sm font-semibold py-2 px-12 rounded-lg focus:outline-none focus:ring-2 focus:ring-sena-green" 
           type="submit"
@@ -119,7 +127,7 @@ unset($_SESSION['login_errors'], $_SESSION['old']);
         <button 
           class="btn-gradient text-white text-sm font-semibold py-2 px-16 rounded-lg focus:outline-none focus:ring-2 focus:ring-sena-green" 
           type="button" 
-          onclick="window.location.href='../index.html'"
+          onclick="window.location.href='index.html'"
           aria-label="Regresar">
           Regresar
         </button>
@@ -127,7 +135,6 @@ unset($_SESSION['login_errors'], $_SESSION['old']);
 
       <?php
 
-        session_start();
         if (isset($_SESSION['error'])) {
             echo "<p class='text-center mb-10' style='color: red;'>" . $_SESSION['error'] . "</p>";
             unset($_SESSION['error']); // Limpiar el mensaje de error después de mostrarlo
@@ -150,6 +157,6 @@ unset($_SESSION['login_errors'], $_SESSION['old']);
     </div>
   </div>
 
-  <script src="js/visualpass.js"></script>
+  <script src="assets/js/visualpass.js"></script>
 </body>
 </html> 

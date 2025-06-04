@@ -203,6 +203,7 @@ class ComposerStaticInit20fad51902f91e7fd3039e016a6556b5
     public static $classMap = array (
         'App\\Comunes\\DB\\conexion' => __DIR__ . '/../..' . '/src/Comunes/DB/conexion.php',
         'App\\Comunes\\middleware\\control_logging' => __DIR__ . '/../..' . '/src/Comunes/middleware/control_logging.php',
+        'App\\Comunes\\middleware\\credencialesDB' => __DIR__ . '/../..' . '/src/Comunes/middleware/credencialesDB.php',
         'App\\Comunes\\middleware\\mantenimiento' => __DIR__ . '/../..' . '/src/Comunes/middleware/mantenimiento.php',
         'App\\Comunes\\seguridad\\autenticacion' => __DIR__ . '/../..' . '/src/Comunes/seguridad/autenticacion.php',
         'App\\Comunes\\seguridad\\csrf' => __DIR__ . '/../..' . '/src/Comunes/seguridad/csrf.php',
@@ -218,7 +219,6 @@ class ComposerStaticInit20fad51902f91e7fd3039e016a6556b5
         'App\\Modulos\\Controladores\\controlador_base' => __DIR__ . '/../..' . '/src/Modulos/Controladores/controlador_base.php',
         'App\\Modulos\\Dashboard\\Controladores\\control_query' => __DIR__ . '/../..' . '/src/Modulos/Dashboard/Controladores/control_query.php',
         'App\\Modulos\\Dashboard\\Modelos\\activar_inhabilitar' => __DIR__ . '/../..' . '/src/Modulos/Dashboard/Modelos/activar_inhabilitar.php',
-        'App\\Modulos\\Dashboard\\Modelos\\modeloBase' => __DIR__ . '/../..' . '/src/Modulos/Dashboard/Modelos/modeloBase.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Complex\\Complex' => __DIR__ . '/..' . '/markbaker/complex/classes/src/Complex.php',
         'Complex\\Exception' => __DIR__ . '/..' . '/markbaker/complex/classes/src/Exception.php',

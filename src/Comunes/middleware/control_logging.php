@@ -1,28 +1,33 @@
 <?php
 // src/controladores/control_logging.php
-declare(strict_types=1);
+#declare(strict_types=1);
 
 namespace App\Comunes\middleware;
 
 use App\Comunes\seguridad\autenticacion;
 use App\Comunes\seguridad\encriptacion;
 use App\Comunes\validaciones\validarlogin;
-use App\Modulos\Controladores\controlador_base;
 use App\Comunes\DB\conexion;
 
-class control_logging extends controlador_base
-{
+class control_logging {
+
+        
+        protected function redirect(string $url): void {
+        header("Location: {$url}");
+        exit;
+    }
+
     /**
      * GET /login
      * Muestra el formulario de login.
      */
-    public function showLoginForm(): void
+    public function vistaLogging(): void
     {
-        if (autenticacion::checkUserIsLogged()) {
+        if (autenticacion::revisarLogueoUsers()) {
             $this->redirect('/dashboard');
         }
 
-        include __DIR__ . '/../../public/logging.php';
+        include __DIR__ . '/../../../public/logging.php';
     }
 
     /**
@@ -49,8 +54,8 @@ class control_logging extends controlador_base
             'contrasenia' => trim($_POST['contrasenia'] ?? ''),
         ];
 
-        // 3) Validar con LoginValidator
-        $errors = validarlogin::validate($input);
+        // 3) Validar con Login los campos que no esten vacios
+        $errors = validarlogin::validarCampos($input);
         if (! empty($errors)) {
             $_SESSION['login_errors'] = $errors;
             $_SESSION['old']          = ['correo' => $input['correo']];
@@ -66,20 +71,20 @@ class control_logging extends controlador_base
         }
 
         // 5) Generar, firmar y cifrar token + guardar expiración en sesión
-        $rawToken = encriptacion::generateRandomToken();
+        $rawToken = encriptacion::tokenRandom();
         $lifetime = intval($_ENV['SESSION_LIFETIME'] ?? 600); // por defecto 600s
-        $secureToken = encriptacion::signEncryptAndStoreExpiry($rawToken, $lifetime);
+        $secureToken = encriptacion::firmaEncriptadaExpiracion($rawToken, $lifetime);
 
         // 6) Guardar token en la sesión (opcional, redundancia)
         $_SESSION['auth_token'] = $secureToken;
 
         // 7) Insertar el token en PostgreSQL para poder revocar/consultar
-        $userId = autenticacion::getUserId(); // asume que login() ya definió $_SESSION['user_id']
+        $userId = autenticacion::idUsuario(); // asume que login() ya definió $_SESSION['user_id']
         $expiresAt = (new \DateTimeImmutable())
                         ->add(new \DateInterval("PT{$lifetime}S"))
                         ->format('Y-m-d H:i:sP');
 
-        $db  = conexion::getInstance();
+        $db  = conexion::instanciaDB();
         $sql = "INSERT INTO user_tokens (user_id, token, expires_at)
                 VALUES (:user_id, :token, :expires_at)";
         $stmt = $db->prepare($sql);
@@ -104,7 +109,7 @@ class control_logging extends controlador_base
         );
 
         // 9) Redirigir según rol
-        $rol = autenticacion::getUserRole();
+        $rol = autenticacion::rolUsuario();
         switch ($rol) {
             case 'ADMIN':
                 header('Location: /dashboard');

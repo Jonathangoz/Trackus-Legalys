@@ -1,6 +1,6 @@
 <?php
 // src/seguridad/encriptacion.php
-declare(strict_types=1);
+#declare(strict_types=1);
 
 namespace App\Comunes\seguridad;
 
@@ -9,7 +9,7 @@ class encriptacion
     /**
      * Genera 64 bytes aleatorios y devuelve su representación hexadecimal (128 caracteres).
      */
-    public static function generateRandomToken(): string
+    public static function tokenRandom(): string
     {
         return bin2hex(random_bytes(64));
     }
@@ -18,7 +18,7 @@ class encriptacion
      * Firma el token con HMAC-SHA256 usando SECRET_KEY.
      * Retorna la cadena: "<token>.<firma_hex>"
      */
-    public static function signToken(string $token): string
+    public static function lenToken(string $token): string
     {
         $secret = $_ENV['SECRET_KEY'] ?? '';
         if (strlen($secret) < 32) {
@@ -35,9 +35,9 @@ class encriptacion
      * Verifica que la firma HMAC sea válida.
      * Si es correcta, devuelve el token original; si falla, devuelve null.
      */
-    public static function verifySignedToken(string $signed): ?string
+    public static function verificarToken(string $firma): ?string
     {
-        $parts = explode('.', $signed, 2);
+        $parts = explode('.', $firma, 2);
         if (count($parts) !== 2) {
             return null;
         }
@@ -61,7 +61,7 @@ class encriptacion
      * Cifra un token usando AES-256-GCM.
      * Retorna la cadena: base64(iv) . "." . base64(ciphertext) . "." . base64(tag)
      */
-    public static function encryptToken(string $token): string
+    public static function encriptarToken(string $token): string
     {
         $key = $_ENV['SECRET_KEY2'] ?? '';
         if (strlen($key) < 32) {
@@ -99,9 +99,9 @@ class encriptacion
      * Recibe: "base64(iv).base64(ciphertext).base64(tag)".
      * Devuelve el token original o null si falla autenticación o descifrado.
      */
-    public static function decryptToken(string $encrypted): ?string
+    public static function descencriptarToken(string $encriptar): ?string
     {
-        $parts = explode('.', $encrypted, 3);
+        $parts = explode('.', $encriptar, 3);
         if (count($parts) !== 3) {
             return null;
         }
@@ -120,7 +120,7 @@ class encriptacion
             return null;
         }
 
-        $plaintext = openssl_decrypt(
+        $textoPlano = openssl_decrypt(
             $ciphertext,
             'aes-256-gcm',
             $key,
@@ -130,30 +130,30 @@ class encriptacion
             '' // AAD
         );
 
-        return $plaintext === false ? null : $plaintext;
+        return $textoPlano === false ? null : $textoPlano;
     }
 
     /**
      * Firma con HMAC y luego cifra con AES-GCM.
      * Devuelve: "ivB64.cipherB64.tagB64"
      */
-    public static function signAndEncrypt(string $token): string
+    public static function verificarEncriptacion(string $token): string
     {
-        $signed = self::signToken($token);
-        return self::encryptToken($signed);
+        $firma = self::lenToken($token);
+        return self::encriptarToken($firma);
     }
 
     /**
      * Descifra y luego verifica HMAC.
      * Si todo es válido, devuelve el token original; si falla, devuelve null.
      */
-    public static function decryptAndVerify(string $encrypted): ?string
+    public static function descencrriptarVerificar(string $encriptar): ?string
     {
-        $signed = self::decryptToken($encrypted);
-        if ($signed === null) {
+        $firma = self::descencriptarToken($encriptar);
+        if ($firma === null) {
             return null;
         }
-        return self::verifySignedToken($signed);
+        return self::verificarToken($firma);
     }
 
     /**
@@ -163,13 +163,13 @@ class encriptacion
      * @param string $token    El token en texto claro (por ejemplo, 64 bytes hex)
      * @param int    $lifetime Cantidad de segundos que debe durar el token
      */
-    public static function signEncryptAndStoreExpiry(string $token, int $lifetime): string
+    public static function firmaEncriptadaExpiracion(string $token, int $lifetime): string
     {
         // 1) Firma
-        $signed = self::signToken($token);
+        $firma = self::lenToken($token);
 
         // 2) Cifra
-        $encrypted = self::encryptToken($signed);
+        $encriptar = self::encriptarToken($firma);
 
         // 3) Inicia sesión si no está activa y guarda expiración en _SESSION
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -181,16 +181,16 @@ class encriptacion
         }
         $_SESSION['token_expiry'] = time() + $lifetime;
 
-        return $encrypted;
+        return $encriptar;
     }
 
     /**
      * Antes de descifrar, comprueba si la sesión tiene $_SESSION['token_expiry'] y que no haya pasado.
      * Luego descifra y verifica HMAC. Devuelve el token original o null si expiró o es inválido.
      *
-     * @param string $encrypted El token cifrado ("ivB64.cipherB64.tagB64")
+     * @param string $encriptar El token cifrado ("ivB64.cipherB64.tagB64")
      */
-    public static function decryptAndVerifyWithExpiry(string $encrypted): ?string
+    public static function descencriptverificarExpiracion(string $encriptar): ?string
     {
         // 1) Verificar expiración desde $_SESSION
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -210,12 +210,12 @@ class encriptacion
         }
 
         // 2) Descifrar (AES-GCM)
-        $signed = self::decryptToken($encrypted);
-        if ($signed === null) {
+        $firma = self::descencriptarToken($encriptar);
+        if ($firma === null) {
             return null;
         }
 
         // 3) Verificar firma HMAC
-        return self::verifySignedToken($signed);
+        return self::verificarToken($firma);
     }
 }

@@ -1,25 +1,16 @@
 <?php
 // src/controladores/controlador_base.php
-declare(strict_types=1);
+//declare(strict_types=1);
 
 namespace App\Modulos\Controladores;
 
-abstract class controlador_base
-{
-    /**
-     * Renderiza la vista en src/Views/<$ruta>.php con las variables dadas.
-     */
-    protected function renderView(string $ruta, array $variables = []): void
-    {
-        extract($variables, EXTR_OVERWRITE);
-        ob_start();
-        include __DIR__ . "/../vistas/{$ruta}.php";
-        $contenido = ob_get_clean();
-        echo $contenido;
-    }
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 
-    protected function redirect(string $url): void
-    {
+abstract class controlador_base {
+
+    protected function redirect(string $url): void {
         header("Location: {$url}");
         exit;
     }
