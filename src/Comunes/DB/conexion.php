@@ -19,14 +19,13 @@ class conexion
 
     private function __construct() { }
 
-    public static function instanciaDB(): PDO
-    {
+    public static function instanciaDB(): PDO {
         if (self::$instancia === null) {
             $host = $_ENV['DB_HOST'];
             $port = $_ENV['DB_PORT'] ?? '5432';
-            $db   = $_ENV['DB_NAME'];
-            $user = $_ENV['DB_USER'];
-            $pass = $_ENV['DB_PASS'];
+            $db   = $_ENV['DB_DATABASE'];
+            $user = $_ENV['DB_USERNAME'];
+            $pass = $_ENV['DB_PASSWORD'];
 
             $dsn = "pgsql:host={$host};port={$port};dbname={$db}";
 

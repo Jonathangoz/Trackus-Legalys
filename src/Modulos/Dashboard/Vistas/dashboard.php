@@ -1,7 +1,3 @@
-<?php
-  declare(strict_types=1);
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Cobro Coactivo - SENA Regional Santander</title>
     <!-- Favicon -->
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
     <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="CSS/dashboard.css">
+    <link rel="stylesheet" href="/assets/CSS/dashboard.css">
     <!-- fontawesome -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -26,7 +22,7 @@
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="img/sena.blanco.png" class="img-sena" alt="Logo SENA">
+            <img src="/assets/images/sena.blanco.png" class="img-sena" alt="Logo SENA">
             <div class="logo">
                 
                 <h1>Regional Santander</h1>
@@ -119,7 +115,7 @@
                             <li><a href="#" class="drop"><i class="fa-solid fa-user me-2"></i>Perfil</a></li>
                             <li><a href="#" class="drop"><i class="fa-solid fa-gear me-2""></i>Configuración</a></li>
                             <li><hr></li>
-                            <li><a href="../module_login/logout.php" class="sesion"><i class="fa-solid fa-right-from-bracket me-2"></i>Cerrar sesión</a></li>
+                            <li><a href="/login" class="sesion"><i class="fa-solid fa-right-from-bracket me-2"></i>Cerrar sesión</a></li>
                         </ul>
                     </div>
                 </div>
@@ -324,12 +320,12 @@
     </div>
 
 <!-- Scripts del Boton -->
-<script src="js/back-to-top.js"></script>
+<script src="/assets/js/back-to-top.js"></script>
 <!-- Scripts dashboard -->
-<script src="js/dashaboard.js"></script>
+<script src="/assets/js/dashaboard.js"></script>
 <!-- calendario -->
-<script src="js/calendar-event.js"></script>
+<script src="/assets/js/calendar-event.js"></script>
 <!-- sidebar -->
-<script src="js/script.js"></script>
+<script src="/assets/js/script.js"></script>
 </body>
 </html>

@@ -1,12 +1,10 @@
 <?php
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-
 use App\Comunes\middleware\mantenimiento;
+use App\Comunes\utilidades\loggers;
+use App\Comunes\seguridad\csrf;
 
 // Verificar mantenimiento
 mantenimiento::check();
@@ -15,30 +13,16 @@ mantenimiento::check();
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
-// 2) Obtener una instancia del Logger
-$logger = \App\Comunes\utilidades\loggers::createLogger();
-
 // 3) Empezar a usarlo
-$logger->info('Aplicación iniciada correctamente.');
-$logger->warning('Algo inusual ocurrió, pero no es crítico.');
-#$logger->error('Error de login para usuario', ['usuario' => $correo,'acción'  => 'login','detalle' => 'Sesion invalada']);
+$logger = loggers::createLogger();
 
-// Iniciar sesión si no está iniciada
-if (session_status() === PHP_SESSION_NONE) {
-    session_start([
-        'cookie_httponly' => true,
-        'cookie_samesite' => 'Strict',
-        'cookie_secure'   => true, // pon true si usas HTTPS
-    ]);
-}
+$logger->debug("Renderizando vista logging.php", [
+    'SESSION_ID' => session_id(),
+    'CSRF_TOKEN' => $_SESSION['csrf_token'] ?? null
+]);
 
-\App\Comunes\seguridad\csrf::insertarInput();
 
-// Generar o reusar token CSRF
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-$csrf = $_SESSION['csrf_token'];
+csrf::generarToken();
 
 // Capturar errores y old values de sesiones anteriores
 $errors = $_SESSION['login_errors'] ?? [];
@@ -67,7 +51,7 @@ unset($_SESSION['login_errors'], $_SESSION['old']);
       <h2 class="text-xl text-gray-700 font-medium">Gestion Juridica</h2>
     </div>
         
-    <form class="space-y-6" aria-label="Formulario de inicio de sesión" action="/control_logging" method="POST">
+    <form class="space-y-6" aria-label="Formulario de inicio de sesión" action="/login" method="POST">
       <div>
         <label class="block text-gray-700 text-sm font-semibold mb-2" for="username">Email</label>
         <input 
@@ -117,7 +101,7 @@ unset($_SESSION['login_errors'], $_SESSION['old']);
         </a>
       </div>
       <div class="flex flex-row gap-5 mt-6 justify-center">
-        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf) ?>" />
+      <?php csrf::insertarInput(); ?>
         <button 
           class="btn-gradient text-white text-sm font-semibold py-2 px-12 rounded-lg focus:outline-none focus:ring-2 focus:ring-sena-green" 
           type="submit"
@@ -133,19 +117,6 @@ unset($_SESSION['login_errors'], $_SESSION['old']);
         </button>
       </div>
 
-      <?php
-
-        if (isset($_SESSION['error'])) {
-            echo "<p class='text-center mb-10' style='color: red;'>" . $_SESSION['error'] . "</p>";
-            unset($_SESSION['error']); // Limpiar el mensaje de error después de mostrarlo
-        }
-
-        if (isset($_SESSION['message'])) {
-            echo "<p class='text-center mb-10' style='color: green;'>" . $_SESSION['message'] . "</p>";
-            unset($_SESSION['message']);
-        }
-
-      ?>
     </form>
     
     <div class="mt-6 text-center">

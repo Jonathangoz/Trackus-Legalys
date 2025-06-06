@@ -16,7 +16,7 @@ class validarlogin
 
         if (empty($input['correo'])) {
             $errors['correo'] = 'El correo es obligatorio.';
-        } elseif (! filter_var($input['correo'], FILTER_VALIDATE_EMAIL)) {
+        } elseif (!filter_var($input['correo'], FILTER_VALIDATE_EMAIL)) {
             $errors['correo'] = 'El correo no tiene formato válido.';
         }
 

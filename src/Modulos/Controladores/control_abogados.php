@@ -6,12 +6,12 @@ namespace App\Modulos\Controladores;
 
 use App\Comunes\seguridad\autenticacion;
 use App\Modulos\Controladores\controlador_base;
+use App\Comunes\middleware\control_logging;
 
 class control_abogados extends controlador_base
 {
     public function handle(string $uri, string $method): void {
-        if (!autenticacion::revisarLogueoUsers() 
-            || !in_array(autenticacion::rolUsuario(), ['ABOGADO_1','ABOGADO_2','ABOGADO_3'])) {
+        if (!autenticacion::revisarLogueoUsers() || !in_array(autenticacion::rolUsuario(), ['ABOGADO_1','ABOGADO_2','ABOGADO_3'])) {
             autenticacion::logout();
             $this->redirect('/login');
         }

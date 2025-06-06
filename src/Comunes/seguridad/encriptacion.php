@@ -1,59 +1,85 @@
 <?php
-// src/seguridad/encriptacion.php
+// src/Comunes/seguridad/encriptacion.php
 #declare(strict_types=1);
 
 namespace App\Comunes\seguridad;
 
+use App\Comunes\utilidades\loggers;
+use Monolog\Logger;
+
 class encriptacion
 {
+    /** @var Logger */
+    private static Logger $logger;
+
+    /**
+     * Inicializa el logger si aún no existe
+     */
+    private static function initLogger(): void {
+        if (!isset(self::$logger)) {
+            self::$logger = loggers::createLogger();
+            self::$logger->info("🛡 encriptacion::initLogger() inicializado");
+        }
+    }
+
     /**
      * Genera 64 bytes aleatorios y devuelve su representación hexadecimal (128 caracteres).
      */
     public static function tokenRandom(): string
     {
-        return bin2hex(random_bytes(64));
+        self::initLogger();
+        $random = bin2hex(random_bytes(64));
+        self::$logger->debug("🌀 tokenRandom() generado: {$random}");
+        return $random;
     }
 
     /**
      * Firma el token con HMAC-SHA256 usando SECRET_KEY.
      * Retorna la cadena: "<token>.<firma_hex>"
      */
-    public static function lenToken(string $token): string
-    {
+    public static function lenToken(string $token): string {
+        self::initLogger();
         $secret = $_ENV['SECRET_KEY'] ?? '';
+        self::$logger->debug("🔑 lenToken() usando token: {$token}");
         if (strlen($secret) < 32) {
+            self::$logger->error("🚨 lenToken(): SECRET_KEY inválida o demasiado corta");
             throw new \RuntimeException('SECRET_KEY debe tener al menos 32 caracteres.');
         }
 
         $hmacBin = hash_hmac('sha256', $token, $secret, true);
         $hmacHex = bin2hex($hmacBin);
-
-        return "{$token}.{$hmacHex}";
+        $firma = "{$token}.{$hmacHex}";
+        self::$logger->info("✅ lenToken() produjo firma HMAC: {$firma}");
+        return $firma;
     }
 
     /**
      * Verifica que la firma HMAC sea válida.
      * Si es correcta, devuelve el token original; si falla, devuelve null.
      */
-    public static function verificarToken(string $firma): ?string
-    {
+    public static function verificarToken(string $firma): ?string {
+        self::initLogger();
+        self::$logger->info("🔍 verificarToken() recibido: {$firma}");
         $parts = explode('.', $firma, 2);
         if (count($parts) !== 2) {
+            self::$logger->warning("⚠️ verificarToken(): formato incorrecto");
             return null;
         }
 
         [$token, $firmaHex] = $parts;
         $secret = $_ENV['SECRET_KEY'] ?? '';
         if (strlen($secret) < 32) {
+            self::$logger->warning("⚠️ verificarToken(): SECRET_KEY inválida o demasiado corta");
             return null;
         }
 
         $calcHmacBin = hash_hmac('sha256', $token, $secret, true);
         $calcHex     = bin2hex($calcHmacBin);
-
         if (hash_equals($calcHex, $firmaHex)) {
+            self::$logger->info("✅ verificarToken(): firma válida, token extraído: {$token}");
             return $token;
         }
+        self::$logger->warning("❌ verificarToken(): firma no coincide");
         return null;
     }
 
@@ -63,15 +89,16 @@ class encriptacion
      */
     public static function encriptarToken(string $token): string
     {
+        self::initLogger();
         $key = $_ENV['SECRET_KEY2'] ?? '';
+        self::$logger->debug("🔐 encriptarToken() token a cifrar: {$token}");
         if (strlen($key) < 32) {
+            self::$logger->error("🚨 encriptarToken(): SECRET_KEY2 inválida o demasiado corta");
             throw new \RuntimeException('SECRET_KEY2 debe tener al menos 32 caracteres.');
         }
 
-        // IV de 12 bytes recomendado para AES-GCM
         $iv = random_bytes(12);
         $tag = '';
-
         $ciphertextBin = openssl_encrypt(
             $token,
             'aes-256-gcm',
@@ -84,25 +111,29 @@ class encriptacion
         );
 
         if ($ciphertextBin === false) {
+            self::$logger->error("🚨 encriptarToken(): error en openssl_encrypt");
             throw new \RuntimeException('Error al cifrar el token con AES-256-GCM.');
         }
 
         $ivB64     = base64_encode($iv);
         $cipherB64 = base64_encode($ciphertextBin);
         $tagB64    = base64_encode($tag);
-
-        return "{$ivB64}.{$cipherB64}.{$tagB64}";
+        $resultado = "{$ivB64}.{$cipherB64}.{$tagB64}";
+        self::$logger->info("✅ encriptarToken() produjo resultado: {$resultado}");
+        return $resultado;
     }
 
     /**
      * Descifra un token cifrado con AES-256-GCM.
-     * Recibe: "base64(iv).base64(ciphertext).base64(tag)".
      * Devuelve el token original o null si falla autenticación o descifrado.
      */
     public static function descencriptarToken(string $encriptar): ?string
     {
+        self::initLogger();
+        self::$logger->info("🔍 descencriptarToken() recibido: {$encriptar}");
         $parts = explode('.', $encriptar, 3);
         if (count($parts) !== 3) {
+            self::$logger->warning("⚠️ descencriptarToken(): formato inválido");
             return null;
         }
 
@@ -112,11 +143,13 @@ class encriptacion
         $tag        = base64_decode($tagB64, true);
 
         if ($iv === false || $ciphertext === false || $tag === false) {
+            self::$logger->warning("⚠️ descencriptarToken(): fallo al decodificar base64");
             return null;
         }
 
         $key = $_ENV['SECRET_KEY2'] ?? '';
         if (strlen($key) < 32) {
+            self::$logger->warning("⚠️ descencriptarToken(): SECRET_KEY2 inválida o demasiado corta");
             return null;
         }
 
@@ -130,7 +163,13 @@ class encriptacion
             '' // AAD
         );
 
-        return $textoPlano === false ? null : $textoPlano;
+        if ($textoPlano === false) {
+            self::$logger->warning("❌ descencriptarToken(): autenticación o descifrado falló");
+            return null;
+        }
+
+        self::$logger->info("✅ descencriptarToken() devolvió texto plano: {$textoPlano}");
+        return $textoPlano;
     }
 
     /**
@@ -139,8 +178,13 @@ class encriptacion
      */
     public static function verificarEncriptacion(string $token): string
     {
+        self::initLogger();
+        self::$logger->info("🔐 verificarEncriptacion() recibe token: {$token}");
         $firma = self::lenToken($token);
-        return self::encriptarToken($firma);
+        self::$logger->debug("🔑 verificarEncriptacion() firma intermedia: {$firma}");
+        $encriptar = self::encriptarToken($firma);
+        self::$logger->info("✅ verificarEncriptacion() resultado cifrado: {$encriptar}");
+        return $encriptar;
     }
 
     /**
@@ -149,73 +193,92 @@ class encriptacion
      */
     public static function descencrriptarVerificar(string $encriptar): ?string
     {
+        self::initLogger();
+        self::$logger->info("🔍 descencrriptarVerificar() recibe: {$encriptar}");
         $firma = self::descencriptarToken($encriptar);
         if ($firma === null) {
+            self::$logger->warning("⚠️ descencrriptarVerificar(): descencriptarToken retornó null");
             return null;
         }
-        return self::verificarToken($firma);
+        $token = self::verificarToken($firma);
+        if ($token === null) {
+            self::$logger->warning("⚠️ descencrriptarVerificar(): verificarToken falló");
+            return null;
+        }
+        self::$logger->info("✅ descencrriptarVerificar() devolvió token válido: {$token}");
+        return $token;
     }
 
     /**
-     * Firma y cifra un token, y además guarda en sesión su fecha de expiración:
-     * $_SESSION['token_expiry'] = now + $lifetime segundos.
-     *
-     * @param string $token    El token en texto claro (por ejemplo, 64 bytes hex)
-     * @param int    $lifetime Cantidad de segundos que debe durar el token
+     * Firma y cifra un token, y además guarda en sesión su fecha de expiración.
+     * @param string $token
+     * @param int    $lifetime
      */
-    public static function firmaEncriptadaExpiracion(string $token, int $lifetime): string
-    {
+    public static function firmaEncriptadaExpiracion(string $token, int $lifetime): string {
+        self::initLogger();
+        self::$logger->info("🔑 firmaEncriptadaExpiracion() token: {$token}, lifetime: {$lifetime}");
+
         // 1) Firma
         $firma = self::lenToken($token);
+        self::$logger->debug("🔐 Token firmado: {$firma}");
 
-        // 2) Cifra
+        // 2) Cifra la firma
         $encriptar = self::encriptarToken($firma);
+        self::$logger->debug("🔒 Firma cifrada (encriptar): {$encriptar}");
 
-        // 3) Inicia sesión si no está activa y guarda expiración en _SESSION
+        // 3) Guardar expiración en sesión
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start([
                 'cookie_httponly' => true,
-                'cookie_samesite' => 'Strict',
-                'cookie_secure'   => true,
+                'cookie_secure'   => false,
             ]);
+            self::$logger->debug("➰ session_start() en firmaEncriptadaExpiracion()");
         }
         $_SESSION['token_expiry'] = time() + $lifetime;
+        self::$logger->info("⏳ token_expiry guardado en" . $_SESSION['token_expiry']);
 
         return $encriptar;
     }
 
     /**
-     * Antes de descifrar, comprueba si la sesión tiene $_SESSION['token_expiry'] y que no haya pasado.
-     * Luego descifra y verifica HMAC. Devuelve el token original o null si expiró o es inválido.
-     *
-     * @param string $encriptar El token cifrado ("ivB64.cipherB64.tagB64")
+     * Antes de descifrar, comprueba expiración y verifica HMAC.
+     * @param string $encriptar
      */
     public static function descencriptverificarExpiracion(string $encriptar): ?string
     {
-        // 1) Verificar expiración desde $_SESSION
+        self::initLogger();
+        self::$logger->info("⏱ descencriptverificarExpiracion() recibido: {$encriptar}");
+
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start([
                 'cookie_httponly' => true,
-                'cookie_samesite' => 'Strict',
-                'cookie_secure'   => true,
+                'cookie_secure'   => false,
             ]);
+            self::$logger->debug("➰ session_start() en descencriptverificarExpiracion()");
         }
 
         $expiry = $_SESSION['token_expiry'] ?? 0;
+        self::$logger->debug("🗓 token_expiry en sesión: {$expiry}, ahora: {time()}");
         if (time() > intval($expiry)) {
-            // Token expirado: destruir la sesión y devolver null
+            self::$logger->warning("⌛ Token expirado, destruyendo sesión");
             $_SESSION = [];
             session_destroy();
             return null;
         }
 
-        // 2) Descifrar (AES-GCM)
         $firma = self::descencriptarToken($encriptar);
         if ($firma === null) {
+            self::$logger->warning("❌ descencriptverificarExpiracion(): descencriptarToken falló");
             return null;
         }
 
-        // 3) Verificar firma HMAC
-        return self::verificarToken($firma);
+        $token = self::verificarToken($firma);
+        if ($token === null) {
+            self::$logger->warning("❌ descencriptverificarExpiracion(): verificarToken falló");
+            return null;
+        }
+
+        self::$logger->info("✅ descencriptverificarExpiracion() devolvió token válido: {$token}");
+        return $token;
     }
 }

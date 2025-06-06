@@ -1,30 +1,29 @@
 <?php
-// src/Comunes/utilidades/loggers.php (procesos de log, que guarda los log en la carpeta logs duracion el mismo dependiendo de como se define en .env)
-declare(strict_types=1);
+// src/Comunes/utilidades/loggers.php
+//declare(strict_types=1);
 
 namespace App\Comunes\utilidades;
+
 
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
+use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Formatter\LineFormatter;
 
-class loggers
-{
+class loggers {
     /**
      * Inicializa y devuelve un Logger configurado según .env
-     *
-     * @return Logger
      */
-    public static function createLogger(): Logger
-    {
+    public static function createLogger(): Logger {
         // 1. Nombre del canal (puedes cambiar “app” por lo que prefieras)
-        $logger = new Logger('app');
+        $logger = new Logger('Mensajes');
+        #ErrorHandler::register($logger);
 
         // 2. Obtener configuración desde variables de entorno
         $channel   = $_ENV['LOG_CHANNEL'] ?? 'single';
         $levelName = $_ENV['LOG_LEVEL']   ?? 'debug';
-        $logPath   = $_ENV['LOG_PATH']    ?? __DIR__ . '/../logs';
+        $logPath   = $_ENV['LOG_PATH']    ?? __DIR__ . '/../../../logs';
         $maxFiles  = (int) ($_ENV['LOG_MAX_FILES'] ?? 7);
 
         // Convertir el nombre de nivel a constante Monolog (int)
@@ -33,41 +32,43 @@ class loggers
         // 3. Según el canal, agregamos distintos handlers
         switch ($channel) {
             case 'daily':
-                // RotatingFileHandler crea un archivo nuevo por día y rota
-                // Nombre: /var/log/mi_aplicacion/app-YYYY-MM-DD.log
                 $rotating = new RotatingFileHandler(
-                    rtrim($logPath, '/\\') . '/app.log',
+                    rtrim($logPath, '/\\') . '/Mensajes.log',
                     $maxFiles,
                     $level
                 );
-                // Opcional: formateo más legible
                 $formatter = new LineFormatter(
-                    null,             // formato por defecto: "[%datetime%] %channel%.%level_name%: %message% %context%"
-                    null,             // fecha por defecto: "Y-m-d H:i:s"
-                    true,             // permitir "multiline"
-                    true              // eliminar espacios en blancos extra
+                    "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n",    // formato por defecto
+                    "d/m/Y h:i A",    // fecha por defecto
+                    true,    // permitir “multiline”
+                    true     // eliminar espacios extra
                 );
                 $rotating->setFormatter($formatter);
                 $logger->pushHandler($rotating);
                 break;
 
             case 'single':
-                // Simplemente un solo StreamHandler
-                $stream = new StreamHandler(
-                    rtrim($logPath, '/\\') . '/app.log',
-                    $level
-                );
-                $logger->pushHandler($stream);
-                break;
-
             default:
-                // Por defecto, mismo comportamiento que 'single'
                 $stream = new StreamHandler(
-                    rtrim($logPath, '/\\') . '/app.log',
+                    rtrim($logPath, '/\\') . '/Mensajes.log',
                     $level
                 );
+                $formatter = new LineFormatter(
+                    "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n",    // formato por defecto
+                    "d/m/Y h:i A",    // fecha por defecto
+                    true,    // permitir “multiline”
+                    true     // eliminar espacios extra
+                );
+                $stream->setFormatter($formatter);
                 $logger->pushHandler($stream);
                 break;
+        }
+
+        // 4. Agregar handler para la consola del navegador
+        //    Solo en entorno de desarrollo. Si en producción, pudes saltarlo.
+        if (($_ENV['APP_ENV'] ?? 'production') === 'development') {
+            $browserHandler = new BrowserConsoleHandler($level);
+            $logger->pushHandler($browserHandler);
         }
 
         return $logger;
