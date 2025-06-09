@@ -1,12 +1,12 @@
 <?php
-// src/Modulos/Dashboard/modelos/DashboardModel.php
+// src/Modulos/Consultas/Modelos/obligadosPagos.php
 declare(strict_types=1);
 
-namespace App\Modulos\Dashboard\Modelos;
+namespace App\Modulos\Consultas\Modelos;
 
 use PDO;
 
-class ModeloDashboard {
+class obligadosPagos {
     protected PDO $db;
 
     public function __construct() {
@@ -96,4 +96,3 @@ class ModeloDashboard {
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     }
 }
-

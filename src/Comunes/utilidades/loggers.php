@@ -1,6 +1,6 @@
 <?php
-// src/Comunes/utilidades/loggers.php
-//declare(strict_types=1);
+# src/Comunes/utilidades/loggers.php (verifica y crea log ya sea diario, mensual, importante para warning y error del sistema)
+declare(strict_types=1);
 
 namespace App\Comunes\utilidades;
 
@@ -12,24 +12,23 @@ use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Formatter\LineFormatter;
 
 class loggers {
-    /**
-     * Inicializa y devuelve un Logger configurado según .env
-     */
+
+    # Inicializa y devuelve un Logger configurado según .env
     public static function createLogger(): Logger {
-        // 1. Nombre del canal (puedes cambiar “app” por lo que prefieras)
+        # Nombre del canal (puedes cambiar “Mensajes” por lo que prefieras)
         $logger = new Logger('Mensajes');
         #ErrorHandler::register($logger);
 
-        // 2. Obtener configuración desde variables de entorno
+        # Obtener configuración desde variables de entorno
         $channel   = $_ENV['LOG_CHANNEL'] ?? 'single';
         $levelName = $_ENV['LOG_LEVEL']   ?? 'debug';
-        $logPath   = $_ENV['LOG_PATH']    ?? __DIR__ . '/../../../logs';
+        $logPath   = $_ENV['LOG_PATH']    ?? __DIR__ . '/../../../logs'; # Ruta donde se almacenaran los log generados del sistema.
         $maxFiles  = (int) ($_ENV['LOG_MAX_FILES'] ?? 7);
 
-        // Convertir el nombre de nivel a constante Monolog (int)
+        # Convertir el nombre de nivel a constante Monolog (int)
         $level = Logger::toMonologLevel($levelName);
 
-        // 3. Según el canal, agregamos distintos handlers
+        # Según el canal, agregamos distintos handlers
         switch ($channel) {
             case 'daily':
                 $rotating = new RotatingFileHandler(
@@ -64,13 +63,11 @@ class loggers {
                 break;
         }
 
-        // 4. Agregar handler para la consola del navegador
-        //    Solo en entorno de desarrollo. Si en producción, pudes saltarlo.
+        # Agregar handler para la consola del navegador, Solo en entorno de desarrollo. en producción, se pude saltarl.
         if (($_ENV['APP_ENV'] ?? 'production') === 'development') {
             $browserHandler = new BrowserConsoleHandler($level);
             $logger->pushHandler($browserHandler);
         }
-
         return $logger;
     }
 }

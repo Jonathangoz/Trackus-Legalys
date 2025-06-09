@@ -1,19 +1,3 @@
-<?php
-  session_start();
-
-  if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: logging.php");
-      exit;
-  }
-
-  if($_SESSION['tipo_rol'] !== 'ADMIN'){
-    header("Location: logging.php");
-    session_destroy();
-    session_unset();
-    exit;
-  }
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Obligados al Pago - Sistema Cobro Coactivo</title>
     <!-- Favicon -->
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
-    <link rel="stylesheet" href="CSS/Deudores.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="/assets/CSS/Deudores.css">
     <!-- fontawesome -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -35,7 +19,7 @@
     </button>
     <header>
         <div class="logo-container">
-            <img src="img/sena.blanco.png" class="img-sena" alt="Logo SENA">            
+            <img src="/assets/images/sena.blanco.png" class="img-sena" alt="Logo SENA">            
             <p>SENA Regional Santander</p>
         </div>
         <div class="title-container">
@@ -43,7 +27,7 @@
         </div>       
         <div class="user-home">
             <div class="home">
-                <a href="dashboard.php" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
+                <a href="/cobrocoactivo" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
                     <div>
                         <span class="text" style="color: white;">Dashboard</span>
                     </div>
@@ -62,7 +46,7 @@
                     <li><a href="#" class="drop"><i class="fa-solid fa-user me-2" style="margin-right: 15px;"></i>Perfil</a></li>
                     <li><a href="#" class="drop"><i class="fa-solid fa-gear me-2" style="margin-right: 15px;"></i>Configuración</a></li>
                     <li><hr></li>
-                    <li><a href="module_login/logout.php" class="sesion"><i class="fa-solid fa-right-from-bracket me-2" style="margin-right: 15px;"></i>Cerrar sesión</a></li>
+                    <li><a href="/login" class="sesion"><i class="fa-solid fa-right-from-bracket me-2" style="margin-right: 15px;"></i>Cerrar sesión</a></li>
                 </ul>
             </div>
         </div>
@@ -144,8 +128,8 @@
         <p>© 2025 SENA - Servicio Nacional de Aprendizaje</p>
     </footer>
 
-    <script src="js/Deudores.js"></script>
+    <script src="/assets/js/Deudores.js"></script>
     <!-- Scripts del Boton -->
-    <script src="js/back-to-top.js"></script>
+    <script src="/assets/js/back-to-top.js"></script>
 </body>
 </html>

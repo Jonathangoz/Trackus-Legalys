@@ -1,11 +1,25 @@
 <?php
 // src/Modulos/Dashboard/routes.php
 
-function verificarAcceso($rutaConfig, $rolUsuario) {
-    return in_array($rolUsuario, $rutaConfig[3]); // rolesPermitidos
+function verificarAcceso(array $rutaConfig, string $rolUsuario): bool {
+    if (!isset($rutaConfig['roles_permitidos']) || ! is_array($rutaConfig['roles_permitidos'])) {
+        // Si no está definido, por seguridad niega el acceso
+        return false;
+    }
+    return in_array($rolUsuario, $rutaConfig['roles_permitidos'], true);
 }
 
 return [
+    '/dashboard/funcionarios' => [
+        'controller' => 'App\\Modulos\\Dashboard\\Controladores\\control_Dashboard',
+        'method'           => 'listarFunc',
+        'verbs'            => 'GET',
+        'roles_permitidos' => ['ADMIN'],
+    ],
+    // …
+];
+
+/*return [
     // URI                             => [ Controlador,         método,             HTTP,    rolesPermitidos ]
     '/Dashboard'                       => ['control_Dashboard', 'Dashboard',         'GET, POST',    ['ADMIN']],
     '/dashboard/funcionarios'          => ['control_Dashboard', 'listarFunc',        'GET',    ['ADMIN']],

@@ -1,3 +1,6 @@
+/*! Estilo de vista index.html (pagina estatica - presentacion) (public/index.php) creado en TailwindCss/CLI 3.4.17 */
+
+/* variables Tailwindcss*/
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -147,8 +150,8 @@ html,
 :host {
   line-height: 1.5;
   /* 1 */
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+/*  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%; */
   /* 2 */
   -moz-tab-size: 4;
   /* 3 */
@@ -349,6 +352,7 @@ input:where([type='button']),
 input:where([type='reset']),
 input:where([type='submit']) {
   -webkit-appearance: button;
+  appearance: button;
   /* 1 */
   background-color: transparent;
   /* 2 */
@@ -396,6 +400,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 
 [type='search'] {
   -webkit-appearance: textfield;
+  appearance: textfield;
   /* 1 */
   outline-offset: -2px;
   /* 2 */
@@ -535,8 +540,6 @@ embed,
 object {
   display: block;
   /* 1 */
-  vertical-align: middle;
-  /* 2 */
 }
 
 /*
@@ -556,8 +559,38 @@ video {
 }
 
 * {
-  scrollbar-color: initial;
-  scrollbar-width: initial;
+  overflow: none;
+  -ms-overflow-style: scrollbar;
+}
+
+/* Standard scrollbar styling */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .container {
@@ -1067,6 +1100,8 @@ video {
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/*! Clases y ID de la estructura HTML */
 
 html {
   cursor: default;

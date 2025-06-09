@@ -1,12 +1,12 @@
 <?php
-// src/Modulos/Dashboard/modelos/DashboardModel.php
+// src/Modulos/CobroCoactivo/Modelos/procesos.php
 declare(strict_types=1);
 
-namespace App\Modulos\Dashboard\Modelos;
+namespace App\Modulos\Deudores\Modelos;
 
 use PDO;
 
-class ModeloDashboard {
+class deudores {
     protected PDO $db;
 
     public function __construct() {

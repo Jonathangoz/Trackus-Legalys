@@ -1,143 +1,143 @@
 <?php
-# src/Modulos/Dashboard/Controladores/control_Dashboard.php
+// src/Modulos/Asignacion/Controladores/control_Asignacion.php (controlador del modelo y vistas)
 declare(strict_types=1);
 
-namespace App\Modulos\Dashboard\Controladores;
+namespace App\Modulos\Asigancion\Controladores;
 
-use App\Modulos\Dashboard\Modelos\ModeloDashboard;
+use App\Modulos\Asignacion\Modelos\procesos;
 use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
-class control_Dashboard {
-    protected ModeloDashboard $modelo;
-    /**
-    * @var Logger
-    */
+class control_Asignacion {
+    protected procesos $modelo;
+    /** @var Logger */
     private Logger $logger;
 
     public function __construct() {
-        // Inicializar modelo y logger
-        $this->modelo = new ModeloDashboard();
+        # Inicializar modelo y logger
+        $this->modelo = new procesos();
         $this->logger = loggers::createLogger();
-        $this->logger->info("💼 control_Dashboard::__construct() inicializado");
+        $this->logger->info("💼 control_Asignacion::__construct() inicializado");
     }
 
     /**
-     * Despacha rutas que inicien en /dashboard
+     * Despacha rutas que inicien en /asignacion
      * @param string $uri
      * @param string $method
-    */
+     */
     public function handle(string $uri, string $method): void {
-        $this->logger->info("🏷️  control_Dashboard::handle() invocado para: {$method} {$uri}");
+        $this->logger->info("🏷️  control_Asignacion::handle() invocado para: {$method} {$uri}");
 
-        // Verificar autenticación y rol ADMIN (redundante pero seguro)
+        # Verificar autenticación y rol ADMIN_TRAMITE (redundante pero seguro)
         if (empty($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-            $this->logger->warning("🚫 Usuario no autenticado en Dashboard, redirigiendo a /login");
+            $this->logger->warning("🚫 Usuario no autenticado en Asignacion, redirigiendo a /login");
             header('Location: /login');
             exit;
         }
         $rol = $_SESSION['tipo_rol'] ?? null;
-        $this->logger->debug("👤 Rol desde sesión en Dashboard: {$rol}");
-        if ($rol !== 'ADMIN') {
-            $this->logger->warning("🚫 Usuario sin rol ADMIN en Dashboard, redirigiendo a /login");
+        $this->logger->debug("👤 Rol desde sesión en Asignacion: {$rol}");
+        if ($rol !== 'ADMIN_TRAMITE') {
+            $this->logger->warning("🚫 Usuario sin rol ADMIN_TRAMITE en el Index, redirigiendo a /login");
             header('Location: /login');
             exit;
         }
 
         switch ("{$method} {$uri}") {
-            case 'GET /dashboard':
-            case 'POST /dashboard':
-                $this->logger->info("↪️  GET /Dashboard → Dashboard()");
-                $this->index();
+            case 'GET /asignacion':
+            case 'POST /asignacion':
+                $this->logger->info("↪️  GET /Asigancion → Asignacion()");
+                $this->listadoProcesos();
                 return;
 
-            case 'GET /dashboard/funcionarios':
-                $this->logger->info("↪️  GET /dashboard/funcionarios → listarFunc()");
+            case 'GET /asigancion/funcionarios':
+                $this->logger->info("↪️  GET /asigancion/funcionarios → listarFunc()");
                 $this->listarFunc();
                 return;
 
-            case 'GET /dashboard/funcionarios/crear':
-                $this->logger->info("↪️  GET /dashboard/funcionarios/crear → crearForm()");
+            case 'GET /asigancion/funcionarios/crear':
+                $this->logger->info("↪️  GET /asigancion/funcionarios/crear → crearAsigancion()");
                 $this->crearForm();
                 return;
 
-            case 'POST /dashboard/funcionarios':
-                $this->logger->info("↪️  POST /dashboard/funcionarios → crear()");
+            case 'POST /asigancion/funcionarios':
+                $this->logger->info("↪️  POST /asigancion/funcionarios → crear()");
                 $this->crear();
                 return;
 
-            case 'GET /dashboard/funcionarios/editar':
-                $this->logger->info("↪️  GET /dashboard/funcionarios/editar → editarForm()");
+            case 'GET /asigancion/funcionarios/editar':
+                $this->logger->info("↪️  GET /asigancion/funcionarios/editar → editarForm()");
                 $this->editarForm();
                 return;
 
-            case 'POST /dashboard/funcionarios/editar':
-                $this->logger->info("↪️  POST /dashboard/funcionarios/editar → editar()");
+            case 'POST /asigancion/funcionarios/editar':
+                $this->logger->info("↪️  POST /asigancion/funcionarios/editar → editar()");
                 $this->editar();
                 return;
 
-            case 'POST /dashboard/funcionarios/eliminar':
-                $this->logger->info("↪️  POST /dashboard/funcionarios/eliminar → eliminar()");
+            case 'POST /asigancion/funcionarios/eliminar':
+                $this->logger->info("↪️  POST /asigancion/funcionarios/eliminar → eliminar()");
                 $this->eliminar();
                 return;
 
-            case 'POST /dashboard/funcionarios/activar':
-                $this->logger->info("↪️  POST /dashboard/funcionarios/activar → activar()");
+            case 'POST /asigancion/funcionarios/activar':
+                $this->logger->info("↪️  POST /asigancion/funcionarios/activar → activar()");
                 $this->activar();
                 return;
 
-            case 'GET /dashboard/auditoria':
-                $this->logger->info("↪️  GET /dashboard/auditoria → verAuditoria()");
+            case 'GET /asigancion/auditoria':
+                $this->logger->info("↪️  GET /asigancion/auditoria → verAuditoria()");
                 $this->verAuditoria();
                 return;
 
-            case 'GET /dashboard/estadisticas':
-                $this->logger->info("↪️  GET /dashboard/estadisticas → estadisticas()");
+            case 'GET /asigancion/estadisticas':
+                $this->logger->info("↪️  GET /asigancion/estadisticas → estadisticas()");
                 $this->estadisticas();
                 return;
 
             default:
-                $this->logger->warning("❓ Dashboard: ruta no encontrada ({$uri})");
+                $this->logger->warning("❓ asigancion: ruta no encontrada ({$uri})");
                 http_response_code(404);
-                echo "Dashboard: ruta no encontrada ({$uri})";
+                echo "asigancion: ruta no encontrada ({$uri})";
                 return;
         }
     }
 
-    # GET /dashboard
-    protected function index(): void {
-        $this->logger->debug("🔄 index(): obteniendo resumen");
+    # DIRIGE AL MODELO Y CONSULTAS ESPECIFICAS
+
+    # GET /asigancion
+    protected function listadoProcesos(): void {
+        $this->logger->debug("🔄 listadoProcesos(): obteniendo resumen");
         $datos = [
             'entidades' => $this->modelo->getEntidades(),
         ];
-        // $datos = ['entidades' => array asociativo con conteos de bancos, cc y tránsito, ...]
+        // $datos = [
+        //   'entidades' => array asociativo con conteos de bancos, cc y tránsito,
+        // ]
         extract($datos);
         
-        $this->logger->info("✔️ index(): resumen obtenido");
-        require_once __DIR__ . '/../Vistas/dashboard.php';
-        $this->logger->info("📄 index(): vista dashboard cargada");
+        $this->logger->info("✔️ listadoProcesos(): resumen obtenido");
+        require_once __DIR__ . '/../Vistas/procesos.php';
+        $this->logger->info("📄 listadoProcesos(): vista asigancion cargada");
     }
 
-    # GET /dashboard/funcionarios
+    # GET /asigancion/funcionarios
     protected function listarFunc(): void {
         $this->logger->debug("🔄 listarFunc(): obteniendo lista de funcionarios");
         $funcionarios = $this->modelo->getAllFuncionarios();
         $this->logger->info("✔️ listarFunc(): funcionarios obtenidos (" . count($funcionarios) . ")");
-        require __DIR__ . '/../vistas/dashboard.php';
-        $this->logger->info("📄 listarFunc(): vista dashboard cargada con funcionarios");
+        require __DIR__ . '/../vistas/asigancion.php';
+        $this->logger->info("📄 listarFunc(): vista asigancion cargada con funcionarios");
     }
 
-    # GET /dashboard/funcionarios/crear
-    protected function crearForm(): void
-    {
+    # GET /asigancion/funcionarios/crear
+    protected function crearForm(): void {
         $this->logger->info("🔄 crearForm(): mostrando formulario de creación");
-        require __DIR__ . '/../vistas/dashboard.php';
-        $this->logger->info("📄 crearForm(): vista dashboard cargada (crear funcionario)");
+        require __DIR__ . '/../vistas/asigancion.php';
+        $this->logger->info("📄 crearForm(): vista asigancion cargada (crear funcionario)");
     }
 
-    # POST /dashboard/funcionarios
-    protected function crear(): void
-    {
+    /** POST /asigancion/funcionarios */
+    protected function crear(): void {
         $this->logger->debug("🔄 crear(): recolectando datos del POST", [
             'POST' => $_POST
         ]);
@@ -159,42 +159,40 @@ class control_Dashboard {
 
         if (!empty($errores)) {
             $this->logger->warning("⚠️ crear(): errores de validación", ['errores' => $errores]);
-            $_SESSION['dashboard_errors'] = $errores;
-            header('Location: /dashboard/funcionarios/crear');
+            $_SESSION['asigancion_errors'] = $errores;
+            header('Location: /asigancion/funcionarios/crear');
             exit;
         }
 
         $this->modelo->insertarFuncionario($nombre, $correo, $rol, $estado);
         $this->logger->info("✅ crear(): funcionario creado: {\$nombre}, {\$correo}");
-        $_SESSION['dashboard_message'] = 'Funcionario creado correctamente.';
-        header('Location: /dashboard/funcionarios');
+        $_SESSION['asigancion_message'] = 'Funcionario creado correctamente.';
+        header('Location: /asigancion/funcionarios');
         exit;
     }
 
-    # GET /dashboard/funcionarios/editar?id=XX
-    protected function editarForm(): void
-    {
+    # GET /asigancion/funcionarios/editar?id=XX
+    protected function editarForm(): void {
         $id = intval($_GET['id'] ?? 0);
         $this->logger->debug("🔄 editarForm(): id recibido: {\$id}");
         if ($id <= 0) {
             $this->logger->warning("⚠️ editarForm(): ID inválido (<=0), redirigiendo");
-            header('Location: /dashboard/funcionarios');
+            header('Location: /asigancion/funcionarios');
             exit;
         }
         $func = $this->modelo->getFuncionarioById($id);
         if (!$func) {
             $this->logger->warning("⚠️ editarForm(): funcionario no encontrado para ID={\$id}");
-            header('Location: /dashboard/funcionarios');
+            header('Location: /asigancion/funcionarios');
             exit;
         }
         $this->logger->info("✔️ editarForm(): funcionario encontrado para ID={\$id}");
-        require __DIR__ . '/../vistas/dashboard.php';
-        $this->logger->info("📄 editarForm(): vista dashboard cargada (editar funcionario)");
+        require __DIR__ . '/../vistas/asigancion.php';
+        $this->logger->info("📄 editarForm(): vista asigancion cargada (editar funcionario)");
     }
 
-    # POST /dashboard/funcionarios/editar
-    protected function editar(): void
-    {
+    # POST /asigancion/funcionarios/editar
+    protected function editar(): void {
         $this->logger->debug("🔄 editar(): recolectando datos del POST", [
             'POST' => $_POST
         ]);
@@ -220,37 +218,35 @@ class control_Dashboard {
 
         if (!empty($errores)) {
             $this->logger->warning("⚠️ editar(): errores de validación", ['errores' => $errores]);
-            $_SESSION['dashboard_errors'] = $errores;
-            header("Location: /dashboard/funcionarios/editar?id={$id}");
+            $_SESSION['asigancion_errors'] = $errores;
+            header("Location: /asigancion/funcionarios/editar?id={$id}");
             exit;
         }
 
         $this->modelo->actualizarFuncionario($id, $nombre, $correo, $rol, $estado);
         $this->logger->info("✅ editar(): funcionario actualizado: ID={\$id}, \{\$nombre}, {\$correo}");
-        $_SESSION['dashboard_message'] = 'Funcionario actualizado correctamente.';
-        header('Location: /dashboard/funcionarios');
+        $_SESSION['asigancion_message'] = 'Funcionario actualizado correctamente.';
+        header('Location: /asigancion/funcionarios');
         exit;
     }
 
-    # POST /dashboard/funcionarios/eliminar
-    protected function eliminar(): void
-    {
+    # POST /asigancion/funcionarios/eliminar
+    protected function eliminar(): void {
         $id = intval($_POST['id'] ?? 0);
         $this->logger->debug("🔄 eliminar(): id recibido: {\$id}");
         if ($id > 0) {
             $this->modelo->eliminarFuncionario($id);
             $this->logger->info("🗑 eliminar(): funcionario eliminado ID={\$id}");
-            $_SESSION['dashboard_message'] = 'Funcionario eliminado correctamente.';
+            $_SESSION['asigancion_message'] = 'Funcionario eliminado correctamente.';
         } else {
             $this->logger->warning("⚠️ eliminar(): ID inválido (<=0)");
         }
-        header('Location: /dashboard/funcionarios');
+        header('Location: /asigancion/funcionarios');
         exit;
     }
 
-    # POST /dashboard/funcionarios/activar
-    protected function activar(): void
-    {
+    # POST /asigancion/funcionarios/activar
+    protected function activar(): void {
         $id     = intval($_POST['id'] ?? 0);
         $estado = ($_POST['estado'] ?? '0') === '1' ? 1 : 0;
         $this->logger->debug("🔄 activar(): id={\$id}, estado={\$estado}");
@@ -258,35 +254,34 @@ class control_Dashboard {
             $this->modelo->activarFuncionario($id, $estado);
             if ($estado) {
                 $this->logger->info("✅ activar(): funcionario ID={\$id} activado");
-                $_SESSION['dashboard_message'] = 'Funcionario activado correctamente.';
+                $_SESSION['asigancion_message'] = 'Funcionario activado correctamente.';
             } else {
                 $this->logger->info("🚫 activar(): funcionario ID={\$id} desactivado");
-                $_SESSION['dashboard_message'] = 'Funcionario desactivado correctamente.';
+                $_SESSION['asigancion_message'] = 'Funcionario desactivado correctamente.';
             }
         } else {
             $this->logger->warning("⚠️ activar(): ID inválido (<=0)");
         }
-        header('Location: /dashboard/funcionarios');
+        header('Location: /asigancion/funcionarios');
         exit;
     }
 
-    # GET /dashboard/auditoria
-    protected function verAuditoria(): void
-    {
+    # GET /asigancion/auditoria
+    protected function verAuditoria(): void{
         $this->logger->debug("🔄 verAuditoria(): obteniendo registros de auditoría");
         $auditorias = $this->modelo->getLogAuditoria();
         $this->logger->info("✔️ verAuditoria(): auditorías obtenidas (" . count($auditorias) . ")");
-        require __DIR__ . '/../vistas/dashboard.php';
-        $this->logger->info("📄 verAuditoria(): vista dashboard cargada (auditoría)");
+        require __DIR__ . '/../vistas/asigancion.php';
+        $this->logger->info("📄 verAuditoria(): vista asigancion cargada (auditoría)");
     }
 
-    # GET /dashboard/estadisticas
+    # GET /asigancion/estadisticas
     protected function estadisticas(): void
     {
         $this->logger->debug("🔄 estadisticas(): obteniendo datos de estadísticas");
         $data = $this->modelo->getEstadisticas();
         $this->logger->info("✔️ estadisticas(): datos obtenidos");
-        require __DIR__ . '/../vistas/dashboard.php';
-        $this->logger->info("📄 estadisticas(): vista dashboard cargada (estadísticas)");
+        require __DIR__ . '/../vistas/asigancion.php';
+        $this->logger->info("📄 estadisticas(): vista asigancion cargada (estadísticas)");
     }
 }

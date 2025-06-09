@@ -1,19 +1,3 @@
-<?php
-  session_start();
-
-  if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: index.html");
-      exit;
-  }
-
-  if($_SESSION['tipo_rol'] !== 'ADMIN'){
-    header("Location: logging.php");
-    session_destroy();
-    session_unset();
-    exit;
-  }
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Auditorías - Cobro Coactivo SENA</title>
     <!-- Favicon -->
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
     <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="CSS/Auditorias.css">
+    <link rel="stylesheet" href="/assets/CSS/Auditorias.css">
     <!-- fontawesome -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -37,7 +21,7 @@
 
     <header>
         <div class="logo-container">
-            <img src="img/sena.blanco.png" class="img-sena" alt="Logo SENA">            
+            <img src="/assets/images/sena.blanco.png" class="img-sena" alt="Logo SENA">            
             <p>SENA Regional Santander</p>
         </div>
         <div class="title-container">
@@ -64,7 +48,7 @@
                     <li><a href="#" class="drop"><i class="fa-solid fa-user me-2" style="margin-right: 15px;"></i>Perfil</a></li>
                     <li><a href="#" class="drop"><i class="fa-solid fa-gear me-2" style="margin-right: 15px;"></i>Configuración</a></li>
                     <li><hr></li>
-                    <li><a href="module_login/logout.php" class="sesion"><i class="fa-solid fa-right-from-bracket me-2" style="margin-right: 15px;"></i>Cerrar sesión</a></li>
+                    <li><a href="/login" class="sesion"><i class="fa-solid fa-right-from-bracket me-2" style="margin-right: 15px;"></i>Cerrar sesión</a></li>
                 </ul>
             </div>
         </div>
@@ -279,9 +263,9 @@
         <p>© 2025 SENA - Servicio Nacional de Aprendizaje</p>
     </footer>
 
-    <script src="js/Auditorias.js"></script>
+    <script src="/assets/js/Auditorias.js"></script>
     <!-- Scripts del Boton -->
-    <script src="js/back-to-top.js"></script>
+    <script src="/assets/js/back-to-top.js"></script>
 </body>
 </body>
 </html>

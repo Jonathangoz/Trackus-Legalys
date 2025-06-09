@@ -1,16 +1,15 @@
 <?php
-# src/Modulos/Controladores/control_abogados.php  (controlador principal del rol para redireccionar al modulo correspondiente)
+# src/Modulos/Controladores/control_deudores.php (controlador deudores o usuarios obligados al pago)
 declare(strict_types=1);
 
 namespace App\Modulos\Controladores;
 
 use App\Comunes\seguridad\autenticacion;
-use App\Modulos\CobroCoactivo\Controladores\control_Coactivo;
+use App\Modulos\Consultas\Controladores\control_obligados;
 use App\Comunes\utilidades\loggers;
-use App\Modulos\Deudores\Controladores\control_Deudores;
 use Monolog\Logger;
 
-class control_abogados extends controlador_base {
+class control_deudores extends controlador_base {
     /** @var Logger */
     private Logger $logger;
 
@@ -31,7 +30,7 @@ class control_abogados extends controlador_base {
         $path = strtolower($uri);
         $this->logger->info("🏷️  control_abogados::handle() invocado para: {$method} {$path}");
 
-        # 1) VALIDACIÓN DE SESIÓN Y ROL
+        # VALIDACIÓN DE SESIÓN Y ROL
         if (! autenticacion::revisarLogueoUsers()) {
             $this->logger->warning("🚫 Usuario no autenticado. Redirigiendo a /login");
             autenticacion::logout();
@@ -41,7 +40,7 @@ class control_abogados extends controlador_base {
 
         $rol = autenticacion::rolUsuario();
         $this->logger->debug("👤 Rol obtenido en sesión: {$rol}");
-        if ($rol !== 'ABOGADO') {
+        if ($rol !== 'DEUDOR') {
             $this->logger->warning("🚫 Usuario autenticado, pero sin rol ABOGADO. Cierre de sesión.");
             autenticacion::logout();
             $this->redirect('/login');
@@ -52,33 +51,33 @@ class control_abogados extends controlador_base {
         # Aquí puedes agregar rutas específicas bajo "/ABOGADO"
         # (por ejemplo: "/ABOGADO/usuarios", "/ABOGADO/deudores", etc.)
         # En este ejemplo mínimo, si llaman exactamente a "/ABOGADO", redirigimos a "/dashboard".
-        if ($path === '/ABOGADO' || $path === '/ABOGADO/') {
+        if ($path === '/DEUDOR' || $path === '/DEUDOR/') {
             $this->logger->info("↪️  GET /ABOGADO → redirigiendo a /index");
-            $this->redirect('/deudores');
+            $this->redirect('/consultas');
             return;
         }
 
-        # 3) RUTAS DE DASHBOARD
+        # RUTAS DE DASHBOARD
         # Si la URI comienza con "/dashboard", delegamos al módulo Dashboard
-        if (strpos($path, '/deudores') === 0) {
-            $this->logger->info("↪️  Delegando al módulo Dashboard: {$method} {$path}");
-            $dashboardCtrl = new control_Deudores();
+        if (strpos($path, '/consultas') === 0) {
+            $this->logger->info("↪️  Delegando al módulo Consultas: {$method} {$path}");
+            $dashboardCtrl = new control_obligados();
             $dashboardCtrl->handle($path, $method);
-            $this->logger->info("✔️  control_Deudores->handle() completado para: {$method} {$path}");
+            $this->logger->info("✔️  control_obligados->handle() completado para: {$method} {$path}");
             return;
         }
 
-        # 4) OTRAS RUTAS DE MÓDULOS (ejemplo CobroCoactivo)
+        # OTRAS RUTAS DE MÓDULOS (ejemplo CobroCoactivo)
         # Si en el futuro agregas, por ejemplo, un módulo "/cobrocoactivo", bastaría con:
         if (strpos($path, '/cobrocoactivo') === 0) {
             $this->logger->info("↪️  Delegando al módulo CobroCoactivo: {$method} {$path}");
-            $cobroCtrl = new control_Coactivo();
+            $cobroCtrl = new control_deudores();
             $cobroCtrl->handle($path, $method);
             $this->logger->info("✔️  control_Coactivo->handle() completado para: {$method} {$path}");
             return;
         }
 
-        # 5) RUTA NO ENCONTRADA
+        # RUTA NO ENCONTRADA
         $this->logger->warning("❓ control_ABOGADO::handle(): ruta no encontrada ({$path})");
         http_response_code(404);
         echo "ABOGADO: ruta no encontrada ({$path})";

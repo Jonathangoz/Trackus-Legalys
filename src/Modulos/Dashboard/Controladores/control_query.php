@@ -9,12 +9,10 @@ use App\Comunes\seguridad\encriptacion as SeguridadEncriptacion;
 use App\Modulos\CobroCoactivo\Modelos\obligados_pagos;
 use App\Modulos\Dashboard\Modelos\activar_inhabilitar;
 use App\Comunes\DB\conexion;
+/*
+class control_query {
 
-class control_query
-{
-    /**
-     * Maneja todas las llamadas AJAX/JSON a /api
-     */
+    # Maneja todas las llamadas AJAX/JSON a /api
     public function handle(): void {
         // 1) Forzar respuesta JSON
         header('Content-Type: application/json; charset=UTF-8');
@@ -45,7 +43,7 @@ class control_query
         }
 
         // 3) Descifrar y verificar HMAC + expiración en sesión
-        $tokenOriginal = SeguridadEncriptacion::descencriptverificarExpiracion($encryptedToken);
+        $tokenOriginal = SeguridadEncriptacion::desencriptarVerificarExpiracion($encryptedToken);
         if ($tokenOriginal === null) {
             http_response_code(401);
             echo json_encode(['error' => 'Sesión expirada o token inválido.']);
@@ -124,8 +122,7 @@ class control_query
         }
     }
 
-    private function listarDeudores(): void
-    {
+    private function listarDeudores(): void {
         try {
             $deudores = obligados_pagos::allActivos();
             echo json_encode(['deudores' => $deudores]);
@@ -138,8 +135,7 @@ class control_query
         }
     }
 
-    private function activarDeudor(int $id): void
-    {
+    private function activarDeudor(int $id): void {
         if ($id <= 0) {
             http_response_code(400);
             echo json_encode(['error' => 'ID deudor inválido.']);
@@ -162,8 +158,7 @@ class control_query
         }
     }
 
-    private function desactivarDeudor(int $id): void
-    {
+    private function desactivarDeudor(int $id): void {
         if ($id <= 0) {
             http_response_code(400);
             echo json_encode(['error' => 'ID deudor inválido.']);
@@ -186,8 +181,7 @@ class control_query
         }
     }
 
-    private function listarFuncionarios(): void
-    {
+    private function listarFuncionarios(): void {
         try {
             $funcionarios = activar_inhabilitar::allActivos();
             echo json_encode(['funcionarios' => $funcionarios]);
@@ -200,8 +194,7 @@ class control_query
         }
     }
 
-    private function activarFuncionario(int $id): void
-    {
+    private function activarFuncionario(int $id): void {
         if ($id <= 0) {
             http_response_code(400);
             echo json_encode(['error' => 'ID funcionario inválido.']);
@@ -224,8 +217,7 @@ class control_query
         }
     }
 
-    private function desactivarFuncionario(int $id): void
-    {
+    private function desactivarFuncionario(int $id): void {
         if ($id <= 0) {
             http_response_code(400);
             echo json_encode(['error' => 'ID funcionario inválido.']);

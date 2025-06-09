@@ -1,6 +1,6 @@
 <?php
-// src/controladores/controlador_base.php
-//declare(strict_types=1);
+# src/controladores/controlador_base.php (ayuda a redireccionar de forma global segun vabriable asiganda a recorrer las rutas)
+declare(strict_types=1);
 
 namespace App\Modulos\Controladores;
 

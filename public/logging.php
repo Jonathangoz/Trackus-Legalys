@@ -1,28 +1,42 @@
 <?php
-
+# public/logging.pph (formulario inicio de sesion correo y contraseña)
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Comunes\middleware\mantenimiento;
+use App\Comunes\seguridad\autenticacion;
 use App\Comunes\utilidades\loggers;
 use App\Comunes\seguridad\csrf;
 
-// Verificar mantenimiento
+# Verificar mantenimiento
 mantenimiento::check();
 
-// Cargar variables desde .env
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
-$dotenv->load();
-
-// 3) Empezar a usarlo
+# crear llamado para logger
 $logger = loggers::createLogger();
+
+# Si el método es POST, procesamos:
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email    = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+    if (autenticacion::login($email, $password)) {
+        // PRG: redirige a dashboard
+        header('Location: /dashboard.php');
+        exit;
+    } else {
+        header('Location: /login.php?error=1');
+        exit;
+    }
+}
 
 $logger->debug("Renderizando vista logging.php", [
     'SESSION_ID' => session_id(),
     'CSRF_TOKEN' => $_SESSION['csrf_token'] ?? null
 ]);
 
-
+# inyectar tokencsrf
 csrf::generarToken();
+
+// Si llegamos aquí, es GET: mostramos formulario
+$error = isset($_GET['error']) ? "Credenciales incorrectas" : "";
 
 // Capturar errores y old values de sesiones anteriores
 $errors = $_SESSION['login_errors'] ?? [];
@@ -72,7 +86,7 @@ unset($_SESSION['login_errors'], $_SESSION['old']);
           <input 
             class="form-control w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:border-sena-green focus:ring-2 focus:ring-sena-green" 
             id="password"
-            name="contrasenia" 
+            name="password" 
             type="password" 
             placeholder="Ingrese su contraseña"
             required
@@ -116,6 +130,15 @@ unset($_SESSION['login_errors'], $_SESSION['old']);
           Regresar
         </button>
       </div>
+
+        <?php
+
+          if (isset($_SESSION['login_errors'])) {
+            echo "<p class='text-center mb-10' style='color: red;'>" . $_SESSION['login_errors'] . "</p>";
+            unset($_SESSION['login_errors']); // Limpiar el mensaje de error después de mostrarlo
+          }
+
+        ?>
 
     </form>
     

@@ -1,20 +1,17 @@
 <?php
-// src/Comunes/seguridad/encriptacion.php
-#declare(strict_types=1);
+// src/Comunes/seguridad/encriptacion.php (realiza token para csrf, y token para usuario con JWT + JWE + AES-GCM (cifra encabezados))
+declare(strict_types=1);
 
 namespace App\Comunes\seguridad;
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
-class encriptacion
-{
-    /** @var Logger */
+class encriptacion {
     private static Logger $logger;
 
-    /**
-     * Inicializa el logger si aún no existe
-     */
     private static function initLogger(): void {
         if (!isset(self::$logger)) {
             self::$logger = loggers::createLogger();
@@ -22,263 +19,177 @@ class encriptacion
         }
     }
 
-    /**
-     * Genera 64 bytes aleatorios y devuelve su representación hexadecimal (128 caracteres).
-     */
-    public static function tokenRandom(): string
-    {
+    # Retorna clave de firma (HMAC) en binario decodificado de base64, verifica longitud minima, y que este con base64 mas segura.
+    private static function getSigningKey(): string {
         self::initLogger();
-        $random = bin2hex(random_bytes(64));
+        $raw = $_ENV['SECRET_KEY'] ?? '';
+        if (!str_starts_with($raw, 'base64:')) {
+            self::$logger->error("🚨 getSigningKey(): SECRET_KEY debe tener prefijo base64:");
+            throw new \RuntimeException("SECRET_KEY debe tener prefijo base64:");
+        }
+        $bin = base64_decode(substr($raw, 7), true);
+        if ($bin === false || strlen($bin) !== 32) {
+            self::$logger->error("🚨 getSigningKey(): SECRET_KEY inválida o tamaño incorrecto");
+            throw new \RuntimeException("SECRET_KEY debe ser base64 de 32 bytes");
+        }
+        return $bin;
+    }
+
+    # Retorna clave de cifrado (AES) en binario decodificado de base64.verifica longitud minima, y que este con base64 mas segura.
+    private static function getEncryptionKey(): string {
+        self::initLogger();
+        $raw = $_ENV['SECRET_KEY2'] ?? '';
+        if (!str_starts_with($raw, 'base64:')) {
+            self::$logger->error("🚨 getEncryptionKey(): SECRET_KEY2 debe tener prefijo base64:");
+            throw new \RuntimeException("SECRET_KEY2 debe tener prefijo base64:");
+        }
+        $bin = base64_decode(substr($raw, 7), true);
+        if ($bin === false || strlen($bin) !== 32) {
+            self::$logger->error("🚨 getEncryptionKey(): SECRET_KEY2 inválida o tamaño incorrecto");
+            throw new \RuntimeException("SECRET_KEY2 debe ser base64 de 32 bytes");
+        }
+        return $bin;
+    }
+
+    # Genera token cifrado base64, uso exclusivo para token csrf.
+    public static function tokenRandom(): string {
+        self::initLogger();
+        $random = base64_encode(random_bytes(32));
         self::$logger->debug("🌀 tokenRandom() generado: {$random}");
         return $random;
     }
 
     /**
-     * Firma el token con HMAC-SHA256 usando SECRET_KEY.
-     * Retorna la cadena: "<token>.<firma_hex>"
+     * Genera un JWT firmado con HMAC-SHA256.
+     * @param array $customClaims  – Debe incluir 'user_id' y 'tipo_rol'.
+     * @param int   $lifetime      – Segundos de vida del token.
+     * @return string JWT compacto.
      */
-    public static function lenToken(string $token): string {
+    public static function generarJwt(array $customClaims, int $lifetime = 600): string {
         self::initLogger();
-        $secret = $_ENV['SECRET_KEY'] ?? '';
-        self::$logger->debug("🔑 lenToken() usando token: {$token}");
-        if (strlen($secret) < 32) {
-            self::$logger->error("🚨 lenToken(): SECRET_KEY inválida o demasiado corta");
-            throw new \RuntimeException('SECRET_KEY debe tener al menos 32 caracteres.');
-        }
+        $signKey = self::getSigningKey();
+        $now     = time();
 
-        $hmacBin = hash_hmac('sha256', $token, $secret, true);
-        $hmacHex = bin2hex($hmacBin);
-        $firma = "{$token}.{$hmacHex}";
-        self::$logger->info("✅ lenToken() produjo firma HMAC: {$firma}");
-        return $firma;
-    }
+        $payload = [
+            'iss'      => $_ENV['APP_URL'] ?? 'tu-app',
+            'iat'      => $now,
+            'exp'      => $now + $lifetime,
+            'user_id'  => $customClaims['user_id'],
+            'tipo_rol' => $customClaims['tipo_rol'],
+        ];
 
-    /**
-     * Verifica que la firma HMAC sea válida.
-     * Si es correcta, devuelve el token original; si falla, devuelve null.
-     */
-    public static function verificarToken(string $firma): ?string {
-        self::initLogger();
-        self::$logger->info("🔍 verificarToken() recibido: {$firma}");
-        $parts = explode('.', $firma, 2);
-        if (count($parts) !== 2) {
-            self::$logger->warning("⚠️ verificarToken(): formato incorrecto");
-            return null;
-        }
+        $jwt = JWT::encode($payload, $signKey, 'HS256');
+        self::$logger->info("✅ generarJwt() JWT: {$jwt}");
 
-        [$token, $firmaHex] = $parts;
-        $secret = $_ENV['SECRET_KEY'] ?? '';
-        if (strlen($secret) < 32) {
-            self::$logger->warning("⚠️ verificarToken(): SECRET_KEY inválida o demasiado corta");
-            return null;
-        }
-
-        $calcHmacBin = hash_hmac('sha256', $token, $secret, true);
-        $calcHex     = bin2hex($calcHmacBin);
-        if (hash_equals($calcHex, $firmaHex)) {
-            self::$logger->info("✅ verificarToken(): firma válida, token extraído: {$token}");
-            return $token;
-        }
-        self::$logger->warning("❌ verificarToken(): firma no coincide");
-        return null;
-    }
-
-    /**
-     * Cifra un token usando AES-256-GCM.
-     * Retorna la cadena: base64(iv) . "." . base64(ciphertext) . "." . base64(tag)
-     */
-    public static function encriptarToken(string $token): string
-    {
-        self::initLogger();
-        $key = $_ENV['SECRET_KEY2'] ?? '';
-        self::$logger->debug("🔐 encriptarToken() token a cifrar: {$token}");
-        if (strlen($key) < 32) {
-            self::$logger->error("🚨 encriptarToken(): SECRET_KEY2 inválida o demasiado corta");
-            throw new \RuntimeException('SECRET_KEY2 debe tener al menos 32 caracteres.');
-        }
-
-        $iv = random_bytes(12);
-        $tag = '';
-        $ciphertextBin = openssl_encrypt(
-            $token,
-            'aes-256-gcm',
-            $key,
-            OPENSSL_RAW_DATA,
-            $iv,
-            $tag,
-            '',   // AAD vacío
-            16    // longitud del tag en bytes
-        );
-
-        if ($ciphertextBin === false) {
-            self::$logger->error("🚨 encriptarToken(): error en openssl_encrypt");
-            throw new \RuntimeException('Error al cifrar el token con AES-256-GCM.');
-        }
-
-        $ivB64     = base64_encode($iv);
-        $cipherB64 = base64_encode($ciphertextBin);
-        $tagB64    = base64_encode($tag);
-        $resultado = "{$ivB64}.{$cipherB64}.{$tagB64}";
-        self::$logger->info("✅ encriptarToken() produjo resultado: {$resultado}");
-        return $resultado;
-    }
-
-    /**
-     * Descifra un token cifrado con AES-256-GCM.
-     * Devuelve el token original o null si falla autenticación o descifrado.
-     */
-    public static function descencriptarToken(string $encriptar): ?string
-    {
-        self::initLogger();
-        self::$logger->info("🔍 descencriptarToken() recibido: {$encriptar}");
-        $parts = explode('.', $encriptar, 3);
-        if (count($parts) !== 3) {
-            self::$logger->warning("⚠️ descencriptarToken(): formato inválido");
-            return null;
-        }
-
-        [$ivB64, $cipherB64, $tagB64] = $parts;
-        $iv         = base64_decode($ivB64, true);
-        $ciphertext = base64_decode($cipherB64, true);
-        $tag        = base64_decode($tagB64, true);
-
-        if ($iv === false || $ciphertext === false || $tag === false) {
-            self::$logger->warning("⚠️ descencriptarToken(): fallo al decodificar base64");
-            return null;
-        }
-
-        $key = $_ENV['SECRET_KEY2'] ?? '';
-        if (strlen($key) < 32) {
-            self::$logger->warning("⚠️ descencriptarToken(): SECRET_KEY2 inválida o demasiado corta");
-            return null;
-        }
-
-        $textoPlano = openssl_decrypt(
-            $ciphertext,
-            'aes-256-gcm',
-            $key,
-            OPENSSL_RAW_DATA,
-            $iv,
-            $tag,
-            '' // AAD
-        );
-
-        if ($textoPlano === false) {
-            self::$logger->warning("❌ descencriptarToken(): autenticación o descifrado falló");
-            return null;
-        }
-
-        self::$logger->info("✅ descencriptarToken() devolvió texto plano: {$textoPlano}");
-        return $textoPlano;
-    }
-
-    /**
-     * Firma con HMAC y luego cifra con AES-GCM.
-     * Devuelve: "ivB64.cipherB64.tagB64"
-     */
-    public static function verificarEncriptacion(string $token): string
-    {
-        self::initLogger();
-        self::$logger->info("🔐 verificarEncriptacion() recibe token: {$token}");
-        $firma = self::lenToken($token);
-        self::$logger->debug("🔑 verificarEncriptacion() firma intermedia: {$firma}");
-        $encriptar = self::encriptarToken($firma);
-        self::$logger->info("✅ verificarEncriptacion() resultado cifrado: {$encriptar}");
-        return $encriptar;
-    }
-
-    /**
-     * Descifra y luego verifica HMAC.
-     * Si todo es válido, devuelve el token original; si falla, devuelve null.
-     */
-    public static function descencrriptarVerificar(string $encriptar): ?string
-    {
-        self::initLogger();
-        self::$logger->info("🔍 descencrriptarVerificar() recibe: {$encriptar}");
-        $firma = self::descencriptarToken($encriptar);
-        if ($firma === null) {
-            self::$logger->warning("⚠️ descencrriptarVerificar(): descencriptarToken retornó null");
-            return null;
-        }
-        $token = self::verificarToken($firma);
-        if ($token === null) {
-            self::$logger->warning("⚠️ descencrriptarVerificar(): verificarToken falló");
-            return null;
-        }
-        self::$logger->info("✅ descencrriptarVerificar() devolvió token válido: {$token}");
-        return $token;
-    }
-
-    /**
-     * Firma y cifra un token, y además guarda en sesión su fecha de expiración.
-     * @param string $token
-     * @param int    $lifetime
-     */
-    public static function firmaEncriptadaExpiracion(string $token, int $lifetime): string {
-        self::initLogger();
-        self::$logger->info("🔑 firmaEncriptadaExpiracion() token: {$token}, lifetime: {$lifetime}");
-
-        // 1) Firma
-        $firma = self::lenToken($token);
-        self::$logger->debug("🔐 Token firmado: {$firma}");
-
-        // 2) Cifra la firma
-        $encriptar = self::encriptarToken($firma);
-        self::$logger->debug("🔒 Firma cifrada (encriptar): {$encriptar}");
-
-        // 3) Guardar expiración en sesión
+        # Guardar expiración en sesión
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start([
                 'cookie_httponly' => true,
                 'cookie_secure'   => false,
             ]);
-            self::$logger->debug("➰ session_start() en firmaEncriptadaExpiracion()");
+            self::$logger->debug("➰ session_start() en generarJwt()");
         }
         $_SESSION['token_expiry'] = time() + $lifetime;
         self::$logger->info("⏳ token_expiry guardado en" . $_SESSION['token_expiry']);
-
-        return $encriptar;
+        
+        return $jwt;
     }
 
-    /**
-     * Antes de descifrar, comprueba expiración y verifica HMAC.
-     * @param string $encriptar
-     */
-    public static function descencriptverificarExpiracion(string $encriptar): ?string
-    {
+    # Verifica y decodifica un JWT. Retorna claims o null en error.
+    public static function validarJwt(string $jwt_compact): ?array {
         self::initLogger();
-        self::$logger->info("⏱ descencriptverificarExpiracion() recibido: {$encriptar}");
+        $signKey = self::getSigningKey();
+        try {
+            $decoded = JWT::decode($jwt_compact, new Key($signKey, 'HS256'));
+            $claims  = (array) $decoded;
+            self::$logger->info("✅ validarJwt() OK, claims: " . json_encode($claims));
+            return $claims;
+        } catch (\Exception $e) {
+            self::$logger->warning("❌ validarJwt() falló: " . $e->getMessage());
+            return null;
+        }
+    }
 
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start([
-                'cookie_httponly' => true,
-                'cookie_secure'   => false,
-            ]);
-            self::$logger->debug("➰ session_start() en descencriptverificarExpiracion()");
+    # Cifra texto con AES-256-GCM. Retorna “ivB64.cipherB64.tagB64”.
+    public static function aesGcmEncrypt(string $plaintext): string {
+        self::initLogger();
+        $key = self::getEncryptionKey();
+        $iv  = random_bytes(12);
+        $tag = '';
+
+        $cipherBin = openssl_encrypt(
+            $plaintext,
+            'aes-256-gcm',
+            $key,
+            OPENSSL_RAW_DATA,
+            $iv,
+            $tag,
+            '',
+            16,
+        );
+        if ($cipherBin === false) {
+            self::$logger->error("🚨 aesGcmEncrypt(): openssl_encrypt devolvió false");
+            throw new \RuntimeException("Error en AES-GCM encrypt.");
         }
 
-        $expiry = $_SESSION['token_expiry'] ?? 0;
-        self::$logger->debug("🗓 token_expiry en sesión: {$expiry}, ahora: {time()}");
-        if (time() > intval($expiry)) {
-            self::$logger->warning("⌛ Token expirado, destruyendo sesión");
-            $_SESSION = [];
-            session_destroy();
+        $ivB64     = base64_encode($iv);
+        $cipherB64 = base64_encode($cipherBin);
+        $tagB64    = base64_encode($tag);
+        $jwe       = "{$ivB64}.{$cipherB64}.{$tagB64}";
+
+        self::$logger->info("✅ aesGcmEncrypt() JWE: {$jwe}");
+        return $jwe;
+    }
+
+    # Descifra un JWE AES-256-GCM. Retorna plaintext o null si falla.
+    public static function aesGcmDecrypt(string $jwe_compact): ?string {
+        self::initLogger();
+        $parts = explode('.', $jwe_compact, 3);
+        if (count($parts) !== 3) {
+            self::$logger->warning("⚠️ aesGcmDecrypt(): formato JWE inválido");
+            return null;
+        }
+        [$ivB64, $cipherB64, $tagB64] = $parts;
+        $iv     = base64_decode($ivB64, true);
+        $cipher = base64_decode($cipherB64, true);
+        $tag    = base64_decode($tagB64, true);
+        if ($iv === false || $cipher === false || $tag === false) {
+            self::$logger->warning("⚠️ aesGcmDecrypt(): error base64_decode");
             return null;
         }
 
-        $firma = self::descencriptarToken($encriptar);
-        if ($firma === null) {
-            self::$logger->warning("❌ descencriptverificarExpiracion(): descencriptarToken falló");
+        $key = self::getEncryptionKey();
+        $plaintext = openssl_decrypt(
+            $cipher,
+            'aes-256-gcm',
+            $key,
+            OPENSSL_RAW_DATA,
+            $iv,
+            $tag,
+            '',
+        );
+        if ($plaintext === false) {
+            self::$logger->warning("❌ aesGcmDecrypt(): autenticación o descifrado falló");
             return null;
         }
+        self::$logger->info("✅ aesGcmDecrypt() devolvió JWT: {$plaintext}");
+        return $plaintext;
+    }
 
-        $token = self::verificarToken($firma);
-        if ($token === null) {
-            self::$logger->warning("❌ descencriptverificarExpiracion(): verificarToken falló");
+    # Genera un JWE que contiene el JWT firmado para user_id y tipo_rol.
+    public static function generarJwe(array $customClaims, int $lifetime = 600): string {
+        self::initLogger();
+        $jwt = self::generarJwt($customClaims, $lifetime);
+        return self::aesGcmEncrypt($jwt);
+    }
+
+    # Valida un JWE: descifra → verifica JWT → retorna claims o null.
+    public static function validarJwe(string $jwe_compact): ?array {
+        self::initLogger();
+        $jwt = self::aesGcmDecrypt($jwe_compact);
+        if ($jwt === null) {
             return null;
         }
-
-        self::$logger->info("✅ descencriptverificarExpiracion() devolvió token válido: {$token}");
-        return $token;
+        return self::validarJwt($jwt);
     }
 }

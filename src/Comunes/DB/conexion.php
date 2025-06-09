@@ -1,24 +1,20 @@
 <?php
 // src/Comunes/DB/conexion.php
-#declare(strict_types=1);
+declare(strict_types=1);
 
 namespace App\Comunes\DB;
 
 require_once __DIR__ . '/../../../config/env.php';
 
-/**
- * Devuelve una instancia PDO única (patrón singleton).
- */
+# Devuelve una instancia PDO única (patrón singleton).
 
 use PDO;
 use PDOException;
 
-class conexion
-{
+class conexion {
     private static ?PDO $instancia = null;
 
-    private function __construct() { }
-
+    # Se trae la informacion de .env, definidas anteriormente (variables de entorno)
     public static function instanciaDB(): PDO {
         if (self::$instancia === null) {
             $host = $_ENV['DB_HOST'];

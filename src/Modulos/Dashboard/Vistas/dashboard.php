@@ -136,7 +136,7 @@
                                     </div>
                                     <div>
                                         <h5>Bancos</h5>
-                                        <p>124</p>
+                                        <p><?= htmlspecialchars($entidades['totalBancos']) ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +149,7 @@
                                     </div>
                                     <div>
                                         <h5>Transito</h5>
-                                        <p>$825.4M</p>
+                                        <p><?= htmlspecialchars($entidades['totalTransito']) ?></p>
                                     </div>
                                 </div>
                             </div>
@@ -162,7 +162,7 @@
                                     </div>
                                     <div>
                                         <h5>Camara de Comercio</h5>
-                                        <p>18</p>                                        
+                                        <p><?= htmlspecialchars($entidades['totalCc']) ?></p>                                        
                                     </div>
                                 </div>
                             </div>

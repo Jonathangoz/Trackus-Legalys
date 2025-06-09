@@ -1,5 +1,5 @@
 <?php
-// src/modelos/obligados_pagos.php
+# src/Modulos//Cobrocoactivo/Modelos/obligados_pagos.php
 declare(strict_types=1);
 
 namespace App\Modulos\CobroCoactivo\Modelos;
@@ -7,14 +7,12 @@ namespace App\Modulos\CobroCoactivo\Modelos;
 use App\Comunes\DB\conexion;
 use PDO;
 
-class obligados_pagos
-{
+class obligados_pagos {
     /**
      * Trae todos los deudores activos.
      * Retorna un array de arrays asociativos (sin exponer datos sensibles).
      */
-    public static function allActivos(): array
-    {
+    public static function allActivos(): array {
         $db = conexion::instanciaDB();
         $sql = "SELECT id, nombre, deuda 
                   FROM deudores 
@@ -29,16 +27,14 @@ class obligados_pagos
      *   CREATE FUNCTION activar_deudor(int) RETURNS boolean AS $$
      *   BEGIN UPDATE deudores SET activo = TRUE WHERE id = $1; RETURN TRUE; END;$ LANGUAGE plpgsql;
      */
-    public static function activate(int $id): bool
-    {
+    public static function activate(int $id): bool {
         $db = conexion::instanciaDB();
         $sql = "SELECT activar_deudor(:id)";
         $stmt = $db->prepare($sql);
         return $stmt->execute(['id' => $id]);
     }
 
-    public static function deactivate(int $id): bool
-    {
+    public static function deactivate(int $id): bool {
         $db = conexion::instanciaDB();
         $sql = "SELECT desactivar_deudor(:id)";
         $stmt = $db->prepare($sql);

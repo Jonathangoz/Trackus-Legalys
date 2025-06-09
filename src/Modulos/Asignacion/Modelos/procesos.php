@@ -1,18 +1,20 @@
 <?php
-// src/Modulos/Dashboard/modelos/DashboardModel.php
+# src/Modulos/Asignacion/Modelos/procesos.php (Modelo donde hace las consultas con variables y seguras para inyectar al las vistas)
 declare(strict_types=1);
 
-namespace App\Modulos\Dashboard\Modelos;
+namespace App\Modulos\Asignacion\Modelos;
 
 use PDO;
 
-class ModeloDashboard {
+class procesos {
     protected PDO $db;
 
+    # Llama instancia singleton del DB para inicair querys
     public function __construct() {
         $this->db = \App\Comunes\DB\conexion::instanciaDB();
     }
 
+    # Querys 
     public function getEntidades(): array {
         $stmt1 = $this->db->query("SELECT COUNT(nombre) FROM entidades WHERE tipo_entidad = 'BANCO'");
         $bancos = $stmt1->fetch(PDO::FETCH_ASSOC)['total_bancos'] ?? 0;
@@ -96,4 +98,3 @@ class ModeloDashboard {
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     }
 }
-

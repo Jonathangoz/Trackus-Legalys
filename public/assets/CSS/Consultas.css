@@ -1,4 +1,6 @@
-/*! tailwindcss v4.1.6 | MIT License | https://tailwindcss.com */
+/* Estilo de vista Consultas.php (src/Modelos/Consultas/vistas */
+
+/*! tailwindcss v4.1.6 | MIT License | https://tailwindcss.com */  /*valores por definidos tailwindcss*/
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -37,7 +39,12 @@
   }
   html, :host {
     line-height: 1.5;
+  /*  -webkit-text-size-adjust: 100%;(opcional, ajuste de tamaño del texto, al ejecutarlo no sera compatinle con firefox y safari)
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%; */
     tab-size: 4;
     font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
     font-feature-settings: var(--default-font-feature-settings, normal);
@@ -105,7 +112,6 @@
   }
   img, svg, video, canvas, audio, iframe, embed, object {
     display: block;
-    vertical-align: middle;
   }
   img, video {
     max-width: 100%;
@@ -419,6 +425,9 @@
     }
   }
 }
+
+/*! Clases y ID de la estructura HTML de Consultas.php */ 
+
 :root {
   --sena-green: #39A900;
   --sena-dark-green: #2D7D00;
@@ -430,6 +439,11 @@
   --border-gray: #DDDDDD;
   --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   --color-secondary: #00324D;
+  --text-danger: #dc3546e3;
+}
+html {
+    cursor: default;
+    scroll-behavior: smooth;
 }
 body::-webkit-scrollbar {
   width: 6px;
@@ -437,7 +451,7 @@ body::-webkit-scrollbar {
   background: #015bca00;
 }
 body::-webkit-scrollbar-thumb {
-  background-color: var(--color-gray);
+  background-color: var(--dark-gray);
   border: 2px solid transparent;
   border-radius: 10px;
 }
@@ -449,27 +463,195 @@ body::-webkit-scrollbar-thumb {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 header {
-  background-color: var(--color-secondary);
-  padding: 15px 0;
-  box-shadow: var(--shadow);
+    display: flex;
+    background-color: var(--sena-green);
+    color: white;
+    padding: 0.5rem;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
 }
-.gov {
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  margin-left: 8%;
-  max-height: 20px;
+
+h2 {
+    display: flex;
+    text-align: left;
+    margin-right: 5%;
+    justify-content: left;
 }
-.top {
-  width: none;
-  height: 40px;
-  padding: 8px 0;
-  background: #015dca;
-  color: #fff;
-  box-sizing: border-box;
-  max-width: 100%;
-  margin-top: 0 auto;
+
+#backToTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    background-color: var(--sena-green);
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 30%;
+    display: none;
+    transition: 0.3s ease;
 }
+
+#backToTopBtn:hover {
+    background-color: #555;
+}
+
+.title-container {
+    display: flex;
+    margin-right: 10%;
+    color: white;
+    font-size: .9rem;
+    text-align: center;
+    justify-content: center;
+}
+
+.user-home {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-block-start: 1.4%;
+}
+
+.dropdown-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+.home i, .dropdown-toggle .avatar i {
+  margin-bottom: 6px;
+}
+
+.dropdown {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: right;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    font-family: sans-serif;
+}
+  
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: white;
+    flex-direction: column-reverse;
+}
+  
+.user-name {
+    margin-right: 10px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: -10%;
+    margin-top: 10px;
+    background: white;
+    border: 1px solid #a09f9fad;
+    border-radius: 4px;
+    list-style: none;
+    padding: 10px 0;
+    min-width: 180px;
+    z-index: 1000;
+    margin-top: 2px;
+}
+  
+.dropdown-menu li {
+    padding: 0;
+}
+  
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+  
+.dropdown-menu a:hover {
+    background: #f0f0f0;
+}
+
+/* Mostrar menú si el checkbox está activado */
+#userToggle:checked + .dropdown-toggle + .dropdown-menu {
+    display: block;
+}
+
+.sesion {
+    color: var(--text-danger);
+}
+
+.drop {
+    color: #d1ecf1;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-direction: column;
+    margin-right: 10%;
+}
+
+.logo-placeholder {
+    width: 150px;
+    height: 80px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--sena-green);
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.img-sena {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 50px;
+    height: 50px;
+    background-color: var(--white);
+    border-radius: 50%;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: var(--sena-green);
+}
+
 .header-container {
   display: flex;
   justify-content: space-between;

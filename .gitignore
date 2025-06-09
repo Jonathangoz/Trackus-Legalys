@@ -14,8 +14,6 @@
 .env.production
 .phpactor.json
 .phpunit.result.cache
-/composer.json
-/composer.lock
 /package-lock.json
 /package.json
 /tailwind.config.js
