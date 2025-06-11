@@ -29,7 +29,6 @@ class credencialesDB {
     private static function initLogger(): void {
         if (!isset(self::$logger)) {
             self::$logger = loggers::createLogger();
-            self::$logger->info("💼 credencialesDB::initLogger() inicializado");
         }
     }
 
@@ -45,13 +44,11 @@ class credencialesDB {
         $this->tipo_rol             = $row['tipo_rol'] ?? '';
 
         self::initLogger();
-        self::$logger->info("📦 credencialesDB::__construct() creado para user_id={$this->id}" . "correo={$this->correo}, correo_institucional={$this->correo_institucional}");
     }
 
     # Busca un usuario activo (funcionario o deudor) por correo. Retorna null si no existe ninguno.
     public static function credenciales(string $email, string $password_hash): ?self {
         self::initLogger();
-        self::$logger->info("🔐 credencialesDB::credenciales() invocado para correo: {$email}");
 
         # Peticion query hacia la base de
         $db = conexion::instanciaDB();
@@ -95,16 +92,12 @@ class credencialesDB {
                 LIMIT 1";
 
         try {
-            self::$logger->debug("📋 Preparando consulta SQL en credencialesDB");
             $stmt = $db->prepare($sql);
             $stmt->execute(['correo' => $email]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if (! $row) {
-                self::$logger->warning("❌ credencialesDB: No se encontró usuario para correo: {$email}.{$password_hash}");
+            if (!$row) {
                 return null;
             }
-            self::$logger->debug("▶ credencialesDB::credenciales() devolvió fila de BD: " . json_encode($row));
-            self::$logger->info("✅ credencialesDB: Usuario encontrado, ID={$row['tipo_usuario']}, tipo_usuario={$row['tipo_rol']}");
             return new self($row);
         } catch (PDOException $e) {
             self::$logger->error("🚨 credencialesDB::credenciales Error PDO: " . $e->getMessage());

@@ -2,22 +2,27 @@
 // src/Modulos/Asignacion/Controladores/control_Asignacion.php (controlador del modelo y vistas)
 declare(strict_types=1);
 
-namespace App\Modulos\Asigancion\Controladores;
+namespace App\Modulos\Asignacion\Controladores;
 
-use App\Modulos\Asignacion\Modelos\procesos;
+use App\Modulos\Asignacion\Modelos\asignacion;
+use App\Modulos\Asignacion\Modelos\casos;
+use App\Modulos\Asignacion\Modelos\registros;
 use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
 class control_Asignacion {
-    protected procesos $modelo;
+    protected asignacion $modeloAsignacion;
+    protected casos $modeloCasos;
+    protected registros $modeloRegistro;
     /** @var Logger */
     private Logger $logger;
 
     public function __construct() {
         # Inicializar modelo y logger
-        $this->modelo = new procesos();
+        $this->modeloAsignacion = new asignacion();
+        $this->modeloCasos = new casos();
+        $this->modeloRegistro = new registros();
         $this->logger = loggers::createLogger();
-        $this->logger->info("💼 control_Asignacion::__construct() inicializado");
     }
 
     /**
@@ -26,7 +31,9 @@ class control_Asignacion {
      * @param string $method
      */
     public function handle(string $uri, string $method): void {
-        $this->logger->info("🏷️  control_Asignacion::handle() invocado para: {$method} {$uri}");
+        # Para evitar distinciones de mayúsculas/minúsculas:
+        $path = strtolower($uri);
+        $this->logger->info("🏷️  control_asignacion::handle() invocado para: {$method} {$path}");
 
         # Verificar autenticación y rol ADMIN_TRAMITE (redundante pero seguro)
         if (empty($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -35,112 +42,79 @@ class control_Asignacion {
             exit;
         }
         $rol = $_SESSION['tipo_rol'] ?? null;
-        $this->logger->debug("👤 Rol desde sesión en Asignacion: {$rol}");
+        $this->logger->debug("👤 Rol desde sesión en asignacion: {$rol}");
         if ($rol !== 'ADMIN_TRAMITE') {
             $this->logger->warning("🚫 Usuario sin rol ADMIN_TRAMITE en el Index, redirigiendo a /login");
             header('Location: /login');
             exit;
         }
 
+        #Redirige al modelo segun metodo, uri y lo redirecciona a la funcion principal del modelo, recorriendo lo necesario.
         switch ("{$method} {$uri}") {
+           
             case 'GET /asignacion':
             case 'POST /asignacion':
-                $this->logger->info("↪️  GET /Asigancion → Asignacion()");
-                $this->listadoProcesos();
+            case 'PUT /asignacion':
+                $this->logger->debug("▶ Entramos en handle(): METHOD='{$method}', URI='{$uri}'");
+                if ($method === 'GET') {
+                    $this->listadoAsignacion();
+                } elseif ($method === 'POST') {
+                    // Aquí podrías manejar un POST si fuera necesario
+                    $this->logger->info("POST /asignacion no implementado, redirigiendo a listado");
+                    $this->crearCasos();
+                } elseif ($method === 'PUT') {
+                    // Aquí podrías manejar un PUT si fuera necesario
+                    $this->logger->info("PUT /asignacion no implementado, redirigiendo a listado");
+                    $this->actualizarCasos();
+                }
                 return;
 
-            case 'GET /asigancion/funcionarios':
-                $this->logger->info("↪️  GET /asigancion/funcionarios → listarFunc()");
-                $this->listarFunc();
+            case 'GET /asigancion/crearcasos':
+            case 'POST /asigancion/crearcasos':
+                if ($method === 'GET') {
+                    $this->mostrarFormularioCrearCaso();
+                } else { // POST
+                    $this->crearCaso();
+                }
                 return;
 
-            case 'GET /asigancion/funcionarios/crear':
-                $this->logger->info("↪️  GET /asigancion/funcionarios/crear → crearAsigancion()");
-                $this->crearForm();
-                return;
-
-            case 'POST /asigancion/funcionarios':
-                $this->logger->info("↪️  POST /asigancion/funcionarios → crear()");
-                $this->crear();
-                return;
-
-            case 'GET /asigancion/funcionarios/editar':
-                $this->logger->info("↪️  GET /asigancion/funcionarios/editar → editarForm()");
-                $this->editarForm();
-                return;
-
-            case 'POST /asigancion/funcionarios/editar':
-                $this->logger->info("↪️  POST /asigancion/funcionarios/editar → editar()");
-                $this->editar();
-                return;
-
-            case 'POST /asigancion/funcionarios/eliminar':
-                $this->logger->info("↪️  POST /asigancion/funcionarios/eliminar → eliminar()");
-                $this->eliminar();
-                return;
-
-            case 'POST /asigancion/funcionarios/activar':
-                $this->logger->info("↪️  POST /asigancion/funcionarios/activar → activar()");
-                $this->activar();
-                return;
-
-            case 'GET /asigancion/auditoria':
-                $this->logger->info("↪️  GET /asigancion/auditoria → verAuditoria()");
-                $this->verAuditoria();
-                return;
-
-            case 'GET /asigancion/estadisticas':
-                $this->logger->info("↪️  GET /asigancion/estadisticas → estadisticas()");
-                $this->estadisticas();
+            case 'GET /asignacion/registros':
+            case 'POST /asignacion/registros':
+                $this->logger->info("↪️  {$method} /asignacion/registros → listarRegistros() o crearRegistros()");
+                if ($method === 'GET') {
+                    $this->listarRegistros();
+                } else { // POST
+                    $this->crearRegistros();
+                }
+                 $this->logger->debug("▶ Entramos en handle(): METHOD='{$method}', URI='{$uri}'");
                 return;
 
             default:
-                $this->logger->warning("❓ asigancion: ruta no encontrada ({$uri})");
+                $this->logger->warning("❓ asignacion: ruta no encontrada ({$uri})");
                 http_response_code(404);
-                echo "asigancion: ruta no encontrada ({$uri})";
+                echo "asignacion: ruta no encontrada ({$uri})";
                 return;
         }
     }
 
     # DIRIGE AL MODELO Y CONSULTAS ESPECIFICAS
 
-    # GET /asigancion
-    protected function listadoProcesos(): void {
-        $this->logger->debug("🔄 listadoProcesos(): obteniendo resumen");
+    # GET /asignacion
+    protected function listadoAsignacion(): void {
         $datos = [
-            'entidades' => $this->modelo->getEntidades(),
+            'abogados' => $this->modeloAsignacion->getAbogados(),
         ];
-        // $datos = [
-        //   'entidades' => array asociativo con conteos de bancos, cc y tránsito,
-        // ]
+
         extract($datos);
-        
-        $this->logger->info("✔️ listadoProcesos(): resumen obtenido");
-        require_once __DIR__ . '/../Vistas/procesos.php';
-        $this->logger->info("📄 listadoProcesos(): vista asigancion cargada");
+        require_once __DIR__ . '/../Vistas/asignacion.php';
     }
 
-    # GET /asigancion/funcionarios
-    protected function listarFunc(): void {
-        $this->logger->debug("🔄 listarFunc(): obteniendo lista de funcionarios");
-        $funcionarios = $this->modelo->getAllFuncionarios();
-        $this->logger->info("✔️ listarFunc(): funcionarios obtenidos (" . count($funcionarios) . ")");
-        require __DIR__ . '/../vistas/asigancion.php';
-        $this->logger->info("📄 listarFunc(): vista asigancion cargada con funcionarios");
-    }
-
-    # GET /asigancion/funcionarios/crear
-    protected function crearForm(): void {
-        $this->logger->info("🔄 crearForm(): mostrando formulario de creación");
-        require __DIR__ . '/../vistas/asigancion.php';
-        $this->logger->info("📄 crearForm(): vista asigancion cargada (crear funcionario)");
-    }
-
-    /** POST /asigancion/funcionarios */
-    protected function crear(): void {
-        $this->logger->debug("🔄 crear(): recolectando datos del POST", [
+    # POST /asignacion
+    protected function crearCasos(): void {
+        /*$this->logger->debug("🔄 crear(): recolectando datos del POST", [
             'POST' => $_POST
-        ]);
+        ]); */
+        $id = intval($_POST['id'] ?? 0);
         $nombre = trim($_POST['nombre'] ?? '');
         $correo = trim($_POST['correo'] ?? '');
         $rol    = trim($_POST['rol'] ?? '');
@@ -159,48 +133,26 @@ class control_Asignacion {
 
         if (!empty($errores)) {
             $this->logger->warning("⚠️ crear(): errores de validación", ['errores' => $errores]);
-            $_SESSION['asigancion_errors'] = $errores;
-            header('Location: /asigancion/funcionarios/crear');
+            $_SESSION['asignacion_errors'] = $errores;
+            require_once __DIR__ . '/../vistas/asignacion.php';
             exit;
         }
-
-        $this->modelo->insertarFuncionario($nombre, $correo, $rol, $estado);
-        $this->logger->info("✅ crear(): funcionario creado: {\$nombre}, {\$correo}");
-        $_SESSION['asigancion_message'] = 'Funcionario creado correctamente.';
-        header('Location: /asigancion/funcionarios');
+        $this->modeloCasos->actualizarCaso($id, $nombre, $correo, $rol, $estado);
+        $_SESSION['asignacion_message'] = 'Funcionario creado correctamente.';
+        require_once __DIR__ . '/../vistas/registros.php';
         exit;
     }
 
-    # GET /asigancion/funcionarios/editar?id=XX
-    protected function editarForm(): void {
-        $id = intval($_GET['id'] ?? 0);
-        $this->logger->debug("🔄 editarForm(): id recibido: {\$id}");
-        if ($id <= 0) {
-            $this->logger->warning("⚠️ editarForm(): ID inválido (<=0), redirigiendo");
-            header('Location: /asigancion/funcionarios');
-            exit;
-        }
-        $func = $this->modelo->getFuncionarioById($id);
-        if (!$func) {
-            $this->logger->warning("⚠️ editarForm(): funcionario no encontrado para ID={\$id}");
-            header('Location: /asigancion/funcionarios');
-            exit;
-        }
-        $this->logger->info("✔️ editarForm(): funcionario encontrado para ID={\$id}");
-        require __DIR__ . '/../vistas/asigancion.php';
-        $this->logger->info("📄 editarForm(): vista asigancion cargada (editar funcionario)");
-    }
-
-    # POST /asigancion/funcionarios/editar
-    protected function editar(): void {
-        $this->logger->debug("🔄 editar(): recolectando datos del POST", [
-            'POST' => $_POST
-        ]);
+    # PUT /asignacion
+    protected function actualizarCasos(): void {
+        /*$this->logger->debug("🔄 actualizarCasos(): recolectando datos del PUT", [
+            'PUT' => $_POST
+        ]); */
         $id     = intval($_POST['id'] ?? 0);
         $nombre = trim($_POST['nombre'] ?? '');
         $correo = trim($_POST['correo'] ?? '');
         $rol    = trim($_POST['rol'] ?? '');
-        $estado = isset($_POST['estado']) ? 1 : 0;
+        $nuevoEstado = isset($_POST['estado']) ? 1 : 0;
 
         $errores = [];
         if ($id <= 0) {
@@ -217,71 +169,103 @@ class control_Asignacion {
         }
 
         if (!empty($errores)) {
-            $this->logger->warning("⚠️ editar(): errores de validación", ['errores' => $errores]);
-            $_SESSION['asigancion_errors'] = $errores;
-            header("Location: /asigancion/funcionarios/editar?id={$id}");
+            $this->logger->warning("⚠️ actualizarCasos(): errores de validación", ['errores' => $errores]);
+            $_SESSION['asignacion_errors'] = $errores;
+            header("Location: /asignacion/funcionarios/editar?id={$id}");
             exit;
         }
 
-        $this->modelo->actualizarFuncionario($id, $nombre, $correo, $rol, $estado);
-        $this->logger->info("✅ editar(): funcionario actualizado: ID={\$id}, \{\$nombre}, {\$correo}");
-        $_SESSION['asigancion_message'] = 'Funcionario actualizado correctamente.';
-        header('Location: /asigancion/funcionarios');
+        $this->modeloCasos->actualizarCasos($id,  $nuevoEstado);
+        $_SESSION['asignacion_message'] = 'Funcionario actualizado correctamente.';
+        header('Location: /asignacion/funcionarios');
         exit;
     }
 
-    # POST /asigancion/funcionarios/eliminar
-    protected function eliminar(): void {
-        $id = intval($_POST['id'] ?? 0);
-        $this->logger->debug("🔄 eliminar(): id recibido: {\$id}");
-        if ($id > 0) {
-            $this->modelo->eliminarFuncionario($id);
-            $this->logger->info("🗑 eliminar(): funcionario eliminado ID={\$id}");
-            $_SESSION['asigancion_message'] = 'Funcionario eliminado correctamente.';
-        } else {
-            $this->logger->warning("⚠️ eliminar(): ID inválido (<=0)");
+    #GET /asignacion/crearcasos
+    protected function mostrarFormularioCrearCaso(): void {
+        require_once __DIR__ . '/../Vistas/crearcasos.php';
+    }
+
+    protected function crearCaso(): void {
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+        
+        // Validación básica
+        if (empty($data['radicado']) || empty($data['identificacion'])) {
+            echo json_encode(['success' => false, 'message' => 'Campos obligatorios faltantes']);
+            return;
         }
-        header('Location: /asigancion/funcionarios');
-        exit;
-    }
-
-    # POST /asigancion/funcionarios/activar
-    protected function activar(): void {
-        $id     = intval($_POST['id'] ?? 0);
-        $estado = ($_POST['estado'] ?? '0') === '1' ? 1 : 0;
-        $this->logger->debug("🔄 activar(): id={\$id}, estado={\$estado}");
-        if ($id > 0) {
-            $this->modelo->activarFuncionario($id, $estado);
-            if ($estado) {
-                $this->logger->info("✅ activar(): funcionario ID={\$id} activado");
-                $_SESSION['asigancion_message'] = 'Funcionario activado correctamente.';
+        // Calcular monto total
+        $montoTotal = (float)$data['monto_original'] + (float)$data['intereses'] + (float)$data['costos'];
+        // Insertar en base de datos (ejemplo)
+            $resultado = $this->modeloCasos->crearCaso([
+                'radicado' => $data['radicado'],
+                'tipo_persona' => $data['tipo_persona'],
+                'nombre' => $data['tipo_persona'] === 'natural' ? $data['nombre_apellido'] : $data['razon_social'],
+                'identificacion' => $data['identificacion'],
+                'tipo_tramite' => $data['tipo_tramite'],
+                'estado' => $data['estado_tramite'],
+                'descripcion' => $data['descripcion'],
+                'monto_original' => $data['monto_original'],
+                'intereses' => $data['intereses'],
+                'costos' => $data['costos'],
+                'monto_total' => $montoTotal,
+                'fecha_creacion' => $data['fecha_creacion'],
+                'fecha_asignacion' => $data['fecha_asignacion'],
+                'fecha_limite_pago' => $data['fecha_limite_pago'],
+                'fecha_cierre' => $data['fecha_cierre'],
+                'numero_factura' => $data['numero_factura'] ?? null
+            ]);
+            
+            if ($resultado) {
+                echo json_encode(['success' => true]);
             } else {
-                $this->logger->info("🚫 activar(): funcionario ID={\$id} desactivado");
-                $_SESSION['asigancion_message'] = 'Funcionario desactivado correctamente.';
+                echo json_encode(['success' => false, 'message' => 'Error al guardar en base de datos']);
             }
-        } else {
-            $this->logger->warning("⚠️ activar(): ID inválido (<=0)");
+            $this->logger->error("Error creando caso", [
+                'data' => $data,
+                'error' => $resultado
+            ]);
+            echo json_encode(['success' => false, 'message' => 'Error en el servidor']);
+    }
+
+        #GET /asignacion/registros
+        protected function crearRegistros(): void {
+            /*$this->logger->debug("🔄 crear(): recolectando datos del POST", [
+                'POST' => $_POST
+            ]); */
+            $nombre = trim($_POST['nombre'] ?? '');
+            $correo = trim($_POST['correo'] ?? '');
+            $rol    = trim($_POST['rol'] ?? '');
+            $estado = isset($_POST['estado']) ? 1 : 0;
+
+            $errores = [];
+            if ($nombre === '') {
+                $errores[] = 'El nombre es obligatorio.';
+            }
+            if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+                $errores[] = 'El correo no es válido.';
+            }
+            if ($rol === '') {
+                $errores[] = 'El rol es obligatorio.';
+            }
+
+            if (!empty($errores)) {
+                $this->logger->warning("⚠️ crear(): errores de validación", ['errores' => $errores]);
+                $_SESSION['asignacion_errors'] = $errores;
+                require_once __DIR__ . '/../vistas/asignacion.php';
+                exit;
+            }
+
+            $this->modeloRegistro->insertarRegistros($nombre, $correo, $rol, $estado);
+            $_SESSION['asignacion_message'] = 'Funcionario creado correctamente.';
+            require_once __DIR__ . '/../vistas/registros.php';
+            exit;
         }
-        header('Location: /asigancion/funcionarios');
-        exit;
-    }
 
-    # GET /asigancion/auditoria
-    protected function verAuditoria(): void{
-        $this->logger->debug("🔄 verAuditoria(): obteniendo registros de auditoría");
-        $auditorias = $this->modelo->getLogAuditoria();
-        $this->logger->info("✔️ verAuditoria(): auditorías obtenidas (" . count($auditorias) . ")");
-        require __DIR__ . '/../vistas/asigancion.php';
-        $this->logger->info("📄 verAuditoria(): vista asigancion cargada (auditoría)");
+        # GET /asignacion/registros
+        protected function listarRegistros(): void {
+            $this->modeloRegistro->getRegistros();
+            require_once __DIR__ . '/../vistas/registros.php';
+        }
     }
-
-    # GET /asigancion/estadisticas
-    protected function estadisticas(): void
-    {
-        $this->logger->debug("🔄 estadisticas(): obteniendo datos de estadísticas");
-        $data = $this->modelo->getEstadisticas();
-        $this->logger->info("✔️ estadisticas(): datos obtenidos");
-        require __DIR__ . '/../vistas/asigancion.php';
-        $this->logger->info("📄 estadisticas(): vista asigancion cargada (estadísticas)");
-    }
-}

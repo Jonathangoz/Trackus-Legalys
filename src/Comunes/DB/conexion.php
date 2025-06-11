@@ -1,6 +1,6 @@
 <?php
 // src/Comunes/DB/conexion.php
-declare(strict_types=1);
+#declare(strict_types=1);
 
 namespace App\Comunes\DB;
 
@@ -22,7 +22,6 @@ class conexion {
             $db   = $_ENV['DB_DATABASE'];
             $user = $_ENV['DB_USERNAME'];
             $pass = $_ENV['DB_PASSWORD'];
-
             $dsn = "pgsql:host={$host};port={$port};dbname={$db}";
 
             try {
@@ -38,7 +37,6 @@ class conexion {
                 throw new \RuntimeException("No se pudo conectar a la base de datos.");
             }
         }
-
         return self::$instancia;
     }
 }

@@ -49,7 +49,7 @@ class loggers {
             case 'single':
             default:
                 $stream = new StreamHandler(
-                    rtrim($logPath, '/\\') . '/Mensajes.log',
+                    rtrim($logPath, '/\\') . '/Advertencias.log',
                     $level
                 );
                 $formatter = new LineFormatter(

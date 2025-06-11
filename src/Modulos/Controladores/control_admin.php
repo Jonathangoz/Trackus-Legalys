@@ -17,7 +17,6 @@ class control_admin extends controlador_base {
     public function __construct() {
         # Inicializa Monolog para capturar todos los pasos
         $this->logger = loggers::createLogger();
-        $this->logger->info("💼 control_admin::__construct() inicializado");
     }
 
     /**
@@ -29,7 +28,6 @@ class control_admin extends controlador_base {
     public function handle(string $uri, string $method): void {
         # Para evitar distinciones de mayúsculas/minúsculas:
         $path = strtolower($uri);
-        $this->logger->info("🏷️  control_admin::handle() invocado para: {$method} {$path}");
 
         # VALIDACIÓN DE SESIÓN Y ROL
         if (!autenticacion::revisarLogueoUsers()) {
@@ -40,7 +38,6 @@ class control_admin extends controlador_base {
         }
 
         $rol = autenticacion::rolUsuario();
-        $this->logger->debug("👤 Rol obtenido en sesión: {$rol}");
         if ($rol !== 'ADMIN') {
             $this->logger->warning("🚫 Usuario autenticado, pero sin rol ADMIN. Cierre de sesión.");
             autenticacion::logout();
@@ -53,7 +50,6 @@ class control_admin extends controlador_base {
         # (por ejemplo: "/admin/usuarios", "/admin/deudores", etc.)
         # En este ejemplo mínimo, si llaman exactamente a "/admin", redirigimos a "/dashboard".
         if ($path === '/ADMIN' || $path === '/ADMIN/') {
-            $this->logger->info("↪️  GET /admin → redirigiendo a /dashboard");
             $this->redirect('/dashboard');
             return;
         }
@@ -61,20 +57,16 @@ class control_admin extends controlador_base {
         # RUTAS DE DASHBOARD
         # Si la URI comienza con "/dashboard", delegamos al módulo Dashboard
         if (strpos($path, '/dashboard') === 0) {
-            $this->logger->info("↪️  Delegando al módulo Dashboard: {$method} {$path}");
             $dashboardCtrl = new control_Dashboard();
             $dashboardCtrl->handle($path, $method);
-            $this->logger->info("✔️  control_Dashboard->handle() completado para: {$method} {$path}");
             return;
         }
 
         # OTRAS RUTAS DE MÓDULOS (ejemplo CobroCoactivo)
         # Si en el futuro agregas, por ejemplo, un módulo "/cobrocoactivo", bastaría con:
         if (strpos($path, '/cobrocoactivo') === 0) {
-            $this->logger->info("↪️  Delegando al módulo CobroCoactivo: {$method} {$path}");
             $cobroCtrl = new control_Coactivo();
             $cobroCtrl->handle($path, $method);
-            $this->logger->info("✔️  control_Coactivo->handle() completado para: {$method} {$path}");
             return;
         }
 
@@ -85,7 +77,4 @@ class control_admin extends controlador_base {
         $this->redirect('/login');
     }
 
-    # Si en algún momento necesitas métodos concretos para "/admin/xxx",
-    # puedes agregarlos aquí. Por ejemplo:
-    # protected function listarUsuarios(): void { ... }
 }

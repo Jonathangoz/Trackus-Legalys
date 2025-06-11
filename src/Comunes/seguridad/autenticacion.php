@@ -21,14 +21,12 @@ class autenticacion {
     # Loguear al usuario, Retorna true si es OK, false si falla., genera JWE, envía cookie y guarda $_SESSION.
     public static function login(string $email, string $password): bool {
         self::initLogger();
-        self::$logger->info("🔐 autenticacion::login() iniciado para: {$email}");
 
         $user = credencialesDB::credenciales($email, $password);
         if (!$user) {
             self::$logger->warning("❌ Usuario no encontrado: {$email}");
             return false;
         }
-        self::$logger->debug("▶ Verificando password en PHP -> textoPlano='{$password}', hashEnBD='{$user->password_hash}'");
         if (!password_verify($password, $user->password_hash)) {
             $user = CredencialesDB::credenciales($email, $password);
             self::$logger->warning("❌ Password incorrecto para: {$email}");
@@ -38,13 +36,11 @@ class autenticacion {
         # Generar JWE = JWT firmado + cifrado AES-GCM (vida = SESSION_LIFETIME segs)
         $lifetime = env_int('SESSION_LIFETIME', 300);
         $jwe = encriptacion::generarJwe(['user_id' => $user->id, 'tipo_rol' => $user->tipo_rol], $lifetime);
-        self::$logger->debug("🔑 JWE generado: {$jwe}");
 
         # Guardar en $_SESSION datos mínimos requeridos
         $_SESSION['loggedin'] = true;
         $_SESSION['user_id']  = $user->id;
         $_SESSION['tipo_rol'] = $user->tipo_rol;
-        self::$logger->info("🗄️ Datos de usuario en \$_SESSION para user_id={$user->id}");
 
         return true;
     }
@@ -52,11 +48,9 @@ class autenticacion {
     # Logout: limpiar $_SESSION y eliminar cookie auth_token.
     public static function logout(): void {
         self::initLogger();
-        self::$logger->info("🚪 autenticacion::logout() iniciado");
 
         // Limpiar sesión PHP
         $_SESSION = [];
-        self::$logger->debug("🧹 \$_SESSION limpiado");
 
         // Expirar cookie “auth_token”
         setcookie(
@@ -71,12 +65,10 @@ class autenticacion {
                 'samesite' => 'Lax',
             ]
         );
-        self::$logger->debug("🍪 Cookie 'auth_token' marcada para expiración");
 
         // Destruir sesión PHP
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_destroy();
-            self::$logger->debug("🔒 session_destroy() ejecutado");
         }
     }
 
@@ -123,9 +115,6 @@ class autenticacion {
             header('Location: /login.php');
             exit;
         }
-
-        # - Todo OK
-        self::$logger->info("✅ revisarLogueoUsers(): token y sesión válidos para user_id={$claims['user_id']}");
         return true;
     }
 

@@ -3,13 +3,10 @@
 namespace App\Comunes\seguridad;
 
 use App\Comunes\seguridad\encriptacion;
-use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
 
 class csrf {
-    /** @var Logger */
-    private static Logger $logger;
 
     # Genera un token CSRF y lo guarda en $_SESSION['csrf_token'], si aún no existe. Devuelve siempre el valor final del token.
     # genera el token base64_encode unico por sesion y por usuario.
@@ -29,7 +26,6 @@ class csrf {
             $tokenSession = $_SESSION['csrf_token'] ?? '';
             # hash_equals previene timing attacks
             if (!hash_equals($tokenPost, $tokenSession)) {
-                self::$logger->debug("csrf generad: . {$_POST['csrf_token']}");
                 throw new \Exception("CSRF token inválido");    
             }
         }    // Si coincide, simplemente continúa la ejecución.

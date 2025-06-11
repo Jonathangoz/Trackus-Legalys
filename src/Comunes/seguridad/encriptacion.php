@@ -15,7 +15,6 @@ class encriptacion {
     private static function initLogger(): void {
         if (!isset(self::$logger)) {
             self::$logger = loggers::createLogger();
-            self::$logger->info("🛡 encriptacion::initLogger() inicializado");
         }
     }
 
@@ -55,7 +54,6 @@ class encriptacion {
     public static function tokenRandom(): string {
         self::initLogger();
         $random = base64_encode(random_bytes(32));
-        self::$logger->debug("🌀 tokenRandom() generado: {$random}");
         return $random;
     }
 
@@ -79,19 +77,14 @@ class encriptacion {
         ];
 
         $jwt = JWT::encode($payload, $signKey, 'HS256');
-        self::$logger->info("✅ generarJwt() JWT: {$jwt}");
-
         # Guardar expiración en sesión
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start([
                 'cookie_httponly' => true,
                 'cookie_secure'   => false,
             ]);
-            self::$logger->debug("➰ session_start() en generarJwt()");
         }
         $_SESSION['token_expiry'] = time() + $lifetime;
-        self::$logger->info("⏳ token_expiry guardado en" . $_SESSION['token_expiry']);
-        
         return $jwt;
     }
 
@@ -102,7 +95,6 @@ class encriptacion {
         try {
             $decoded = JWT::decode($jwt_compact, new Key($signKey, 'HS256'));
             $claims  = (array) $decoded;
-            self::$logger->info("✅ validarJwt() OK, claims: " . json_encode($claims));
             return $claims;
         } catch (\Exception $e) {
             self::$logger->warning("❌ validarJwt() falló: " . $e->getMessage());
@@ -137,7 +129,6 @@ class encriptacion {
         $tagB64    = base64_encode($tag);
         $jwe       = "{$ivB64}.{$cipherB64}.{$tagB64}";
 
-        self::$logger->info("✅ aesGcmEncrypt() JWE: {$jwe}");
         return $jwe;
     }
 
@@ -172,7 +163,6 @@ class encriptacion {
             self::$logger->warning("❌ aesGcmDecrypt(): autenticación o descifrado falló");
             return null;
         }
-        self::$logger->info("✅ aesGcmDecrypt() devolvió JWT: {$plaintext}");
         return $plaintext;
     }
 

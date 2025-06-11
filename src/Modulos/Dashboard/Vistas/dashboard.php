@@ -41,7 +41,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="procesos.php" class="nav-link">
+                <a href="/procesos" class="nav-link">
                     <div class="nav-icon">
                         <i class="fa-solid fa-copy me-2 fa-lg"></i>
                     </div>
@@ -49,7 +49,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="Deudores.php" class="nav-link">
+                <a href="/deudores" class="nav-link">
                     <div class="nav-icon">
                         <i class="fa-solid fa-users me-2 fa-lg"></i>
                     </div>
@@ -65,7 +65,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="usuario.php" class="nav-link">
+                <a href="/usuario" class="nav-link">
                     <div class="nav-icon">
                         <i class="fa-solid fa-user fa-lg"></i>
                     </div>
@@ -73,7 +73,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="Auditorias.php" class="nav-link">
+                <a href="/auditorias" class="nav-link">
                     <div class="nav-icon">
                         <i class="fa-solid fa-clipboard-check fa-lg"></i>
                     </div>
@@ -175,7 +175,7 @@
                                     </div>
                                     <div>
                                         <h5>Tramites Activos</h5>
-                                        <p>$56.2M</p>                                        
+                                        <p><?= htmlspecialchars($entidades['tramiteActivos']) ?></p>                                        
                                     </div>
                                 </div>
                             </div>

@@ -1,12 +1,12 @@
 <?php
-# src/Modulos/Asignacion/Modelos/procesos.php (Modelo donde hace las consultas con variables y seguras para inyectar al las vistas)
+# src/Modulos/Asignacion/Modelos/registros.php (Modelo donde hace las consultas con variables y seguras para inyectar al las vistas)
 declare(strict_types=1);
 
 namespace App\Modulos\Asignacion\Modelos;
 
 use PDO;
 
-class procesos {
+class registros {
     protected PDO $db;
 
     # Llama instancia singleton del DB para inicair querys
@@ -15,7 +15,7 @@ class procesos {
     }
 
     # Querys 
-    public function getEntidades(): array {
+    public function getRegistros(): array {
         $stmt1 = $this->db->query("SELECT COUNT(nombre) FROM entidades WHERE tipo_entidad = 'BANCO'");
         $bancos = $stmt1->fetch(PDO::FETCH_ASSOC)['total_bancos'] ?? 0;
 
@@ -32,18 +32,7 @@ class procesos {
         ];
     }
 
-    public function getAllFuncionarios(): array {
-        $stmt = $this->db->query("SELECT * FROM funcionarios ORDER BY id DESC");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getFuncionarioById(int $id): ?array {
-        $stmt = $this->db->prepare("SELECT * FROM funcionarios WHERE id = :id LIMIT 1");
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
-    }
-
-    public function insertarFuncionario(string $nombre, string $correo, string $rol, int $estado): bool {
+    public function insertarRegistros(string $nombre, string $correo, string $rol, int $estado): bool {
         $sql = "INSERT INTO funcionarios (nombre, correo, rol, estado, creado_en)
                 VALUES (:nombre, :correo, :rol, :estado, NOW())";
         $stmt = $this->db->prepare($sql);
@@ -55,7 +44,7 @@ class procesos {
         ]);
     }
 
-    public function actualizarFuncionario(int $id, string $nombre, string $correo, string $rol, int $estado): bool {
+    public function actualizarRegistros(int $id, string $nombre, string $correo, string $rol, int $estado): bool {
         $sql = "UPDATE funcionarios
                 SET nombre = :nombre, correo = :correo, rol = :rol, estado = :estado, actualizado_en = NOW()
                 WHERE id = :id";
@@ -69,22 +58,17 @@ class procesos {
         ]);
     }
 
-    public function eliminarFuncionario(int $id): bool {
+    public function archivarRegitros(int $id): bool {
         $stmt = $this->db->prepare("DELETE FROM funcionarios WHERE id = :id");
         return $stmt->execute(['id' => $id]);
     }
 
-    public function activarFuncionario(int $id, int $nuevoEstado): bool {
+    public function activarRegistros(int $id, int $nuevoEstado): bool {
         $stmt = $this->db->prepare("UPDATE funcionarios SET estado = :estado WHERE id = :id");
         return $stmt->execute([
             'id'     => $id,
             'estado' => $nuevoEstado,
         ]);
-    }
-
-    public function getLogAuditoria(): array {
-        $stmt = $this->db->query("SELECT * FROM auditoria ORDER BY timestamp DESC LIMIT 100");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getEstadisticas(): array {
