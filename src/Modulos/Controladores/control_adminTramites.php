@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Modulos\Controladores;
 
 use App\Comunes\seguridad\autenticacion;
-use App\Modulos\CobroCoactivo\Controladores\control_Coactivo;
-use App\Modulos\asignacion\Controladores\control_asignacion;
 use App\Comunes\utilidades\loggers;
-use App\Modulos\Asignacion\Modelos\asignacion;
+use App\Modulos\Asignacion\Controladores\control_Crear;
+use App\Modulos\Asignacion\Controladores\control_Registros;
+use App\Modulos\Asignacion\Controladores\control_Asignacion;
 use Monolog\Logger;
 
 class control_adminTramites extends controlador_base {
@@ -31,7 +31,7 @@ class control_adminTramites extends controlador_base {
         $path = strtolower($uri);
 
         # VALIDACIÓN DE SESIÓN Y ROL
-        if (! autenticacion::revisarLogueoUsers()) {
+        if (!autenticacion::revisarLogueoUsers()) {
             $this->logger->warning("🚫 Usuario no autenticado. Redirigiendo a /login");
             autenticacion::logout();
             $this->redirect('/login');
@@ -39,7 +39,6 @@ class control_adminTramites extends controlador_base {
         }
 
         $rol = autenticacion::rolUsuario();
-        $this->logger->debug("👤 Rol obtenido en sesión: {$rol}");
         if ($rol !== 'ADMIN_TRAMITE') {
             $this->logger->warning("🚫 Usuario autenticado, pero sin rol ADMIN. Cierre de sesión.");
             autenticacion::logout();
@@ -47,32 +46,23 @@ class control_adminTramites extends controlador_base {
             return;
         }
 
-        # RUTAS DE ADMIN_TRAMITE PRINCIPAL
-        # Ruta específica para "/adminTramite"
-        if ($path === '/ADMIN_TRAMITE' || $path === '/ADMIN_TRAMITE/') {
-            $this->redirect('/asignacion');
-            return;
-        }
-        
-        # RUTAS DE ASIGNACIÓN MOdulo principal (Modulo Asigancion)
-        # Si la URI comienza con "asignacion", se dirije al módulo Asigancion
+        $path = strtolower(rtrim($uri, '/'));
+
+        # RUTAS DE DASHBOARD
+        # Si la URI comienza con "/dashboard", delegamos al módulo Dashboard
         if (strpos($path, '/asignacion') === 0) {
-            $asigCtrl = new control_Asignacion();
-            $asigCtrl->handle($path, $method);
+            (new control_Asignacion())->handle($path, $method);
+            return;
+        } elseif (strpos($path, '/registros') === 0) {
+            (new control_Registros())->handle($path, $method);
+            return;
+        } elseif (strpos($path, '/crearcasos') === 0) {
+            (new control_Crear())->handle($path, $method);
             return;
         }
 
-        # OTRAS RUTAS DE MÓDULOS - CobroCoactivo
-        # módulo "/cobrocoactivo":
-        if (strpos($path, '/cobrocoactivo') === 0) {
-            $cobroCtrl = new control_Coactivo();
-            $cobroCtrl->handle($path, $method);
-            return;
-        } 
-
-        # RUTA NO ENCONTRADA
-        $this->logger->warning("❓ control_adminTramites::handle(): ruta no encontrada ({$path})");
-        http_response_code(404);
-        echo "Admin_Tramite: ruta no encontrada ({$path})";
+        # 3) Si no matchea ninguna, 404
+        $this->logger->warning("❓ control_adminTramites::handle(): ruta no encontrada ({$uri})");
+        $this->redirect('/login');
     }
 }

@@ -10,7 +10,9 @@ use App\Comunes\middleware\control_logging;
 
 # Crear instancia global de Logger
 $logger = loggers::createLogger();
-$logger->info("⏩ Nueva petición recibida: {$_SERVER['REQUEST_METHOD']} {$_SERVER['REQUEST_URI']}");
+$logger->info("▶▶▶ METHOD: {$_SERVER['REQUEST_METHOD']}");
+$logger->info("▶▶▶ URI:    {$_SERVER['REQUEST_URI']}");
+
 
 # Registrar handlers de errores y excepciones para que todo vaya a Monolog
 set_error_handler(function (int $severity, string $message, string $file, int $line) use ($logger) {
@@ -81,7 +83,6 @@ $_SESSION['LAST_ACTIVITY'] = $enTiempoReal;
 # Parsear la ruta y el método HTTP
 $uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
-#$logger->debug("Routing: URI='{$uri}', METHOD='{$method}'");
 
 # Ruteo centralizado
 switch ($uri) {
@@ -95,8 +96,7 @@ switch ($uri) {
         if ($method === 'GET') {
             $auth->vistaLogging();
             exit;
-        }
-        elseif ($method === 'POST') {
+        } elseif ($method === 'POST') {
             # Validar CSRF en formulario y sesion
             $csrfForm = $_POST['csrf_token'] ?? '';
             $csrfSes  = $_SESSION['csrf_token'] ?? '';

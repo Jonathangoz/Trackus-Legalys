@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace App\Modulos\Asignacion\Controladores;
 
 use App\Modulos\Asignacion\Modelos\asignacion;
+use App\Modulos\Asignacion\Modelos\casos;
+use App\Modulos\Asignacion\Modelos\registros;
 use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
-class control_Asignacion {
-    protected asignacion $modeloAsignacion;
+class control_Registros {
+    protected registros $modeloRegistro;
     /** @var Logger */
     private Logger $logger;
 
     public function __construct() {
         # Inicializar modelo y logger
-        $this->modeloAsignacion = new asignacion();
+        $this->modeloRegistro = new registros();
         $this->logger = loggers::createLogger();
     }
 
@@ -27,7 +29,7 @@ class control_Asignacion {
     public function handle(string $uri, string $method): void {
         # Para evitar distinciones de mayúsculas/minúsculas:
         $path = strtolower($uri);
-        $this->logger->info("🏷️  control_asignacion::handle() invocado para: {$method} {$path}");
+        $this->logger->info("🏷️  control_Registros::handle() invocado para: {$method} {$path}");
 
         # Verificar autenticación y rol ADMIN_TRAMITE (redundante pero seguro)
         if (empty($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -46,10 +48,10 @@ class control_Asignacion {
         $rutas = "{$method} " . strtolower(rtrim($uri, '/'));
         switch ($rutas) {
 
-        case 'GET /asignacion':
-        case 'POST /asignacion':
-            $this->listadoAsignacion();
-            $this->logger->info("📝 Mostrando listado de asignación");
+        case 'GET /registros':
+        case 'POST /registros':
+            $this->listarRegistros();
+            $this->logger->info("📝 Mostrando registros de casos");
             return;
 
         default:
@@ -62,15 +64,14 @@ class control_Asignacion {
 
     # DIRIGE AL MODELO Y CONSULTAS ESPECIFICAS
 
-    # GET /asignacion
-    protected function listadoAsignacion(): void {
-        $datosAsig = [
-            'abogados' => $this->modeloAsignacion->getAbogados(),
+    # GET /asignacion/registros
+    protected function listarRegistros(): void {
+        $datosRegis = [
+            'registros' => $this->modeloRegistro->getRegistros(),
         ];
-        extract($datosAsig);
-        require_once __DIR__ . '/../Vistas/asignacion.php';
+        extract($datosRegis);
+        require_once __DIR__ . '/../vistas/registros.php';
     }
-
 
    /* protected function crearCaso(): void {
     // Ejemplo simplificado

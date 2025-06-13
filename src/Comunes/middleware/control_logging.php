@@ -12,18 +12,22 @@ use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
 class control_logging { 
-    /** @var Logger */
+    /** @var Logger
+     *  @param string $uri    Ruta completa recibida /asigancion
+     *  @param string $method "GET" o "POST"
+     */
     private Logger $logger;
 
-    public function __construct() {
-        # Crear el logger en cada instancia para capturar todo dentro de esta clase
-        $this->logger = loggers::createLogger();
+public function __construct() {
+    # Crear el logger en cada instancia para capturar todo dentro de esta clase
+    $this->logger = loggers::createLogger();  
     } 
 
     protected function redirect(string $url): void {
-        $this->redirect('/login');
+        header('Location: ' . $url);
         exit;
     }
+
 
     # GET /login - Muestra el formulario de login.
     public function vistaLogging(): void {
@@ -43,12 +47,7 @@ class control_logging {
     }
 
     # POST /login - Procesa el formulario de login.
-    public function login(): void {
-
-        # Asegurar que sea POST
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->redirect('/login');
-        }
+    public function login(string $uri = ''): void {
 
         # Recolectar datos de entrada
         $correoGenérico = trim($_POST['correo'] ?? '');
@@ -93,11 +92,10 @@ class control_logging {
 
 
         # 6) Guardar token en base de datos para revocación posterior
-    /*    $userId    = autenticacion2::idUsuario();
+    /*   $userId    = autenticacion2::idUsuario();
         $expiresAt = (new \DateTimeImmutable())
                         ->add(new \DateInterval("PT{$lifetime}S"))
-                        ->format('Y-m-d H:i:sP');
-        $this->logger->debug("⏳ Token expirará en: {$expiresAt}, user_id={$userId}");
+                        ->format('Y-m-d H:i:sP'); 
 
         try {
             $db  = conexion::instanciaDB();
@@ -119,19 +117,59 @@ class control_logging {
 
     # Redirigir según rol del usuario al controldor corespondiente y sus Modulos
     $rol = autenticacion::rolUsuario();
+    $metodo = $_SERVER['REQUEST_METHOD'];    // "GET", "POST", etc.
 
     switch ($rol) {
         case 'ADMIN':
             $this->logger->info("↪️  Redirigiendo a controlador ADMIN");
             $administrador = new \App\Modulos\Controladores\control_admin(); # Ruta donde dirige el controlador y a asu Modulo
-            $administrador->handle('/dashboard', 'POST');
+            $administrador->handle('/dashboard', $metodo);
             break;
 
         case 'ADMIN_TRAMITE':
             $this->logger->info("↪️  Redirigiendo a controlador ADMIN_TRAMITE");
-            $controller = new \App\Modulos\Controladores\control_adminTramites(); # Ruta donde dirige el controlador y a asu Modulo
-            $controller->handle('/asignacion', 'POST');
-            break;
+            $controller = new \App\Modulos\Controladores\control_adminTramites();
+
+            # Obtengo la URI completa y separo sólo la parte tras /ADMIN_TRAMITE
+            $fullPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            $prefix   = '/ADMIN_TRAMITE';
+
+            # Extraigo el sub‐path que viene después de “/ADMIN_TRAMITE”
+            $subPath = strtolower(rtrim(substr($fullPath, strlen($prefix)), '/'));
+
+
+            $this->logger->info("🔍 Ruta recibida: {$fullPath}");
+            // debug de Monolog justo antes del switch
+$this->logger->info("🛠️  DEBUG Rutas:");
+$this->logger->info("   raw REQUEST_URI: "  . $_SERVER['REQUEST_URI']);
+$this->logger->info("   extraído fullPath: " . $fullPath);
+$this->logger->info("   después subPath: "   . $subPath);
+$this->logger->info("   método HTTP: "      . $_SERVER['REQUEST_METHOD']);
+            $this->logger->info("🔍 Rol del usuario: {$rol}");
+            switch ($subPath) {
+                case '':
+                case '/asignacion':
+                    $controller->handle('/asignacion', $_SERVER['REQUEST_METHOD']);
+                    $this->logger->info("➡️  Redirigiendo a /asignacion");
+                    break;
+
+                case '/crearcasos':
+                    $controller->handle('/crearcasos', $_SERVER['REQUEST_METHOD']);
+                    
+                    break;
+                case '/registros':
+                    $controller->handle('/registros', $_SERVER['REQUEST_METHOD']);
+                    break;
+
+                // Cualquier otra ruta => error y redirect
+                default:
+                    $this->logger->info("🔍 Ruta no reconocida: {$subPath}");
+                    $this->logger->error("🚫 Ruta no reconocida para ADMIN_TRAMITE:");
+                    $this->redirect('/login');
+                    break;
+            }
+
+            return;
 
         case 'ABOGADO':
             $this->logger->info("↪️  Redirigiendo a controlador ABOGADOS");

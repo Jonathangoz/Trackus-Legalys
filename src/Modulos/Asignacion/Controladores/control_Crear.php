@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Modulos\Asignacion\Controladores;
 
-use App\Modulos\Asignacion\Modelos\asignacion;
+use App\Modulos\Asignacion\Modelos\casos;
 use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
-class control_Asignacion {
-    protected asignacion $modeloAsignacion;
+class control_Crear {
+    protected casos $modeloCasos;
     /** @var Logger */
     private Logger $logger;
 
     public function __construct() {
         # Inicializar modelo y logger
-        $this->modeloAsignacion = new asignacion();
+        $this->modeloCasos = new casos();
         $this->logger = loggers::createLogger();
     }
 
@@ -27,7 +27,7 @@ class control_Asignacion {
     public function handle(string $uri, string $method): void {
         # Para evitar distinciones de mayúsculas/minúsculas:
         $path = strtolower($uri);
-        $this->logger->info("🏷️  control_asignacion::handle() invocado para: {$method} {$path}");
+        $this->logger->info("🏷️  control_Creaarcasos::handle() invocado para: {$method} {$path}");
 
         # Verificar autenticación y rol ADMIN_TRAMITE (redundante pero seguro)
         if (empty($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -46,10 +46,10 @@ class control_Asignacion {
         $rutas = "{$method} " . strtolower(rtrim($uri, '/'));
         switch ($rutas) {
 
-        case 'GET /asignacion':
-        case 'POST /asignacion':
-            $this->listadoAsignacion();
-            $this->logger->info("📝 Mostrando listado de asignación");
+        case 'GET /crearcasos':
+        case 'POST /crearcasos':
+            $this->mostrarFormularioCrearCaso();
+            $this->logger->info("📝 Mostrando formulario para crear caso");
             return;
 
         default:
@@ -62,15 +62,14 @@ class control_Asignacion {
 
     # DIRIGE AL MODELO Y CONSULTAS ESPECIFICAS
 
-    # GET /asignacion
-    protected function listadoAsignacion(): void {
-        $datosAsig = [
-            'abogados' => $this->modeloAsignacion->getAbogados(),
+    #GET /crearcasos
+    protected function mostrarFormularioCrearCaso(): void {
+        $datosCaso = [
+            'abogados' => $this->modeloCasos->getCaso(),
         ];
-        extract($datosAsig);
-        require_once __DIR__ . '/../Vistas/asignacion.php';
+        extract($datosCaso);
+        require_once __DIR__ . '/../Vistas/crearcasos.php';
     }
-
 
    /* protected function crearCaso(): void {
     // Ejemplo simplificado

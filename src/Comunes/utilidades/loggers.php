@@ -28,11 +28,15 @@ class loggers {
         # Convertir el nombre de nivel a constante Monolog (int)
         $level = Logger::toMonologLevel($levelName);
 
+        if (!is_dir($logPath)) {
+            mkdir($logPath, 0755, true);
+        }
+
         # Según el canal, agregamos distintos handlers
         switch ($channel) {
             case 'daily':
                 $rotating = new RotatingFileHandler(
-                    rtrim($logPath, '/\\') . '/Mensajes.log',
+                    rtrim($logPath, '/\\') . '/log.log',
                     $maxFiles,
                     $level
                 );

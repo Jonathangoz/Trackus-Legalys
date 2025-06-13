@@ -32,9 +32,16 @@
         </div>       
         <div class="user-home">
             <div class="home">
-                <a href="/asignacion" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
+                <a href="/ADMIN_TRAMITE/asignacion" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
                     <div>
                         <span class="text" style="color: white;">Asignacion</span>
+                    </div>
+                </a>
+            </div>
+            <div class="home">
+                <a href="/ADMIN_TRAMITE/crearcasos" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
+                    <div>
+                        <span class="text" style="color: white;">Crear Casos</span>
                     </div>
                 </a>
             </div>
@@ -60,30 +67,20 @@
     <section class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-balance-scale"></i>
-                    <h1>Sistema Jurídico</h1>
-                </div>
                 <nav class="main-nav">
-                    <ul>
-                        <li><a href="#dashboard" class="nav-link active" data-section="dashboard">
-                            <i class="fas fa-tachometer-alt"></i> Dashboard
-                        </a></li>
-                        <li><a href="#registro" class="nav-link" data-section="registro">
-                            <i class="fas fa-plus-circle"></i> Nuevo Registro
-                        </a></li>
-                        <li><a href="#consulta" class="nav-link" data-section="consulta">
-                            <i class="fas fa-search"></i> Consultar
-                        </a></li>
-                        <li><a href="#reportes" class="nav-link" data-section="reportes">
-                            <i class="fas fa-chart-bar"></i> Reportes
-                        </a></li>
-                    </ul>
+                    <button class="tab-button tab-button--active" data-tab="dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </button>
+                    <button class="tab-button" data-tab="registro">
+                        <i class="fas fa-plus-circle"></i> Nuevo Registro
+                    </button>
+                    <button class="tab-button" data-tab="consulta">
+                        <i class="fas fa-search"></i> Consultar
+                    </button>
+                    <button class="tab-button" data-tab="reportes">
+                        <i class="fas fa-chart-bar"></i> Reportes
+                    </button>
                 </nav>
-                <div class="user-info">
-                    <span><i class="fas fa-user"></i> Admin_Trámites</span>
-                    <button class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
-                </div>
             </div>
         </div>
     </section>
@@ -92,9 +89,9 @@
     <main class="main-content">
         <div class="container">
             <!-- Dashboard Section -->
-            <section id="dashboard" class="content-section active">
+            <section id="dashboard" class="tab-content tab-content--active">
                 <div class="section-header">
-                    <h2><i class="fas fa-tachometer-alt"></i> Dashboard - Cobro Coactivo</h2>
+                    <h2>Dashboard - Cobro Coactivo</h2>
                     <p>Gestión integral de títulos ejecutivos y procesos de cobro</p>
                 </div>
 
@@ -146,7 +143,7 @@
             </section>
 
             <!-- Registro Section -->
-            <section id="registro" class="content-section">
+            <section id="registro" class="tab-content">
                 <div class="section-header">
                     <h2><i class="fas fa-plus-circle"></i> Registro de Título Ejecutivo</h2>
                     <p>Complete todos los campos requeridos para registrar un nuevo título</p>
@@ -323,7 +320,7 @@
             </section>
 
             <!-- Consulta Section -->
-            <section id="consulta" class="content-section">
+            <section id="consulta" class="tab-content">
                 <div class="section-header">
                     <h2><i class="fas fa-search"></i> Consultar Títulos Ejecutivos</h2>
                     <p>Busque y consulte títulos ejecutivos registrados</p>
@@ -396,7 +393,7 @@
             </section>
 
             <!-- Reportes Section -->
-            <section id="reportes" class="content-section">
+            <section id="reportes" class="tab-content">
                 <div class="section-header">
                     <h2><i class="fas fa-chart-bar"></i> Reportes y Estadísticas</h2>
                     <p>Análisis y reportes del sistema de cobro coactivo</p>
@@ -445,6 +442,6 @@
     <!-- Success/Error Messages -->
     <div id="messageContainer" class="message-container"></div>
 
-    <script src="js/app.js"></script>
+    <script src="/assets/js/Modulo/Asignacion/registros.js"></script>
 </body>
 </html>

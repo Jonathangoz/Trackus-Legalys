@@ -26,9 +26,16 @@
         </div>       
         <div class="user-home">
             <div class="home">
-                <a href="/asignacion/registros" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
+                <a href="/ADMIN_TRAMITE/registros" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
                     <div>
                         <span class="text" style="color: white;">Registros</span>
+                    </div>
+                </a>
+            </div>
+            <div class="home">
+                <a href="/ADMIN_TRAMITE/crearcasos" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
+                    <div>
+                        <span class="text" style="color: white;">Crear Casos</span>
                     </div>
                 </a>
             </div>
@@ -60,31 +67,6 @@
     </section>
 
     <main class="main-content">
-        <!-- TAB: Crear Casos -->
-        <section id="crear" class="tab-content">
-            <div class="card-2">
-                <div class="card-header">
-                    <h2 class="section-title">Crear Nuevo Caso</h2>
-                </div>
-            </div>
-            <form id="form-crear-caso" class="form-crear-caso">
-                <label for="radicado">No Radicado:</label>
-                <input type="text" id="radicado" name="radicado" required>
-
-                <label for="deudor">Deudor:</label>
-                <input type="text" id="deudor" name="deudor" required>
-
-                <label for="tipo_tramite">Tipo de Trámite:</label>
-                <select id="tipo_tramite" name="tipo_tramite" required>
-                    <!-- Opciones dinámicas -->
-                </select>
-
-                <label for="fecha_recepcion">Fecha de Recepción:</label>
-                <input type="date" id="fecha_recepcion" name="fecha_recepcion" required>
-
-                <button type="submit" class="btn btn--primary">Crear Caso</button>
-            </form>
-        </section>
 
         <!-- TAB: Casos Pendientes -->
         <section id="pendientes" class="tab-content tab-content--active">
@@ -170,6 +152,9 @@
     </div>
     </div>
 
-    <script src="/assets/js/Modulo/Asignacion/asignacion.js"></script>
+    <script src="/assets/js/Modulo/Asignacion/asignacion.js"></script> 
+    <script src="/assets/js/Modulo/Asignacion/asignacion.js" type="module"></script>
+    <script src="/assets/js/Modulo/Asignacion/modal.js" type="module"></script>
+    <script src="/assets/js/Modulo/Asignacion/backToTop.js" type="module"></script>
 </body>
 </html>
