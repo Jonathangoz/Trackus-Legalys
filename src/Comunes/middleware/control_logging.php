@@ -18,7 +18,7 @@ class control_logging {
      */
     private Logger $logger;
 
-public function __construct() {
+    public function __construct() {
     # Crear el logger en cada instancia para capturar todo dentro de esta clase
     $this->logger = loggers::createLogger();  
     } 
@@ -27,7 +27,6 @@ public function __construct() {
         header('Location: ' . $url);
         exit;
     }
-
 
     # GET /login - Muestra el formulario de login.
     public function vistaLogging(): void {
@@ -47,7 +46,7 @@ public function __construct() {
     }
 
     # POST /login - Procesa el formulario de login.
-    public function login(string $uri = ''): void {
+    public function login(): void {
 
         # Recolectar datos de entrada
         $correoGenérico = trim($_POST['correo'] ?? '');
@@ -89,108 +88,91 @@ public function __construct() {
         $_SESSION['auth_token'] = $secureToken;
         session_regenerate_id(true);
 
+        # Redirigir según rol del usuario al controlador correspondiente
+        $rol = autenticacion::rolUsuario();
+        $this->logger->info("🔐 Usuario autenticado con rol: {$rol}");
+        
+        # Redirigir a la página principal según el rol
+        switch ($rol) {
+            case 'ADMIN':
+                $this->logger->info("↪️  Redirigiendo a dashboard ADMIN");
+                $this->redirect('/dashboard');
+                break;
 
+            case 'ADMIN_TRAMITE':
+                $this->logger->info("↪️  Redirigiendo a asignacion ADMIN_TRAMITE");
+                $this->redirect('/asignacion');
+                break;
 
-        # 6) Guardar token en base de datos para revocación posterior
-    /*   $userId    = autenticacion2::idUsuario();
-        $expiresAt = (new \DateTimeImmutable())
-                        ->add(new \DateInterval("PT{$lifetime}S"))
-                        ->format('Y-m-d H:i:sP'); 
+            case 'ABOGADO':
+                $this->logger->info("↪️  Redirigiendo a deudores ABOGADOS");
+                $this->redirect('/deudores');
+                break;
 
-        try {
-            $db  = conexion::instanciaDB();
-            $sql = "INSERT INTO user_tokens (user_id, token, expires_at)
-                    VALUES (:user_id, :token, :expires_at)";
-            $stmt = $db->prepare($sql);
-            $stmt->execute([
-                'user_id'    => $userId,
-                'token'      => $secureToken,
-                'expires_at' => $expiresAt
-            ]);
-            $this->logger->info("💾 Token insertado en user_tokens para user_id={$userId}");
-        } catch (\Throwable $e) {
-            $this->logger->error("🚨 Error al insertar token en DB: " . $e->getMessage(), [
-                'exception' => $e->getTraceAsString()
-            ]);
-            // Aunque falle la inserción, seguimos para no impedir el login
-        } */
+            case 'DEUDOR':
+                $this->logger->info("↪️  Redirigiendo a consultas DEUDOR");
+                $this->redirect('/consultas');
+                break;
 
-    # Redirigir según rol del usuario al controldor corespondiente y sus Modulos
-    $rol = autenticacion::rolUsuario();
-    $metodo = $_SERVER['REQUEST_METHOD'];    // "GET", "POST", etc.
-
-    switch ($rol) {
-        case 'ADMIN':
-            $this->logger->info("↪️  Redirigiendo a controlador ADMIN");
-            $administrador = new \App\Modulos\Controladores\control_admin(); # Ruta donde dirige el controlador y a asu Modulo
-            $administrador->handle('/dashboard', $metodo);
-            break;
-
-        case 'ADMIN_TRAMITE':
-            $this->logger->info("↪️  Redirigiendo a controlador ADMIN_TRAMITE");
-            $controller = new \App\Modulos\Controladores\control_adminTramites();
-
-            # Obtengo la URI completa y separo sólo la parte tras /ADMIN_TRAMITE
-            $fullPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-            $prefix   = '/ADMIN_TRAMITE';
-
-            # Extraigo el sub‐path que viene después de “/ADMIN_TRAMITE”
-            $subPath = strtolower(rtrim(substr($fullPath, strlen($prefix)), '/'));
-
-
-            $this->logger->info("🔍 Ruta recibida: {$fullPath}");
-            // debug de Monolog justo antes del switch
-$this->logger->info("🛠️  DEBUG Rutas:");
-$this->logger->info("   raw REQUEST_URI: "  . $_SERVER['REQUEST_URI']);
-$this->logger->info("   extraído fullPath: " . $fullPath);
-$this->logger->info("   después subPath: "   . $subPath);
-$this->logger->info("   método HTTP: "      . $_SERVER['REQUEST_METHOD']);
-            $this->logger->info("🔍 Rol del usuario: {$rol}");
-            switch ($subPath) {
-                case '':
-                case '/asignacion':
-                    $controller->handle('/asignacion', $_SERVER['REQUEST_METHOD']);
-                    $this->logger->info("➡️  Redirigiendo a /asignacion");
-                    break;
-
-                case '/crearcasos':
-                    $controller->handle('/crearcasos', $_SERVER['REQUEST_METHOD']);
-                    
-                    break;
-                case '/registros':
-                    $controller->handle('/registros', $_SERVER['REQUEST_METHOD']);
-                    break;
-
-                // Cualquier otra ruta => error y redirect
-                default:
-                    $this->logger->info("🔍 Ruta no reconocida: {$subPath}");
-                    $this->logger->error("🚫 Ruta no reconocida para ADMIN_TRAMITE:");
-                    $this->redirect('/login');
-                    break;
-            }
-
-            return;
-
-        case 'ABOGADO':
-            $this->logger->info("↪️  Redirigiendo a controlador ABOGADOS");
-            $controller = new \App\Modulos\Controladores\control_abogados(); # Ruta donde dirige el controlador y a asu Modulo
-            $controller->handle('/deudores', 'POST');
-            break;
-
-        case 'DEUDOR':
-            $this->logger->info("↪️  Redirigiendo a controlador USUARIO");
-            $controller = new \App\Modulos\Controladores\control_deudores(); # Ruta donde dirige el controlador y a asu Modulo
-            $controller->handle('/consultas', 'POST');
-            break;
-
-        default:
-            $this->logger->warning("🚫 Rol no reconocido: '{$rol}'. Cerrando sesión.");
-            autenticacion::logout();
-            $_SESSION['login_errors'] = ['general' => 'Rol no reconocido.'];
-            $this->redirect('/login');
-            break;
+            default:
+                $this->logger->warning("🚫 Rol no reconocido: '{$rol}'. Cerrando sesión.");
+                autenticacion::logout();
+                $_SESSION['login_errors'] = ['general' => 'Rol no reconocido.'];
+                $this->redirect('/login');
+                break;
+        }
     }
-}
+
+    /**
+     * Maneja las rutas después del login para usuarios autenticados
+     * @param string $uri La URI solicitada
+     * @param string $method El método HTTP
+     */
+    public function handleAuthenticatedRequest(string $uri, string $method): void {
+        # Verificar si el usuario está autenticado
+        if (!autenticacion::revisarLogueoUsers()) {
+            $this->logger->warning("🚫 Usuario no autenticado. Redirigiendo a /login");
+            $this->redirect('/login');
+            return;
+        }
+
+        $rol = autenticacion::rolUsuario();
+        $this->logger->info("🔐 Usuario autenticado con rol: {$rol} accediendo a: {$uri}");
+
+        # Redirigir según rol y URI
+        switch ($rol) {
+            case 'ADMIN':
+                $this->logger->info("↪️  Redirigiendo a controlador ADMIN");
+                $administrador = new \App\Modulos\Controladores\control_admin();
+                $administrador->handle($uri, $method);
+                break;
+
+            case 'ADMIN_TRAMITE':
+                $this->logger->info("↪️  Redirigiendo a controlador ADMIN_TRAMITE");
+                $controller = new \App\Modulos\Controladores\control_adminTramites();
+                $controller->handle($uri, $method);
+                break;
+
+            case 'ABOGADO':
+                $this->logger->info("↪️  Redirigiendo a controlador ABOGADOS");
+                $controller = new \App\Modulos\Controladores\control_abogados();
+                $controller->handle($uri, $method);
+                break;
+
+            case 'DEUDOR':
+                $this->logger->info("↪️  Redirigiendo a controlador USUARIO");
+                $controller = new \App\Modulos\Controladores\control_deudores();
+                $controller->handle($uri, $method);
+                break;
+
+            default:
+                $this->logger->warning("🚫 Rol no reconocido: '{$rol}'. Cerrando sesión.");
+                autenticacion::logout();
+                $_SESSION['login_errors'] = ['general' => 'Rol no reconocido.'];
+                $this->redirect('/login');
+                break;
+        }
+    }
 
     # GET /logout Cierra sesión y sale al logging.php (vista - formulario login)
     public function logout(): void {

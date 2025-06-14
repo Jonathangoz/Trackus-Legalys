@@ -1,3 +1,4 @@
+<?php declare(strict_types=1); ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -26,14 +27,14 @@
         </div>       
         <div class="user-home">
             <div class="home">
-                <a href="/ADMIN_TRAMITE/registros" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
+                <a href="/registros" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
                     <div>
                         <span class="text" style="color: white;">Registros</span>
                     </div>
                 </a>
             </div>
             <div class="home">
-                <a href="/ADMIN_TRAMITE/crearcasos" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
+                <a href="/crearcasos" style="text-decoration: none;"><i class="fa-solid fa-house fa-lg" style="color: white;"></i>
                     <div>
                         <span class="text" style="color: white;">Crear Casos</span>
                     </div>

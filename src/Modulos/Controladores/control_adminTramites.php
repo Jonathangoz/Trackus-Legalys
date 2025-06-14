@@ -21,15 +21,12 @@ class control_adminTramites extends controlador_base {
     }
 
     /**
-     * Despacha rutas que empiecen en /admin_tramite.
+     * Despacha rutas para ADMIN_TRAMITE.
      *
-     * @param string $uri    Ruta completa recibida /asigancion
+     * @param string $uri    Ruta completa recibida
      * @param string $method "GET" o "POST"
      */
     public function handle(string $uri, string $method): void {
-        # Para evitar distinciones de mayúsculas/minúsculas:
-        $path = strtolower($uri);
-
         # VALIDACIÓN DE SESIÓN Y ROL
         if (!autenticacion::revisarLogueoUsers()) {
             $this->logger->warning("🚫 Usuario no autenticado. Redirigiendo a /login");
@@ -40,29 +37,58 @@ class control_adminTramites extends controlador_base {
 
         $rol = autenticacion::rolUsuario();
         if ($rol !== 'ADMIN_TRAMITE') {
-            $this->logger->warning("🚫 Usuario autenticado, pero sin rol ADMIN. Cierre de sesión.");
+            $this->logger->warning("🚫 Usuario autenticado, pero sin rol ADMIN_TRAMITE. Rol actual: {$rol}");
             autenticacion::logout();
             $this->redirect('/login');
             return;
         }
 
+        # Normalizar la ruta
         $path = strtolower(rtrim($uri, '/'));
+        
+        $this->logger->info("📍 ADMIN_TRAMITE accediendo a: {$path} con método: {$method}");
 
-        # RUTAS DE DASHBOARD
-        # Si la URI comienza con "/dashboard", delegamos al módulo Dashboard
-        if (strpos($path, '/asignacion') === 0) {
-            (new control_Asignacion())->handle($path, $method);
-            return;
-        } elseif (strpos($path, '/registros') === 0) {
-            (new control_Registros())->handle($path, $method);
-            return;
-        } elseif (strpos($path, '/crearcasos') === 0) {
-            (new control_Crear())->handle($path, $method);
-            return;
+        # RUTAS PRINCIPALES
+        switch ($path) {
+            case '/asignacion':
+                $this->logger->info("↪️  Delegando a control_Asignacion");
+                (new control_Asignacion())->handle($path, $method);
+                break;
+                
+            case '/registros':
+                $this->logger->info("↪️  Delegando a control_Registros");
+                (new control_Registros())->handle($path, $method);
+                break;
+                
+            case '/crearcasos':
+                $this->logger->info("↪️  Delegando a control_Crear");
+                (new control_Crear())->handle($path, $method);
+                break;
+                
+            case '':
+            case '/':
+                # Si accede a la raíz, redirigir a asignacion por defecto
+                $this->logger->info("↪️  Ruta raíz, redirigiendo a /asignacion");
+                $this->redirect('/asignacion');
+                break;
+                
+            default:
+                # Si la ruta no coincide exactamente, verificar si es una subruta
+                if (strpos($path, '/asignacion') === 0) {
+                    $this->logger->info("↪️  Subruta de asignacion, delegando a control_Asignacion");
+                    (new control_Asignacion())->handle($path, $method);
+                } elseif (strpos($path, '/registros') === 0) {
+                    $this->logger->info("↪️  Subruta de registros, delegando a control_Registros");
+                    (new control_Registros())->handle($path, $method);
+                } elseif (strpos($path, '/crearcasos') === 0) {
+                    $this->logger->info("↪️  Subruta de crearcasos, delegando a control_Crear");
+                    (new control_Crear())->handle($path, $method);
+                } else {
+                    $this->logger->warning("❓ Ruta no encontrada para ADMIN_TRAMITE: {$path}");
+                    # En lugar de redirigir al login, redirigir a la página principal del rol
+                    $this->redirect('/asignacion');
+                }
+                break;
         }
-
-        # 3) Si no matchea ninguna, 404
-        $this->logger->warning("❓ control_adminTramites::handle(): ruta no encontrada ({$uri})");
-        $this->redirect('/login');
     }
 }
