@@ -13,8 +13,8 @@ use Monolog\Logger;
 
 class control_logging { 
     /** @var Logger
-     *  @param string $uri    Ruta completa recibida /asigancion
-     *  @param string $method "GET" o "POST"
+     * @param string $uri La URI solicitada
+     * @param string $method El método HTTP
      */
     private Logger $logger;
 
@@ -32,14 +32,14 @@ class control_logging {
     public function vistaLogging(): void {
 
         # Generar token CSRF (si no existe)
-        $csrfToken = csrf::generarToken();
+    /*    $csrfToken = csrf::generarToken();
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start([
                 'cookie_httponly' => true,
                 'cookie_secure'   => isset($_SERVER['HTTP']),
                 'cookie_samesite' => 'Lax'
             ]);
-        }
+        } */
 
         # Incluir la vista de login
         include_once __DIR__ . '/../../../public/logging.php';
@@ -74,11 +74,21 @@ class control_logging {
             $this->redirect('/login');
         }
 
+        # Verificar que el login fue exitoso y tenemos los datos necesarios
+        $userId = autenticacion::idUsuario();
+        $userRole = autenticacion::rolUsuario();
+        
+        if (empty($userId) || empty($userRole)) {
+            $this->logger->error("🚨 Login aparentemente exitoso pero faltan datos: userId={$userId}, role={$userRole}");
+            $_SESSION['login_errors'] = ['general' => 'Error en la autenticación.'];
+            $this->redirect('/login');
+        }
+
         # Generar un nuevo JWE basado en idUsuario y tipo_rol
         $lifetime = intval($_ENV['SESSION_LIFETIME'] ?? 600);
         $customClaims = [
-            'user_id'  => autenticacion::idUsuario(),
-            'tipo_rol' => autenticacion::rolUsuario(),
+            'user_id'  => $userId,
+            'tipo_rol' => $userRole,
         ];
         $secureToken = encriptacion::generarJwe(
             $customClaims,
@@ -86,52 +96,52 @@ class control_logging {
         );
 
         $_SESSION['auth_token'] = $secureToken;
-        session_regenerate_id(true);
+        $_SESSION['user_id'] = $userId;  // Agregar explícitamente
+        $_SESSION['user_role'] = $userRole;  // Agregar explícitamente
 
-        # Redirigir según rol del usuario al controlador correspondiente
-        $rol = autenticacion::rolUsuario();
-        $this->logger->info("🔐 Usuario autenticado con rol: {$rol}");
+        $this->logger->info("✅ Datos de sesión guardados: user_id={$userId}, role={$userRole}");
+        $this->logger->info("✅ Token generado: " . substr($secureToken, 0, 20) . "...");
         
-        # Redirigir a la página principal según el rol
-        switch ($rol) {
-            case 'ADMIN':
-                $this->logger->info("↪️  Redirigiendo a dashboard ADMIN");
-                $this->redirect('/dashboard');
-                break;
-
-            case 'ADMIN_TRAMITE':
-                $this->logger->info("↪️  Redirigiendo a asignacion ADMIN_TRAMITE");
-                $this->redirect('/asignacion');
-                break;
-
-            case 'ABOGADO':
-                $this->logger->info("↪️  Redirigiendo a deudores ABOGADOS");
-                $this->redirect('/deudores');
-                break;
-
-            case 'DEUDOR':
-                $this->logger->info("↪️  Redirigiendo a consultas DEUDOR");
-                $this->redirect('/consultas');
-                break;
-
-            default:
-                $this->logger->warning("🚫 Rol no reconocido: '{$rol}'. Cerrando sesión.");
-                autenticacion::logout();
-                $_SESSION['login_errors'] = ['general' => 'Rol no reconocido.'];
-                $this->redirect('/login');
-                break;
-        }
+        # Regenerar ID de sesión después del login exitoso
+        session_regenerate_id(true);
+        $this->logger->info("🔑 ID de sesión regenerado después del login");
+        
+        # Redirigir según el rol del usuario
+        $redirectUrl = $this->getRedirectUrlByRole($userRole);
+        $this->logger->info("🎯 Redirigiendo usuario con rol {$userRole} a: {$redirectUrl}");
+        $this->redirect($redirectUrl);
     }
 
     /**
-     * Maneja las rutas después del login para usuarios autenticados
-     * @param string $uri La URI solicitada
-     * @param string $method El método HTTP
+     * Determina la URL de redirección según el rol del usuario
      */
+    private function getRedirectUrlByRole(string $role): string {
+        switch ($role) {
+            case 'ADMIN':
+                return '/dashboard';
+            case 'ADMIN_TRAMITE':
+                return '/asignacion';
+            case 'ABOGADO':
+                return '/deudores';
+            case 'DEUDOR':
+                return '/consultas';
+            default:
+                $this->logger->warning("🚫 Rol no reconocido para redirect: {$role}");
+                return '/login';
+        }
+    }
+
     public function handleAuthenticatedRequest(string $uri, string $method): void {
+        # Debug de sesión
+        $this->logger->info("🔍 Verificando autenticación para {$uri}");
+        $this->logger->info("🔍 Session status: " . session_status());
+        $this->logger->info("🔍 Auth token exists: " . (isset($_SESSION['auth_token']) ? 'SI' : 'NO'));
+        $this->logger->info("🔍 User ID exists: " . (isset($_SESSION['user_id']) ? 'SI' : 'NO'));
+        
         # Verificar si el usuario está autenticado
         if (!autenticacion::revisarLogueoUsers()) {
             $this->logger->warning("🚫 Usuario no autenticado. Redirigiendo a /login");
+            $this->logger->warning("🚫 Datos de sesión: " . json_encode($_SESSION));
             $this->redirect('/login');
             return;
         }
@@ -202,7 +212,7 @@ class control_logging {
             session_destroy();
         }
 
-    # $this->logger->info("✔️  Sesión destruida, finalizando petición logout");
+     $this->logger->info("✔️  Sesión destruida, finalizando petición logout");
     # $this->redirect('/login');
         header('Location: /login');
         exit;

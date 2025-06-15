@@ -41,6 +41,23 @@ class autenticacion {
         $_SESSION['loggedin'] = true;
         $_SESSION['user_id']  = $user->id;
         $_SESSION['tipo_rol'] = $user->tipo_rol;
+        $_SESSION['auth_token'] = $jwe;
+
+        # Enviar cookie al navegador
+        setcookie(
+            'auth_token',
+            $jwe,
+            [
+                'expires'  => time() + $lifetime,
+                'path'     => '/',
+                'domain'   => $_ENV['APP_DOMAIN'] ?? '',
+                'secure'   => env_bool('SESSION_COOKIE_SECURE', false),
+                'httponly' => true,
+                'samesite' => 'Lax',
+            ]
+        );
+
+        self::$logger->info("✅ Login exitoso para: {$email}, token creado");
 
         return true;
     }
@@ -76,46 +93,52 @@ class autenticacion {
     # Retorna true si OK (sigue fluyendo la petición); si falla, redirige y hace exit.
     public static function revisarLogueoUsers(): bool {
         self::initLogger();
-
-        # Comprueba flag en $_SESSION
-        $loggedin = !empty($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
-        if (!$loggedin) {
-            self::$logger->warning("⚠️ revisarLogueoUsers(): no hay sesión iniciada en \$_SESSION");
-            header('Location: /login.php');
-            exit;
+        
+        // Debug
+        self::$logger->info("🔍 Session ID actual: " . session_id());
+        self::$logger->info("🔍 Session save path: " . session_save_path());
+        self::$logger->info("🔍 Session data completa: " . json_encode($_SESSION));
+        
+        # ❌ NO uses empty() con arrays, usa isset()
+        if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+            self::$logger->warning("⚠️ No hay flag loggedin en sesión");
+            self::redirectToLogin();
+            return false;
         }
-
-        # Comprueba existencia de cookie “auth_token”
-        $jwe = $_SESSION['auth_token'] ?? '';
+        
+        # Si no hay token en sesión, buscar en cookie
+        $jwe = $_SESSION['auth_token'] ?? $_COOKIE['auth_token'] ?? '';
+        
         if (empty($jwe)) {
-            self::$logger->warning("⚠️ revisarLogueoUsers(): no existe cookie auth_token");
-            header('Location: /login.php');
-            exit;
+            self::$logger->warning("⚠️ No existe token");
+            self::redirectToLogin();
+            return false;
         }
-
-        # Validar JWE (descifrar + verificar JWT)
+        
+        # Validar token
         $claims = encriptacion::validarJwe($jwe);
         if ($claims === null) {
-            self::$logger->warning("⚠️ revisarLogueoUsers(): JWE inválido o expirado");
-            // Borrar cookie:
-            setcookie('auth_token', '', ['expires'=>time()-3600,'path'=>'/','domain'=>$_ENV['APP_DOMAIN']??'','secure'=>env_bool('SESSION_COOKIE_SECURE'),'httponly'=>true,'samesite'=>'Lax']);
-            // Limpiar sesión
-            $_SESSION = [];
-            header('Location: /login.php');
-            exit;
+            self::$logger->warning("⚠️ Token inválido");
+            self::redirectToLogin();
+            return false;
         }
-
-        # Comprobar coincidencia claims vs $_SESSION
-        if ($claims['user_id'] != ($_SESSION['user_id'] ?? null)
-            || $claims['tipo_rol'] != ($_SESSION['tipo_rol'] ?? null)
-        ) {
-            self::$logger->warning("⚠️ revisarLogueoUsers(): claims no coinciden con \$_SESSION");
-            setcookie('auth_token', '', ['expires'=>time()-3600,'path'=>'/','domain'=>$_ENV['APP_DOMAIN']??'','secure'=>env_bool('SESSION_COOKIE_SECURE'),'httponly'=>true,'samesite'=>'Lax']);
-            $_SESSION = [];
-            header('Location: /login.php');
-            exit;
+        
+        # Restaurar datos de sesión si se perdieron
+        if (!isset($_SESSION['user_id'])) {
+            $_SESSION['loggedin'] = true;
+            $_SESSION['user_id'] = $claims['user_id'];
+            $_SESSION['tipo_rol'] = $claims['tipo_rol'];
+            $_SESSION['auth_token'] = $jwe;
+            self::$logger->info("✅ Datos de sesión restaurados desde token");
         }
+        
         return true;
+    }
+
+    private static function redirectToLogin(): void {
+        self::logout();
+        header('Location: /login.php');
+        exit;
     }
 
     # verifica en la sesion el user_id

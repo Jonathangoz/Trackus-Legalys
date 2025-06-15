@@ -1,16 +1,16 @@
 <?php
-// src/Modulos/Asignacion/Controladores/control_Asignacion.php (controlador del modelo y vistas)
+// src/Modulos/Asignacion/Controladores/control_Registros.php (controlador del modelo y vistas)
 declare(strict_types=1);
 
 namespace App\Modulos\Asignacion\Controladores;
 
-use App\Modulos\Asignacion\Modelos\asignacion;
-use App\Modulos\Asignacion\Modelos\casos;
+use App\Modulos\Controladores\controlador_base;
+use App\Comunes\seguridad\autenticacion;
 use App\Modulos\Asignacion\Modelos\registros;
 use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
-class control_Registros {
+class control_Registros extends controlador_base {
     protected registros $modeloRegistro;
     /** @var Logger */
     private Logger $logger;
@@ -22,7 +22,7 @@ class control_Registros {
     }
 
     /**
-     * Despacha rutas que inicien en /asignacion
+     * Despacha rutas que inicien en /registros
      * @param string $uri
      * @param string $method
      */
@@ -32,16 +32,18 @@ class control_Registros {
         $this->logger->info("🏷️  control_Registros::handle() invocado para: {$method} {$path}");
 
         # Verificar autenticación y rol ADMIN_TRAMITE (redundante pero seguro)
-        if (empty($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-            $this->logger->warning("🚫 Usuario no autenticado en Asignacion, redirigiendo a /login");
-            header('Location: /login');
-            exit;
+        if (!autenticacion::revisarLogueoUsers()) {
+            $this->logger->warning("🚫 Usuario no autenticado en Registros, redirigiendo a /login");
+            autenticacion::logout();
+            $this->redirect('/login');
+            return;
         }
-        $rol = $_SESSION['tipo_rol'] ?? null;
+
+        $rol = autenticacion::rolUsuario();
         if ($rol !== 'ADMIN_TRAMITE') {
-            $this->logger->warning("🚫 Usuario sin rol ADMIN_TRAMITE en el Index, redirigiendo a /login");
-            header('Location: /login');
-            exit;
+            $this->logger->warning("🚫 Usuario sin rol ADMIN_TRAMITE en Registros. Rol actual: {$rol}, redirigiendo a /login");
+            $this->redirect('/login');
+            return;
         }
 
         #Redirige al modelo segun metodo, uri y lo redirecciona a la funcion principal del modelo, recorriendo lo necesario.
@@ -55,7 +57,7 @@ class control_Registros {
             return;
 
         default:
-            $this->logger->warning("❓ asignacion::handle(): ruta no encontrada ({$uri})");
+            $this->logger->warning("❓ registros::handle(): ruta no encontrada ({$uri})");
             http_response_code(404);
             echo "Ruta no encontrada: {$uri}";
             return;
@@ -64,13 +66,13 @@ class control_Registros {
 
     # DIRIGE AL MODELO Y CONSULTAS ESPECIFICAS
 
-    # GET /asignacion/registros
+    # GET /registros
     protected function listarRegistros(): void {
         $datosRegis = [
             'registros' => $this->modeloRegistro->getRegistros(),
         ];
         extract($datosRegis);
-        require_once __DIR__ . '/../vistas/registros.php';
+        require_once __DIR__ . '/../Vistas/Registros.php';
     }
 
    /* protected function crearCaso(): void {

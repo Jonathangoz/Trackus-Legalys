@@ -1,20 +1,5 @@
-<?php
-  session_start();
-
-  if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-      header("Location: logging.php");
-      exit;
-  }
-
-  if($_SESSION['tipo_rol'] !== 'ADMIN'){
-    header("Location: logging.php");
-    session_destroy();
-    session_unset();
-    exit;
-  }
-?>
-
-<!DOCTYPE html>
+<?php declare(strict_types=1); ?>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
     <meta charset="UTF-8">

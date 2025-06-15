@@ -45,21 +45,48 @@ session_set_cookie_params([
 ini_set('session.gc_maxlifetime',   (string)$lifetime);
 session_cache_expire(intval($lifetime / 60));
 
-# Iniciar o reanudar sesión
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start([
-        'cookie_httponly' => true,
-        'cookie_samesite' => 'Lax',
-        'cookie_secure' => false  // ya viene de set_cookie_params
-    ]);
+# Obtener datos de la petición
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$method = $_SERVER['REQUEST_METHOD'];
+
+# Verificar si la sesión ya estaba activa ANTES de iniciarla
+$sessionWasActive = session_status() === PHP_SESSION_ACTIVE;
+
+# Iniciar sesión con configuración completa
+session_start([
+    'cookie_httponly' => true,
+    'cookie_samesite' => 'Lax',
+    'cookie_secure' => false
+]);
+
+if ($sessionWasActive) {
+    $logger->info("🔄 Sesión reanudada");
 } else {
-    echo "Sesión ya activa, reanudando...";
+    $logger->info("🔄 Nueva sesión iniciada");
 }
 
-# Regenerar ID de sesión
-session_regenerate_id(true);
+# CORRECCIÓN: Solo regenerar ID de sesión en casos específicos
+$shouldRegenerateId = false;
 
-#  Evita que las páginas queden en caché
+# Regenerar solo en estos casos:
+if (!$sessionWasActive && !isset($_SESSION['session_created'])) {
+    # Primera vez que se crea la sesión
+    $shouldRegenerateId = true;
+    $_SESSION['session_created'] = time();
+    $logger->info("🔑 Primera sesión, marcando para regenerar ID");
+} elseif ($uri === '/login' && $method === 'POST' && !isset($_SESSION['login_regenerated'])) {
+    # Solo en login POST exitoso y si no se ha regenerado ya
+    $shouldRegenerateId = true;
+    $_SESSION['login_regenerated'] = true;
+    $logger->info("🔑 Login POST, marcando para regenerar ID");
+}
+
+if ($shouldRegenerateId) {
+    session_regenerate_id(true);
+    $logger->info("🔑 ID de sesión regenerado");
+}
+
+# Evita que las páginas queden en caché
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('Cache-Control: post-check=0, pre-check=0', false);
 header('Pragma: no-cache');
@@ -70,22 +97,57 @@ $enTiempoReal = time();
 if (isset($_SESSION['LAST_ACTIVITY'])) {
     $inactividad = $enTiempoReal - intval($_SESSION['LAST_ACTIVITY']);
     if ($inactividad > $idleTimeout) {
+        $logger->info("⏰ Sesión expirada por inactividad ({$inactividad}s)");
         $auth = new control_logging();
         $auth->logout();
         exit;
     }
 } else {
-    echo "No existe LAST_ACTIVITY en sesión. Será la primera petición.";
+    $logger->info("🕐 Primera actividad en esta sesión");
 }
-
 $_SESSION['LAST_ACTIVITY'] = $enTiempoReal;
 
-# Parsear la ruta y el método HTTP
-$uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$method = $_SERVER['REQUEST_METHOD'];
+# Debug de sesión para troubleshooting
+$logger->info("🔍 Session ID actual: " . session_id());
+$logger->info("🔍 Session save path: " . session_save_path());
+$logger->info("🔍 Session data completa: " . json_encode($_SESSION));
 
 # Crear instancia del controlador de logging
 $auth = new control_logging();
+
+# Manejar archivos estáticos (CSS, JS, imágenes) - que no pasen por el router
+if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/i', $uri)) {
+    $logger->info("📁 Archivo estático solicitado: {$uri}");
+    # Intentar servir el archivo directamente
+    $filePath = __DIR__ . $uri;
+    if (file_exists($filePath)) {
+        # Determinar el tipo MIME
+        $extension = pathinfo($uri, PATHINFO_EXTENSION);
+        $mimeTypes = [
+            'css' => 'text/css',
+            'js' => 'application/javascript',
+            'png' => 'image/png',
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'gif' => 'image/gif',
+            'ico' => 'image/x-icon',
+            'svg' => 'image/svg+xml',
+            'woff' => 'font/woff',
+            'woff2' => 'font/woff2',
+            'ttf' => 'font/ttf',
+            'eot' => 'application/vnd.ms-fontobject'
+        ];
+        
+        $mimeType = $mimeTypes[$extension] ?? 'application/octet-stream';
+        header("Content-Type: {$mimeType}");
+        readfile($filePath);
+        exit;
+    } else {
+        $logger->warning("📁 Archivo estático no encontrado: {$filePath}");
+        http_response_code(404);
+        exit;
+    }
+}
 
 # Ruteo centralizado
 switch ($uri) {
@@ -167,7 +229,7 @@ switch ($uri) {
             http_response_code(404);
             echo "❓ Página no encontrada";
             # Opcionalmente redirigir al login o a una página de error
-            # header('Location: /login');
+            header('Location: /login');
         }
         break;
 }

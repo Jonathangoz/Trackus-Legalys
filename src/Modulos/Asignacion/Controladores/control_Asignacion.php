@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Modulos\Asignacion\Controladores;
 
+use App\Modulos\Controladores\controlador_base;
 use App\Modulos\Asignacion\Modelos\asignacion;
+use App\Comunes\seguridad\autenticacion;
 use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
-class control_Asignacion {
+class control_Asignacion extends controlador_base {
     protected asignacion $modeloAsignacion;
     /** @var Logger */
     private Logger $logger;
@@ -29,17 +31,20 @@ class control_Asignacion {
         $path = strtolower($uri);
         $this->logger->info("🏷️  control_asignacion::handle() invocado para: {$method} {$path}");
 
-        # Verificar autenticación y rol ADMIN_TRAMITE (redundante pero seguro)
-        if (empty($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+        # CORRECCIÓN: Usar la clase autenticacion en lugar de verificar $_SESSION directamente
+        if (!autenticacion::revisarLogueoUsers()) {
             $this->logger->warning("🚫 Usuario no autenticado en Asignacion, redirigiendo a /login");
-            header('Location: /login');
-            exit;
+            autenticacion::logout();
+            $this->redirect('/login');
+            return;
         }
-        $rol = $_SESSION['tipo_rol'] ?? null;
+        
+        # CORRECCIÓN: Usar autenticacion::rolUsuario() en lugar de $_SESSION directamente
+        $rol = autenticacion::rolUsuario();
         if ($rol !== 'ADMIN_TRAMITE') {
-            $this->logger->warning("🚫 Usuario sin rol ADMIN_TRAMITE en el Index, redirigiendo a /login");
-            header('Location: /login');
-            exit;
+            $this->logger->warning("🚫 Usuario sin rol ADMIN_TRAMITE en Asignacion. Rol actual: {$rol}, redirigiendo a /login");
+            $this->redirect('/login');
+            return;
         }
 
         #Redirige al modelo segun metodo, uri y lo redirecciona a la funcion principal del modelo, recorriendo lo necesario.
@@ -70,17 +75,4 @@ class control_Asignacion {
         extract($datosAsig);
         require_once __DIR__ . '/../Vistas/asignacion.php';
     }
-
-
-   /* protected function crearCaso(): void {
-    // Ejemplo simplificado
-    $data = $_POST;
-    $this->modeloCasos->insertar([
-      'radicado' => $data['radicado'],
-      'deudor_id' => $data['deudor_id'],
-      // … demás columnas …
-    ]);
-    // Auditoría, validaciones, etc.
-    } */
-
 }

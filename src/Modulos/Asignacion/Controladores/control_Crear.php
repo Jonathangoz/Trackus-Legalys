@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Modulos\Asignacion\Controladores;
 
+use App\Modulos\Controladores\controlador_base;
 use App\Modulos\Asignacion\Modelos\casos;
+use App\Comunes\seguridad\autenticacion;
 use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
-class control_Crear {
+class control_Crear extends controlador_base {
     protected casos $modeloCasos;
     /** @var Logger */
     private Logger $logger;
@@ -30,14 +32,16 @@ class control_Crear {
         $this->logger->info("🏷️  control_Creaarcasos::handle() invocado para: {$method} {$path}");
 
         # Verificar autenticación y rol ADMIN_TRAMITE (redundante pero seguro)
-        if (empty($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-            $this->logger->warning("🚫 Usuario no autenticado en Asignacion, redirigiendo a /login");
+        if (!autenticacion::revisarLogueoUsers()) {
+            $this->logger->warning("🚫 Usuario no autenticado en Registros, redirigiendo a /login");
+            autenticacion::logout();
             header('Location: /login');
             exit;
         }
-        $rol = $_SESSION['tipo_rol'] ?? null;
+
+        $rol = autenticacion::rolUsuario();
         if ($rol !== 'ADMIN_TRAMITE') {
-            $this->logger->warning("🚫 Usuario sin rol ADMIN_TRAMITE en el Index, redirigiendo a /login");
+            $this->logger->warning("🚫 Usuario sin rol ADMIN_TRAMITE en Registros. Rol actual: {$rol}, redirigiendo a /login");
             header('Location: /login');
             exit;
         }

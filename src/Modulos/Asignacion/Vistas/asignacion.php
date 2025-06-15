@@ -154,8 +154,6 @@
     </div>
 
     <script src="/assets/js/Modulo/Asignacion/asignacion.js"></script> 
-    <script src="/assets/js/Modulo/Asignacion/asignacion.js" type="module"></script>
-    <script src="/assets/js/Modulo/Asignacion/modal.js" type="module"></script>
-    <script src="/assets/js/Modulo/Asignacion/backToTop.js" type="module"></script>
+    <script src="/assets/js/backToTop.js"></script>
 </body>
 </html>

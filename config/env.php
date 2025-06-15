@@ -180,6 +180,23 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Configurar configuración de sesión segura
+// Configuración de sesiones
+ini_set('session.cookie_lifetime', env_int('SESSION_LIFETIME', 300));
+ini_set('session.cookie_path', '/');
+ini_set('session.cookie_domain', $_ENV['APP_DOMAIN'] ?? '');
+ini_set('session.cookie_secure', env_bool('SESSION_COOKIE_SECURE', false));
+ini_set('session.cookie_httponly', true);
+ini_set('session.cookie_samesite', 'Lax');
+ini_set('session.use_only_cookies', true);
+ini_set('session.use_strict_mode', true);
+
+# Configurar directorio de sesiones (importante para Windows)
+$sessionPath = sys_get_temp_dir() . '/php_sessions';
+if (!is_dir($sessionPath)) {
+    mkdir($sessionPath, 0755, true);
+}
+ini_set('session.save_path', $sessionPath);
+
 if (env_bool('SESSION_COOKIE_SECURE')) {
     ini_set('session.cookie_secure', 1);
 }
