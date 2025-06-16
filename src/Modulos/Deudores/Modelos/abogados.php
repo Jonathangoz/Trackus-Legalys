@@ -1,19 +1,21 @@
 <?php
-// src/Modulos/CobroCoactivo/Modelos/procesos.php
+# src/Modulos/Asignacion/Modelos/asignacion.php (Modelo donde hace las consultas con variables y seguras para inyectar al las vistas)
 declare(strict_types=1);
 
 namespace App\Modulos\Deudores\Modelos;
 
 use PDO;
 
-class deudores {
+class abogados {
     protected PDO $db;
 
+    # Llama instancia singleton del DB para inicair querys
     public function __construct() {
         $this->db = \App\Comunes\DB\conexion::instanciaDB();
     }
 
-    public function getEntidades(): array {
+    # Querys 
+    public function getAbogados(): array {
         $stmt1 = $this->db->query("SELECT COUNT(nombre) FROM entidades WHERE tipo_entidad = 'BANCO'");
         $bancos = $stmt1->fetch(PDO::FETCH_ASSOC)['total_bancos'] ?? 0;
 
@@ -30,7 +32,7 @@ class deudores {
         ];
     }
 
-    public function getDeudores(): array {
+    public function getAllFuncionarios(): array {
         $stmt = $this->db->query("SELECT * FROM funcionarios ORDER BY id DESC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -67,19 +69,6 @@ class deudores {
         ]);
     }
 
-    public function eliminarFuncionario(int $id): bool {
-        $stmt = $this->db->prepare("DELETE FROM funcionarios WHERE id = :id");
-        return $stmt->execute(['id' => $id]);
-    }
-
-    public function activarFuncionario(int $id, int $nuevoEstado): bool {
-        $stmt = $this->db->prepare("UPDATE funcionarios SET estado = :estado WHERE id = :id");
-        return $stmt->execute([
-            'id'     => $id,
-            'estado' => $nuevoEstado,
-        ]);
-    }
-
     public function getLogAuditoria(): array {
         $stmt = $this->db->query("SELECT * FROM auditoria ORDER BY timestamp DESC LIMIT 100");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -96,4 +85,3 @@ class deudores {
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     }
 }
-

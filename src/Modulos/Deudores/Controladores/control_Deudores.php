@@ -4,18 +4,23 @@
 
 namespace App\Modulos\Deudores\Controladores;
 
+use App\Modulos\Controladores\controlador_base;
+use App\Modulos\Deudores\Modelos\obligados_pagos;
 use App\Modulos\Deudores\Modelos\deudores;
+use App\Comunes\seguridad\autenticacion;
 use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
-class control_Deudores {
-    protected deudores $modelo;
+class control_Deudores extends controlador_base {
+    protected deudores $modeloDeudores;
+    protected obligados_pagos $modeloObligadosPagos;
     /** @var Logger */
     private Logger $logger;
 
     public function __construct() {
         // Inicializar modelo y logger
-        $this->modelo = new deudores();
+        $this->modeloDeudores = new deudores();
+        $this->modeloObligadosPagos = new obligados_pagos();
         $this->logger = loggers::createLogger();
     }
 
@@ -25,92 +30,68 @@ class control_Deudores {
      * @param string $method
      */
     public function handle(string $uri, string $method): void {
+        # Para evitar distinciones de mayúsculas/minúsculas:
+        $path = strtolower($uri);
+        $this->logger->info("🏷️  control_deudores::handle() invocado para: {$method} {$path}");
 
         // Verificar autenticación y rol ADMIN_TRAMITE (redundante pero seguro)
-        if (empty($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-            $this->logger->warning("🚫 Usuario no autenticado en CobroCoactivo, redirigiendo a /login");
-            header('Location: /login');
-            exit;
-        }
-        $rol = $_SESSION['tipo_rol'] ?? null;
-        if ($rol !== 'ABOGADO') {
-            $this->logger->warning("🚫 Usuario sin rol ADMIN_TRAMITE en el Index, redirigiendo a /login");
-            header('Location: /login');
-            exit;
+        # Revisar si esta logueado y tiene el rol correcto
+        if (!autenticacion::revisarLogueoUsers()) {
+            $this->logger->warning("🚫 Usuario no autenticado en Deudores, redirigiendo a /login");
+            autenticacion::logout();
+            $this->redirect('/login');
+            return;
         }
 
-        switch ("{$method} {$uri}") {
+        # Revisar el rol del usuario
+        $rol = autenticacion::rolUsuario();
+        if ($rol !== 'ABOGADO') {
+            $this->logger->warning("🚫 Usuario sin rol ABOGADO en Deudores. Rol actual: {$rol}, redirigiendo a /login");
+            $this->redirect('/login');
+            return;
+        }
+
+        #Redirige al modelo segun metodo, uri y lo redirecciona a la funcion principal del modelo, recorriendo lo necesario.
+        $rutas = "{$method} " . strtolower(rtrim($uri, '/'));
+        switch ($rutas) {
             case 'GET /deudores':
             case 'POST /deudores':
-                $this->listadoDeudores();
+                $this->listarDeudores();
                 return;
 
-            case 'GET /dashboard/funcionarios':
-                $this->listarFunc();
+            case 'GET /deudores/obligados':
+            case 'POST /deudores/obligados':
+                $this->listarUsuarios();
                 return;
 
-            case 'GET /dashboard/funcionarios/crear':
-                $this->crearForm();
-                return;
-
-            case 'POST /dashboard/funcionarios':
-                $this->crear();
-                return;
-
-            case 'GET /dashboard/funcionarios/editar':
-                $this->editarForm();
-                return;
-
-            case 'POST /dashboard/funcionarios/editar':
-                $this->editar();
-                return;
-
-            case 'POST /dashboard/funcionarios/eliminar':
-                $this->eliminar();
-                return;
-
-            case 'POST /dashboard/funcionarios/activar':
-                $this->activar();
-                return;
-
-            case 'GET /dashboard/auditoria':
-                $this->verAuditoria();
-                return;
-
-            case 'GET /dashboard/estadisticas':
-                $this->estadisticas();
-                return;
-
-            default:
-                $this->logger->warning("❓ Dashboard: ruta no encontrada ({$uri})");
-                http_response_code(404);
-                echo "Dashboard: ruta no encontrada ({$uri})";
-                return;
+        default:
+            $this->logger->warning("❓ cobrocoactivo::handle(): ruta no encontrada ({$uri})");
+            http_response_code(404);
+            echo "Ruta no encontrada: {$uri}";
+            return;
         }
     }
 
-    /** GET /dashboard */
-    protected function listadoDeudores(): void {
-        $datos = [
-            'entidades' => $this->modelo->getEntidades(),
+    /** GET /deudores */
+    protected function listarDeudores(): void {
+        $datosDeu = [
+            'deudores' => $this->modeloDeudores->getDeudores(),
         ];
-        extract($datos);
+        extract($datosDeu);
         require_once __DIR__ . '/../Vistas/Deudores.php';
     }
 
-    /** GET /dashboard/funcionarios */
-    protected function listarFunc(): void {
-        $this->modelo->getAllFuncionarios();
-        require __DIR__ . '/../vistas/dashboard.php';
-    }
-
-    /** GET /dashboard/funcionarios/crear */
-    protected function crearForm(): void {
-        require __DIR__ . '/../vistas/dashboard.php';
+    /** GET /deudores/obligados */
+    protected function listarUsuarios(): void {
+        $datosUsuario = [
+            'usuarios' => $this->modeloObligadosPagos->getUsuarios(),
+        ];
+        extract($datosUsuario);
+        require_once __DIR__ . '/../Vistas/usuario.php';
     }
 
     /** POST /dashboard/funcionarios */
-    protected function crear(): void {
+ /*   protected function crear(): void {
 
         $nombre = trim($_POST['nombre'] ?? '');
         $correo = trim($_POST['correo'] ?? '');
@@ -142,7 +123,7 @@ class control_Deudores {
     }
 
     /** GET /dashboard/funcionarios/editar?id=XX */
-    protected function editarForm(): void {
+ /*   protected function editarForm(): void {
         $id = intval($_GET['id'] ?? 0);
         if ($id <= 0) {
             $this->logger->warning("⚠️ editarForm(): ID inválido (<=0), redirigiendo");
@@ -159,7 +140,7 @@ class control_Deudores {
     }
 
     /** POST /dashboard/funcionarios/editar */
-    protected function editar(): void {
+  /*  protected function editar(): void {
 
         $id     = intval($_POST['id'] ?? 0);
         $nombre = trim($_POST['nombre'] ?? '');
@@ -195,7 +176,7 @@ class control_Deudores {
     }
 
     /** POST /dashboard/funcionarios/eliminar */
-    protected function eliminar(): void {
+ /*  protected function eliminar(): void {
         $id = intval($_POST['id'] ?? 0);
         if ($id > 0) {
             $this->modelo->eliminarFuncionario($id);
@@ -208,7 +189,7 @@ class control_Deudores {
     }
 
     /** POST /dashboard/funcionarios/activar */
-    protected function activar(): void {
+  /*  protected function activar(): void {
         $id     = intval($_POST['id'] ?? 0);
         $estado = ($_POST['estado'] ?? '0') === '1' ? 1 : 0;
         if ($id > 0) {
@@ -223,17 +204,5 @@ class control_Deudores {
         }
         header('Location: /dashboard/funcionarios');
         exit;
-    }
-
-    /** GET /dashboard/auditoria */
-    protected function verAuditoria(): void {
-        $auditorias = $this->modelo->getLogAuditoria();
-        require __DIR__ . '/../vistas/dashboard.php';
-    }
-
-    /** GET /dashboard/estadisticas */
-    protected function estadisticas(): void {
-        $data = $this->modelo->getEstadisticas();
-        require __DIR__ . '/../vistas/dashboard.php';
-    }
+    } */
 }

@@ -206,10 +206,10 @@ switch ($uri) {
         
         # Verificar si es una ruta conocida del sistema
         $rutasConocidas = [
-            '/asignacion', '/registros', '/crearcasos',  // ADMIN_TRAMITE
-            '/dashboard',                                 // ADMIN
-            '/deudores',                                 // ABOGADO
-            '/consultas'                                 // DEUDOR
+            '/asignacion', '/registros', '/crearcasos',                                                       // ADMIN_TRAMITE
+            '/dashboard',                                                                                     // ADMIN
+            '/cobrocoactivo', '/cobrocoactivo/formularios', '/deudores', '/deudores/obligados',              // ABOGADO
+            '/consultas'                                                                                      // DEUDOR
         ];
         
         $rutaConocida = false;

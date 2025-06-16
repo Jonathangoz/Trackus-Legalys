@@ -1,21 +1,26 @@
 <?php
-# src/Modulos/CobroCoactivo/Controladores/control_Coactivo.php (controlador principal del modulo cobroCoactivo)
+# src/Modulos/Deudores/Controladores/control_Coactivo.php (controlador principal del modulo Deudores - Procesos de Cobro Coactivo)
 declare(strict_types=1);
 
-namespace App\Modulos\CobroCoactivo\Controladores;
+namespace App\Modulos\Deudores\Controladores;
 
-use App\Modulos\CobroCoactivo\Modelos\procesos;
+use App\Modulos\Controladores\controlador_base;
+use App\Modulos\Deudores\Modelos\formulario;
+use App\Modulos\Deudores\Modelos\abogados;
+use App\Comunes\seguridad\autenticacion;
 use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
-class control_Coactivo {
-    protected procesos $modelo;
+class control_Coactivo extends controlador_base {
+    protected abogados $modeloAbogados;
+    protected formulario $modeloFormulario;
     /** @var Logger */
     private Logger $logger;
 
     public function __construct() {
         # Inicializar modelo y logger
-        $this->modelo = new procesos();
+        $this->modeloAbogados = new abogados();
+        $this->modeloFormulario = new formulario();
         $this->logger = loggers::createLogger();
     }
 
@@ -25,97 +30,73 @@ class control_Coactivo {
      * @param string $method
      */
     public function handle(string $uri, string $method): void {
+        # Para evitar distinciones de mayúsculas/minúsculas:
+        $path = strtolower($uri);
+        $this->logger->info("🏷️  control_coactivo::handle() invocado para: {$method} {$path}");
 
-        // Verificar autenticación y rol ADMIN_TRAMITE (redundante pero seguro)
-        if (empty($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-            $this->logger->warning("🚫 Usuario no autenticado en CobroCoactivo, redirigiendo a /login");
-            header('Location: /login');
-            exit;
-        }
-        $rol = $_SESSION['tipo_rol'] ?? null;
-        $this->logger->debug("👤 Rol desde sesión en cobrocoactivo: {$rol}");
-        if ($rol !== 'ADMIN') {
-            $this->logger->warning("🚫 Usuario sin rol ADMIN_TRAMITE en el Index, redirigiendo a /login");
-            header('Location: /login');
-            exit;
+        # Revisar si esta logueado y tiene el rol correcto
+        if (!autenticacion::revisarLogueoUsers()) {
+            $this->logger->warning("🚫 Usuario no autenticado en Coactivo, redirigiendo a /login");
+            autenticacion::logout();
+            $this->redirect('/login');
+            return;
         }
 
-        switch ("{$method} {$uri}") {
+        # Revisar el rol del usuario
+        $rol = autenticacion::rolUsuario();
+        if ($rol !== 'ABOGADO') {
+            $this->logger->warning("🚫 Usuario sin rol ABOGADO en Coactivo. Rol actual: {$rol}, redirigiendo a /login");
+            $this->redirect('/login');
+            return;
+        }
+
+        #Redirige al modelo segun metodo, uri y lo redirecciona a la funcion principal del modelo, recorriendo lo necesario.
+        $rutas = "{$method} " . strtolower(rtrim($uri, '/'));
+        switch ($rutas) {
+
             case 'GET /cobrocoactivo':
             case 'POST /cobrocoactivo':
-                $this->listadoProcesos();
+                $this->procesosAbogados();
+                $this->logger->info("📝 Mostrando Procesos de abogados");
                 return;
 
-            case 'GET /cobrocoactivo/funcionarios':
-                $this->listarFunc();
+            case 'GET /cobrocoactivo/formularios':
+            case 'POST /cobrocoactivo/formularios':
+                $this->listarForm();
                 return;
 
-            case 'GET /cobrocoactivo/funcionarios/crear':
-                $this->crearForm();
-                return;
-
-            case 'POST /cobrocoactivo/funcionarios':
-                $this->crear();
-                return;
-
-            case 'GET /cobrocoactivo/funcionarios/editar':
-                $this->editarForm();
-                return;
-
-            case 'POST /cobrocoactivo/funcionarios/editar':
-                $this->editar();
-                return;
-
-            case 'POST /cobrocoactivo/funcionarios/eliminar':
-                $this->eliminar();
-                return;
-
-            case 'POST /cobrocoactivo/funcionarios/activar':
-                $this->activar();
-                return;
-
-            case 'GET /cobrocoactivo/auditoria':
-                $this->verAuditoria();
-                return;
-
-            case 'GET /cobrocoactivo/estadisticas':
-                $this->estadisticas();
-                return;
-
-            default:
-                $this->logger->warning("❓ cobrocoactivo: ruta no encontrada ({$uri})");
-                http_response_code(404);
-                echo "cobrocoactivo: ruta no encontrada ({$uri})";
-                return;
+        default:
+            $this->logger->warning("❓ cobrocoactivo::handle(): ruta no encontrada ({$uri})");
+            http_response_code(404);
+            echo "Ruta no encontrada: {$uri}";
+            return;
         }
     }
 
     # GET /cobrocoactivo
-    protected function listadoProcesos(): void {
-        $datos = [
-            'entidades' => $this->modelo->getEntidades(),
+    protected function procesosAbogados(): void {
+        $datosAbog = [
+            'abogados' => $this->modeloAbogados->getAbogados(),
         ];
-        extract($datos);
-        require_once __DIR__ . '/../Vistas/procesos.php';
+        extract($datosAbog);
+        require_once __DIR__ . '/../Vistas/abogado.php';
     }
 
-    # GET /cobrocoactivo/funcionarios
-    protected function listarFunc(): void {
-        $this->modelo->getAllFuncionarios();
-        require __DIR__ . '/../vistas/cobrocoactivo.php';
-    }
-
-    # GET /cobrocoactivo/funcionarios/crear
-    protected function crearForm(): void {
-        require __DIR__ . '/../vistas/cobrocoactivo.php';
+    # GET /cobrocoactivo/formularios
+    protected function listarForm(): void {
+        $datosForm = [
+            'formularios' => $this->modeloFormulario->getAllFuncionarios(),
+        ];
+        extract($datosForm);
+        require_once __DIR__ . '/../vistas/form_abogado.php';
     }
 
     # POST /cobrocoactivo/funcionarios
-    protected function crear(): void {
+   /* protected function crear(): void {
         /*$this->logger->debug("🔄 crear(): recolectando datos del POST", [
             'POST' => $_POST
         ]); */
-        $nombre = trim($_POST['nombre'] ?? '');
+    /*    $nombre = trim($_POST['nombre'] ?? '');
         $correo = trim($_POST['correo'] ?? '');
         $rol    = trim($_POST['rol'] ?? '');
         $estado = isset($_POST['estado']) ? 1 : 0;
@@ -166,7 +147,7 @@ class control_Coactivo {
         /*$this->logger->debug("🔄 editar(): recolectando datos del POST", [
             'POST' => $_POST
         ]); */
-        $id     = intval($_POST['id'] ?? 0);
+    /*    $id     = intval($_POST['id'] ?? 0);
         $nombre = trim($_POST['nombre'] ?? '');
         $correo = trim($_POST['correo'] ?? '');
         $rol    = trim($_POST['rol'] ?? '');
@@ -240,5 +221,5 @@ class control_Coactivo {
     protected function estadisticas(): void {
         $this->modelo->getEstadisticas();
         require __DIR__ . '/../vistas/cobrocoactivo.php';
-    }
+    } */
 }

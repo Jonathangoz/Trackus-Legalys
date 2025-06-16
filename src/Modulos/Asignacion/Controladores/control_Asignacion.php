@@ -31,7 +31,7 @@ class control_Asignacion extends controlador_base {
         $path = strtolower($uri);
         $this->logger->info("🏷️  control_asignacion::handle() invocado para: {$method} {$path}");
 
-        # CORRECCIÓN: Usar la clase autenticacion en lugar de verificar $_SESSION directamente
+        # Revisar si esta logueado y tiene el rol correcto
         if (!autenticacion::revisarLogueoUsers()) {
             $this->logger->warning("🚫 Usuario no autenticado en Asignacion, redirigiendo a /login");
             autenticacion::logout();

@@ -6,9 +6,8 @@ namespace App\Comunes\middleware;
 
 use App\Comunes\seguridad\autenticacion;
 use App\Comunes\seguridad\encriptacion;
-use App\Comunes\seguridad\csrf;
-#use App\Comunes\DB\conexion;
 use App\Comunes\utilidades\loggers;
+#use App\Comunes\DB\conexion;
 use Monolog\Logger;
 
 class control_logging { 
@@ -30,16 +29,6 @@ class control_logging {
 
     # GET /login - Muestra el formulario de login.
     public function vistaLogging(): void {
-
-        # Generar token CSRF (si no existe)
-    /*    $csrfToken = csrf::generarToken();
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start([
-                'cookie_httponly' => true,
-                'cookie_secure'   => isset($_SERVER['HTTP']),
-                'cookie_samesite' => 'Lax'
-            ]);
-        } */
 
         # Incluir la vista de login
         include_once __DIR__ . '/../../../public/logging.php';
@@ -102,10 +91,6 @@ class control_logging {
         $this->logger->info("✅ Datos de sesión guardados: user_id={$userId}, role={$userRole}");
         $this->logger->info("✅ Token generado: " . substr($secureToken, 0, 20) . "...");
         
-        # Regenerar ID de sesión después del login exitoso
-        session_regenerate_id(true);
-        $this->logger->info("🔑 ID de sesión regenerado después del login");
-        
         # Redirigir según el rol del usuario
         $redirectUrl = $this->getRedirectUrlByRole($userRole);
         $this->logger->info("🎯 Redirigiendo usuario con rol {$userRole} a: {$redirectUrl}");
@@ -122,7 +107,7 @@ class control_logging {
             case 'ADMIN_TRAMITE':
                 return '/asignacion';
             case 'ABOGADO':
-                return '/deudores';
+                return '/cobrocoactivo';
             case 'DEUDOR':
                 return '/consultas';
             default:

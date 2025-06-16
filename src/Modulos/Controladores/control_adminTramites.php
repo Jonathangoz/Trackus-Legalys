@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modulos\Controladores;
 
-use App\Comunes\seguridad\autenticacion;
-use App\Comunes\utilidades\loggers;
-use App\Modulos\Asignacion\Controladores\control_Crear;
 use App\Modulos\Asignacion\Controladores\control_Registros;
 use App\Modulos\Asignacion\Controladores\control_Asignacion;
+use App\Modulos\Asignacion\Controladores\control_Crear;
+use App\Comunes\seguridad\autenticacion;
+use App\Comunes\utilidades\loggers;
 use Monolog\Logger;
 
 class control_adminTramites extends controlador_base {
@@ -45,7 +45,6 @@ class control_adminTramites extends controlador_base {
 
         # Normalizar la ruta
         $path = strtolower(rtrim($uri, '/'));
-        
         $this->logger->info("📍 ADMIN_TRAMITE accediendo a: {$path} con método: {$method}");
 
         # RUTAS PRINCIPALES

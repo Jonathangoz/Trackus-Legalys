@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="<?= htmlspecialchars(\App\Comunes\seguridad\csrf::generarToken(), ENT_QUOTES, 'UTF-8') ?>">
+    <meta name="description" content="Panel de Administración de Trámites - Asignación de Casos Pendientes y Correcciones de Abogados">
+    <meta name="keywords" content="SENA, Cobro Coactivo, Asignación de Casos, Administración de Trámites, Procesos Judiciales">
     <title>Admin Trámites – Asignación de Casos</title>
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
@@ -135,20 +138,20 @@
     <div class="modal__container">
         <h3 class="modal__title">Modificar Caso</h3>
         <form id="form-edit">
-        <input type="hidden" name="caso_id" id="edit-caso-id" />
-        <label for="edit-monto">Monto Original (COP):</label>
-        <input type="number" id="edit-monto" name="monto_original" required />
+            <input type="hidden" name="caso_id" id="edit-caso-id" />
+            <label for="edit-monto">Monto Original (COP):</label>
+            <input type="number" id="edit-monto" name="monto_original" required />
 
-        <label for="edit-intereses">Intereses Acumulados (COP):</label>
-        <input type="number" id="edit-intereses" name="intereses_acumulados" required />
+            <label for="edit-intereses">Intereses Acumulados (COP):</label>
+            <input type="number" id="edit-intereses" name="intereses_acumulados" required />
 
-        <label for="edit-costos">Costos Administrativos (COP):</label>
-        <input type="number" id="edit-costos" name="costos_administrativos" required />
+            <label for="edit-costos">Costos Administrativos (COP):</label>
+            <input type="number" id="edit-costos" name="costos_administrativos" required />
 
-        <div class="modal__actions">
-            <button type="submit" class="btn btn--save">Guardar</button>
-            <button type="button" class="btn btn--cancel" id="btn-cancel-edit">Cancelar</button>
-        </div>
+            <div class="modal__actions">
+                <button type="button" class="btn btn--save">Guardar</button>
+                <button type="button" class="btn btn--cancel" id="btn-cancel-edit">Cancelar</button>
+            </div>
         </form>
     </div>
     </div>

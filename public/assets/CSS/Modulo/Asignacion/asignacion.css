@@ -1,15 +1,10 @@
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
 /* Fuentes y colores suaves */
 :root {
   --color-bg:      #f5f7fa;
   --color-white:   #ffffff;
   --color-primary: #39a900;
+  --sena-dark-green: #054610;
   --color-secondary: #5a5a5a;
   --color-muted:   #888888;
   --color-success: #4a90e2;
@@ -19,6 +14,13 @@
   --text-danger: #d41717;
 
   --font-sans:     'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
