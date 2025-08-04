@@ -75,15 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->Password = getenv('MAIL_PASSWORD'); // Usa una "Contraseña de aplicación" de Google
             $mail->SMTPSecure = getenv('MAIL_ENCRYPTION'); //tls
             $mail->Port = getenv('MAIL_PORT'); //puerto
-/*
-            $mail->isSMTP();
-            $mail->Host = 'smtp.office365.com';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'jonathan_goz_18@hotmail.com'; // Tu email
-            $mail->Password = 'aboq yedx fwxp xjhj'; $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
-*/
+
             // Configurar email
             $mail->setFrom(getenv('MAIL_FROM_ADDRESS'), getenv('MAIL_FROM_NAME'));
             $mail->addAddress($correo, 'Cambiar Contraseña');
