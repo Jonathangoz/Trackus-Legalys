@@ -1,6 +1,6 @@
 # Trackus_Legalys
 GESTION DOCUMENTAL - COBRO_COACTIVO
-Aun es Desarrollo, Versión 2.0(Beta - Se está Gestionando Dominio para Ingreso Seguro al Aplicativo Web)
+Aun es Desarrollo, Versión 2.0(Beta - Se está Gestionando Dominio para Ingreso Seguro al Aplicativo Web - al no tener Dominio COnfigurado sale esta alerta, no es grave ni inseguro, siga las instrucciones al pie de la letra)
 - Ingresa a esta direccion url: https://18.191.211.47 - este sitio esta desplegado en AWS ( por lo cual tiene toda la proteccion no solo de AWS si tambien dentro del servidor del proyecto
 - todas las rutas esta sanitizadas, y seguras, tiene proteccion con JWT, JWE, AES-GCM, TOKEN_CSRF, para evitar ataques de terceros, solo seguir las instrucciones
 - si por algun motivo se dirige a una url distinta a la anterior no ingresar, aun asi esta protegido dentro de los token la sesiones y y rutas para un ingreso correcto
