@@ -9,3 +9,6 @@ Aun es Desarrollo, Versión 2.0(Beta - Se está Gestionando Dominio para Ingreso
 - dale en Avanzado, y le das: Acceder a 18.191.211.47 (sitio no seguro)
 - ingresaras a la Pagina de presentacion del Aplicatico WEB, dale a inicio de sesion y solo ingresa con este correo y contraseña
 (Vista previa Correo: jygd94@gmail.com, Pass: Jygd94@) algunas funciones están deshabilitadas.
+hay 2 roles más en el sistema 
+laura.martinez@sena.edu.co pass: 123456a
+carlos.ramirez@sena.edu.co pass: 12345abc
